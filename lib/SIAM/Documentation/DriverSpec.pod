@@ -13,7 +13,7 @@ the drivers in in their preferred ways.
 
 A driver is a Perl object which must provide a number of methods, as described
 below. The validity of the driver is verified by
-C<SIAM::Object->validate_driver()> method.
+C<validate_driver()> method of C<SIAM::Object>
 
 
 =head1 METHODS

@@ -3,6 +3,8 @@ package SIAM;
 use warnings;
 use strict;
 
+use base 'SIAM::Object';
+
 =head1 NAME
 
 SIAM - Service Inventory Abstraction Model
@@ -20,8 +22,6 @@ our $VERSION = '0.01';
 
 Quick summary of what the module does.
 
-Perhaps a little code snippet.
-
     use SIAM;
 
     my $siam = new SIAM({configuration...}, {options...});
@@ -31,45 +31,91 @@ Perhaps a little code snippet.
 
 =head2 new
 
+Expects two hash refs: configuration and options.
+
+=head3 Configuration
+
+=over 4
+
+=item * Driver
+
+A hash with two entries: C<Class> identifying the driver module class
+which is going to be C<require>'d; and C<Options>, a hash which is
+supplied to the driver's C<new> method.
+
+=back
+
+
 =cut
 
 sub new
 {
+    my $class = shift;
+    my $config = shift;
+    my $options = shift;
+
+    my $drvclass = $config->{'Driver'}{'Class'};
+    my $drvopts = $config->{'Driver'}{'Options'};
+
+    eval('require ' . $drvclass);
+    if( $@ )
+    {
+        SIAM::Object->critical($@);
+        return undef;
+    }
+    
+    my $driver = eval($drvclass . '->new($drvopts)');
+    if( $@ )
+    {
+        SIAM::Object->critical($@);
+        return undef;
+    }
+    
+    if( not defined($driver) )
+    {
+        SIAM::Object->critical('Failed to initialize the driver');
+        return undef;
+    }
+    
+    my $self = $class->SUPER::new( $driver, {'object.id' => 'ROOT'} );
+    return undef unless defined($self);
+    
+    return $self;
 }
 
+
 =head2 connect
+
+Connects the driver to its databases. Returns false in case of problems.
 
 =cut
 
 sub connect
 {
+    my $self = shift;
+    if( not $self->_driver->connect() )
+    {
+        $self->error($self->_driver->errmsg);
+        return undef;
+    }
+
+    return 1;
 }
 
 
 =head2 disconnect
 
+Disconnects the driver from its underlying databases.
+
 =cut
 
 sub disconnect
 {
+    my $self = shift;
+    $self->_driver->disconnect();
 }
 
 
-=head2 error
-
-=cut
-
-sub error
-{
-}
-
-=head2 errmsg
-
-=cut
-
-sub errmsg
-{
-}
 
 
 
@@ -79,9 +125,11 @@ Stanislav Sinyagin, C<< <ssinyagin at k-open.com> >>
 
 =head1 BUGS
 
-Please report any bugs or feature requests to C<bug-siam at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=SIAM>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+Please report any bugs or feature requests to C<bug-siam at
+rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=SIAM>.  I will be
+notified, and then you'll automatically be notified of progress on your
+bug as I make changes.
 
 
 
@@ -115,8 +163,6 @@ L<http://search.cpan.org/dist/SIAM/>
 
 =back
 
-
-=head1 ACKNOWLEDGEMENTS
 
 
 =head1 LICENSE AND COPYRIGHT
@@ -153,7 +199,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 1;
 
 # Local Variables:
-# mode: perl
+# mode: cperl
 # indent-tabs-mode: nil
-# perl-indent-level: 4
+# cperl-indent-level: 4
+# cperl-brace-offset: -4
+# cperl-continued-statement-offset: 4
+# cperl-continued-brace-offset: 0
 # End:

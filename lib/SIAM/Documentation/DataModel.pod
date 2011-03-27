@@ -76,7 +76,7 @@ The attribute defines a unique identifier for the object. Client
 applications must not set any assumptions on the ID values or their
 structure. The back-end drivers generate the ID values, and these values
 are only meaningful within the driver data model.  Maximum length: 1024
-bytes.
+bytes. The string I<ROOT> is reserved as the root-level object ID.
 
 
 =item * object.class
@@ -447,3 +447,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 =cut
+
+# Local Variables:
+# mode: cperl
+# End:

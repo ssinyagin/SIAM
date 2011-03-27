@@ -3,7 +3,7 @@ package SIAM::Object;
 use warnings;
 use strict;
 
-our $error = 0;
+our $is_error = 0;
 our $errmsg = '';
 our $logmgr;
 
@@ -186,13 +186,13 @@ sub validate_driver
 
 
 
-=head2 error
+=head2 is_error
 
 Returns true in case of an error;
 
 =cut
 
-sub error { $error }
+sub is_error { $is_error }
 
 
 
@@ -204,14 +204,6 @@ Returns the error string with the error details.
 
 sub errmsg { $errmsg }
 
-
-=head2 errmsg
-
-Returns the error string with the error details.
-
-=cut
-
-sub errmsg { $errmsg }
 
 
 =head2 set_log_manager
@@ -314,7 +306,7 @@ sub error
     my $class = shift;
     my $msg = shift;
 
-    $error = 1;
+    $is_error = 1;
     $errmsg = $msg;
     
     my $dispatched = 0;
@@ -344,7 +336,7 @@ sub critical
     my $class = shift;
     my $msg = shift;
 
-    $error = 1;
+    $is_error = 1;
     $errmsg = $msg;
     my $dispatched = 0;
     if( defined($logmgr) )

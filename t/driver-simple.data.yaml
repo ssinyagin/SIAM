@@ -34,6 +34,17 @@
           access.routing:            bgp
           access.bgp.peer.addr:      2607:f140:ffff:ffff::80
           access.bgp.peer.asn:       77777
+          _contains_:
+            -
+              object.id:                 SRVC0001.01.u01.d01
+              object.class:              SIAM::ServiceDataElement
+              svcdata.name:              Traffic Statistics
+              svcdata.type:              TrafficStats
+              svcdata.driver_class:      Torrus::SIAM::TimeSeries
+              svcdata.available:         1
+              torrus.tree-url:           http://test01.torrus.net/torrus/main
+              torrus.nodeid:             xyz-if://BIS.64876.45//inout
+          
         -
           object.id:                 SRVC0001.01.u02
           object.class:              SIAM::ServiceUnit
@@ -47,6 +58,16 @@
           access.routing:            bgp
           access.bgp.peer.addr:      2a00:1450:8006::68
           access.bgp.peer.asn:       77777
+          _contains_:
+            -
+              object.id:                 SRVC0001.01.u02.d01
+              object.class:              SIAM::ServiceDataElement
+              svcdata.name:              Traffic Statistics
+              svcdata.type:              TrafficStats
+              svcdata.driver_class:      Torrus::SIAM::TimeSeries
+              svcdata.available:         1
+              torrus.tree-url:           http://test01.torrus.net/torrus/main
+              torrus.nodeid:             xyz-if://BIS.89999.56//inout
 
           
     -
@@ -68,6 +89,16 @@
           room.id:                   DUB8600R02
           rack.id:                   002-005
           rack.slice:                1-8          
+          _contains_:
+            -
+              object.id:                 SRVC0001.02.u01.d01
+              object.class:              SIAM::ServiceDataElement
+              svcdata.name:              Traffic Statistics
+              svcdata.type:              TrafficStats
+              svcdata.driver_class:      Torrus::SIAM::TimeSeries
+              svcdata.available:         1
+              torrus.tree-url:           http://test01.torrus.net/torrus/main
+              torrus.nodeid:             xyz-if://BRS.8979.23//inout
       
 
 -
@@ -96,6 +127,25 @@
           vm.ram.limit:              1024
           vm.ram.guaranteed:         512
           vm.disk.size:              40
+          _contains_:
+            -
+              object.id:                 SRVC0002.01.u01.d01
+              object.class:              SIAM::ServiceDataElement
+              svcdata.name:              Memory Usage
+              svcdata.type:              MemoryStats
+              svcdata.driver_class:      Torrus::SIAM::TimeSeries
+              svcdata.available:         1
+              torrus.tree-url:           http://test01.torrus.net/torrus/main
+              torrus.nodeid:             xyz-vm://VPH.8788.99//mem
+            -
+              object.id:                 SRVC0002.01.u01.d02
+              object.class:              SIAM::ServiceDataElement
+              svcdata.name:              CPU Usage
+              svcdata.type:              CPUStats
+              svcdata.driver_class:      Torrus::SIAM::TimeSeries
+              svcdata.available:         1
+              torrus.tree-url:           http://test01.torrus.net/torrus/main
+              torrus.nodeid:             xyz-vm://VPH.8788.99//cpu
           
 
 

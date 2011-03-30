@@ -321,7 +321,7 @@ Attribute examples:
 
 =over 4
 
-=item * torrus.server, torrus.tree, torrus.nodeid
+=item * torrus.tree-url, torrus.nodeid
 
 Example of a reference to a Torrus data element.
 

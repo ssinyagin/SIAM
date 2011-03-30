@@ -47,11 +47,8 @@ for a particular object class.
 Visibility of attributes and their values is defined by Access Scope
 associated with a particular client user.
 
-Further in this document, a pair of square brackets ([]) in attribute
-name identifies that its value is an array of strings.
-
 Attribute names with certain prefixes are reserved solely for SIAM use:
-object.*, contract.*, svc.*, svcunit.*, svcdata.*, ...
+siam.*, object.*, contract.*, svc.*, svcunit.*, svcdata.*, ...
 
 In boolean attributes, numerical zero is interpreted as "false", and numerical
 nonzero is treated as "true". Usually numerical 1 indicates a true value.
@@ -76,7 +73,8 @@ The attribute defines a unique identifier for the object. Client
 applications must not set any assumptions on the ID values or their
 structure. The back-end drivers generate the ID values, and these values
 are only meaningful within the driver data model.  Maximum length: 1024
-bytes. The string I<ROOT> is reserved as the root-level object ID.
+bytes. The identifiers starting with the string I<SIAM.> are reserved to
+the SIAM internals and must not be used by the drivers.
 
 
 =item * object.class
@@ -95,6 +93,52 @@ it is the most reliable way to identify the root object.
 
 =back
 
+
+
+=head2 Root object
+
+The root object of class C<SIAM> is the only object in the hierarchy that is
+not retrieved from the back-end driver. Its attributes are defined by the
+calling application upon initialization.
+
+Attributes:
+
+=over 4
+
+=item * siam.enterprise_name
+
+Company name as displayed to the end user. Default: I<Example Inc.>
+
+=item * siam.enterprise_url
+
+Link to the company website. Default: I<http://www.example.com>
+
+=item * siam.enterprise_logo_url
+
+Link to the company logo image. Default: I<http://www.example.org/foo.png>
+
+=back
+
+The following object IDs are predefined by SIAM and are not queried via
+the driver:
+
+=over 4
+
+=item * SIAM.ROOT
+
+The root-level object.
+
+=item * SIAM.SCOPE.ALL.CONTRACTS
+
+The access scope with the name I<AllContracts>. All contract objects are
+implicitly included in it.
+
+=item * SIAM.SCOPE.ALL.ATTRIBUTES
+
+The access scope with the name I<AllAttributes>. All attribute names are
+implicitly in it.
+
+=back
 
 
 
@@ -116,10 +160,10 @@ contract number as seen in the enterprise billing system.
 
 String identifying the contract holder name
 
-=item * contract.access_scope_id[]
+=item * object.access_scope_id
 
-Access Scopes associated with this contract. They control visibility of
-the data to various users.
+Access Scope associated with this contract. It controls the visibility of
+data to various users.
 
 =item * contract.last_modified
 
@@ -316,7 +360,7 @@ Mandatory attributes:
 =item * scope.name
 
 Unique name of Access Scope. It has usually a mnemonic value, such as
-I<AllContracts>, I<Contract#123456>, I<Wholesale#654321>.
+I<AllContracts>, I<Contract.123456>, I<Wholesale.654321>.
 
 =item * scope.applies_to
 
@@ -350,13 +394,32 @@ Unique user ID that is known through some authentication mechanism.
 =back
 
 
-Attribute examples:
+Optional attributes which may be supported by the driver and the
+front-end application:
 
 =over 4
 
 =item * user.cn
 
 Common Name attribute in an LDAP database.
+
+=item * user.auth.method
+
+One of two values are expected: C<inline>, C<ldap>
+
+=item * user.auth.password
+
+If method is set to "inline", this attributes delivers the password as
+specified in LDAP standards. Example:
+I<{SHA}NWE5MDg0MWU0ODY3Y2VjMTQ2NzU0NjNhOWEzZDFmMjI4MTFiZDQ2YnNhbHQ=>
+
+=item * user.ldap.host
+
+LDAP hostname or URL
+
+=item * user.ldap.binddn
+
+Bind DN
 
 =back
 
@@ -376,7 +439,7 @@ Mandatory attributes:
 
 =over 4
 
-=item * privilege.scope_id
+=item * privilege.access_scope_id
 
 Reference to the corresponding C<SIAM::AccessScope> object ID.
 
@@ -400,7 +463,7 @@ I<access.port.name>, I<rack.number>, would be associated with the scope
 I<ImplementarionAttributes>, and only the ISP personnel users would be
 able to see their values.
 
-C<SIAM::Attribute> objects are contained within C<SIAM::AccessScope> objects.
+C<SIAM::Attribute> objects are contained within the root object.
 
 Mandatory attributes:
 
@@ -409,6 +472,10 @@ Mandatory attributes:
 =item * attribute.name
 
 Name of the attribute.
+
+=item * object.access_scope_id
+
+Access Scope associated with this attribute.
 
 =back
 

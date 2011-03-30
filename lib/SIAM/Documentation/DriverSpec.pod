@@ -12,11 +12,36 @@ There is no base class for a driver, and the enterprises are free to implement
 the drivers in in their preferred ways.
 
 A driver is a Perl object which must provide a number of methods, as described
-below. The validity of the driver is verified by
+below. The validity of the driver object is verified by
 C<validate_driver()> method of C<SIAM::Object>
+
+The driver class should take care of error reporting. It should be able
+to send its error messages to STDERR or a log file.
 
 
 =head1 METHODS
+
+=head2 new
+
+ my $driver = EnterpriseDriverClass->new($drvopts);
+
+The new() method creates an instance of the driver object. It takes a
+hash reference as an argument. This hash defines all configuration
+needed to initialize the driver. The contents of the hash are solely
+defined by the driver class. The new() method should validate the
+configuration and return undef in case of problems.
+
+
+=head2 connect
+
+Connects the driver to its underlying databases. Returns true in case of
+success.
+
+
+=head2 disconect
+
+Disconnects the driver from its underlying databases and frees its
+internal memory. The driver should be able to connect() again.
 
 
 =head2 fetch_attributes
@@ -37,27 +62,29 @@ methods.
 
 =head2 fetch_contained_object_ids
 
-  $ids = $driver->fetch_contained_object_ids($id, $classname);
+  $ids = $driver->fetch_contained_object_ids($id, $classname, $options);
 
 The method returns an arrayref containing IDs of contained objects of a
 given class. The method must return an empty arrayref if there are no
 contained objects.
 
+Options define a filter as follows. If no filter is defined, all
+relevant object IDs should be returned.
+
+  $ids = $driver->fetch_contained_object_ids($id, 'SIAM::Contract', {
+       'filter' => { 'object.access_scope_id' => ['SCOPEID01', 'SCOPEID02'] }
+      }
+     );
+
+In this example, only the contracts which match the specified access
+scopes are returned.
 
 =head2 errmsg
 
-Returns the last error message in case of a failure.
+Returns the last error message in case of a failure. The method must
+return an empty string if there are no errors.
 
 
-=head2 connect
-
-Connects the driver to its underlying databases. Returns true in case of
-success.
-
-=head2 disconect
-
-Disconnects the driver from its underlying databases and frees its
-internal memory. The driver should be able to connect() again.
 
 
 

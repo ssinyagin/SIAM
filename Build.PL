@@ -9,6 +9,14 @@ my $builder = Module::Build->new(
     dist_version_from   => 'lib/SIAM.pm',
     build_requires => {
         'Test::More' => 0,
+        'YAML' => 0,
+        'Log::Handler' => 0,
+    },
+    requires => {
+    },
+    recommends => {
+        'YAML' => 0,
+        'Log::Handler' => 0,
     },
     add_to_cleanup      => [ 'SIAM-*' ],
     create_makefile_pl => 'traditional',

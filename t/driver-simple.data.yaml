@@ -1,0 +1,253 @@
+---
+# Reference test data for SIAM::Driver::Simple
+
+# Contracts and services
+
+# This is an example of a business user with dual fiber connection and
+# a leased rack space
+-
+  object.id:                 CTRT0001
+  object.class:              SIAM::Contract
+  contract.inventory_id:     INVC0001
+  contract.customer_name:    Perpetualair Lavishbison, Inc.
+  object.access_scope_id:  CSCP0001
+  contract.last_modified:    0
+  xyz.billing_ok:            1
+  _contains_:
+    -
+      object.id:                 SRVC0001.01
+      object.class:              SIAM::Service
+      svc.name:                  Business Internet Standard
+      svc.type:                  fttx
+      svc.inventory_id:          BIS0001
+      _contains_:
+        -
+          object.id:                 SRVC0001.01.u01
+          object.class:              SIAM::ServiceUnit
+          svcunit.name:              BIS.64876.45
+          svcunit.type:              fttx.p2p
+          svcunit.inventory_id:      BIS.64876.45
+          access.node.name:          ZUR8050AN33
+          access.port.name:          Gi3/0/5
+          access.speed.downstream:   100
+          access.speed.upstream:     20
+          access.routing:            bgp
+          access.bgp.peer.addr:      2607:f140:ffff:ffff::80
+          access.bgp.peer.asn:       77777
+        -
+          object.id:                 SRVC0001.01.u02
+          object.class:              SIAM::ServiceUnit
+          svcunit.name:              BIS.89999.56
+          svcunit.type:              fttx.p2p
+          svcunit.inventory_id:      BIS.89999.56
+          access.node.name:          OLT4600AN03
+          access.port.name:          Gi1/0/7
+          access.speed.downstream:   100
+          access.speed.upstream:     20
+          access.routing:            bgp
+          access.bgp.peer.addr:      2a00:1450:8006::68
+          access.bgp.peer.asn:       77777
+
+          
+    -
+      object.id:                 SRVC0001.02
+      object.class:              SIAM::Service
+      svc.name:                  Business Rack Space
+      svc.type:                  xyz.rackspace
+      svc.inventory_id:          BIS0002
+      _contains_:
+        -
+          object.id:                 SRVC0001.02.u01
+          object.class:              SIAM::ServiceUnit
+          svcunit.name:              BRS.8979.23
+          svcunit.type:              rackspace
+          svcunit.inventory_id:      BRS.8979.23
+          access.node.name:          DUB8600AN04
+          access.port.name:          Gi1/2/1
+          access.ip_prefix:          2607:f140:55::00/64
+          room.id:                   DUB8600R02
+          rack.id:                   002-005
+          rack.slice:                1-8          
+      
+
+-
+  object.id:                 CTRT0002
+  object.class:              SIAM::Contract
+  contract.inventory_id:     INVC0002
+  contract.customer_name:    Zetamouse Ecosysteminfo, Inc.
+  object.access_scope_id:    CSCP0002
+  contract.last_modified:    0
+  _contains_:
+    -
+      object.id:                 SRVC0002.01
+      object.class:              SIAM::Service
+      svc.name:                  Virtual Private Hosting
+      svc.type:                  xyz.vps
+      svc.inventory_id:          BIS0003
+      _contains_:
+        -
+          object.id:                 SRVC0002.01.u01
+          object.class:              SIAM::ServiceUnit
+          svcunit.name:              VPH.8788.99
+          svcunit.type:              vps
+          svcunit.inventory_id:      VPH.8788.99
+          vm.phy.host:               DUB8600VH05
+          vm.phy.type:               esxi
+          vm.ram.limit:              1024
+          vm.ram.guaranteed:         512
+          vm.disk.size:              40
+          
+
+
+# Users and access control
+
+-
+  object.id:                 CSCP0001
+  object.class:              SIAM::AccessScope
+  scope.name:                Contract.0001
+  scope.applies_to:          SIAM::Contract
+
+-
+  object.id:                 CSCP0002
+  object.class:              SIAM::AccessScope
+  scope.name:                Contract.0002
+  scope.applies_to:          SIAM::Contract
+
+-
+  object.id:                 ASCP_CUST
+  object.class:              SIAM::AccessScope
+  scope.name:                CustomerVisibleAttributes
+  scope.applies_to:          SIAM::Attribute
+
+  
+# Users
+# inline passwords are the result of:
+#  echo -n `echo -n "secretsalt" | openssl sha`salt | openssl base64
+-
+  object.id:                 USER0001
+  object.class:              SIAM::User
+  user.uid:                  root
+  user.cn:                   Administrator
+  user.auth.method:          inline
+  user.auth.password: "{SSHA}NWE5MDg0MWU0ODY3Y2VjMTQ2NzU0NjNhOWEzZDFmMjI4MTFiZDQ2YnNhbHQ="
+  _contains_:
+    -
+      object.id:                 PRIV0001.01
+      object.class:              SIAM::Privilege
+      privilege.access_scope_id: SIAM.SCOPE.ALL.CONTRACTS
+      privilege.type:            ViewContract
+    -
+      object.id:                 PRIV0001.02
+      object.class:              SIAM::Privilege
+      privilege.access_scope_id: SIAM.SCOPE.ALL.ATTRIBUTES
+      privilege.type:            ViewAttribute
+
+
+      
+-
+  object.id:                 USER0002
+  object.class:              SIAM::User
+  user.uid:                  perpetualair
+  user.cn:                   Perpetualair Lavishbison
+  user.auth.method:          inline
+  user.auth.password: "{SSHA}NWE5MDg0MWU0ODY3Y2VjMTQ2NzU0NjNhOWEzZDFmMjI4MTFiZDQ2YnNhbHQ="
+    
+  _contains_:
+    -
+      object.id:                 PRIV0002.01
+      object.class:              SIAM::Privilege
+      privilege.access_scope_id: CSCP0001
+      privilege.type:            ViewContract
+    -
+      object.id:                 PRIV0002.02
+      object.class:              SIAM::Privilege
+      privilege.access_scope_id: ASCP_CUST
+      privilege.type:            ViewAttribute
+
+-
+  object.id:                 USER0003
+  object.class:              SIAM::User
+  user.uid:                  zetamouse
+  user.cn:                   Zetamouse Ecosysteminfo
+  user.auth.method:          inline
+  user.auth.password: "{SSHA}NWE5MDg0MWU0ODY3Y2VjMTQ2NzU0NjNhOWEzZDFmMjI4MTFiZDQ2YnNhbHQ="
+  _contains_:
+    -
+      object.id:                 PRIV0003.01
+      object.class:              SIAM::Privilege
+      privilege.access_scope_id: CSCP0002
+      privilege.type:            ViewContract
+    -
+      object.id:                 PRIV0003.02
+      object.class:              SIAM::Privilege
+      privilege.access_scope_id: ASCP_CUST
+      privilege.type:            ViewAttribute
+
+
+## Attrinutes visible to the customer
+-
+  object.id:                 ATTR0001
+  object.class:              SIAM::Attribute
+  attribute.name:            contract.customer_name
+  object.access_scope_id:    ASCP_CUST
+
+-
+  object.id:                 ATTR0002
+  object.class:              SIAM::Attribute
+  attribute.name:            xyz.billing_ok
+  object.access_scope_id:    ASCP_CUST
+  
+-
+  object.id:                 ATTR0003
+  object.class:              SIAM::Attribute
+  attribute.name:            svc.name
+  object.access_scope_id:    ASCP_CUST
+  
+-
+  object.id:                 ATTR0004
+  object.class:              SIAM::Attribute
+  attribute.name:            svc.inventory_id
+  object.access_scope_id:    ASCP_CUST
+
+-
+  object.id:                 ATTR0005
+  object.class:              SIAM::Attribute
+  attribute.name:            svcunit.inventory_id
+  object.access_scope_id:    ASCP_CUST
+  
+-
+  object.id:                 ATTR0006
+  object.class:              SIAM::Attribute
+  attribute.name:            access.speed.downstream
+  object.access_scope_id:    ASCP_CUST
+
+-
+  object.id:                 ATTR0007
+  object.class:              SIAM::Attribute
+  attribute.name:            access.speed.upstream
+  object.access_scope_id:    ASCP_CUST
+
+-
+  object.id:                 ATTR0008
+  object.class:              SIAM::Attribute
+  attribute.name:            access.ip_prefix
+  object.access_scope_id:    ASCP_CUST
+
+-
+  object.id:                 ATTR0009
+  object.class:              SIAM::Attribute
+  attribute.name:            vm.ram.limit
+  object.access_scope_id:    ASCP_CUST
+
+-
+  object.id:                 ATTR0010
+  object.class:              SIAM::Attribute
+  attribute.name:            vm.ram.guaranteed
+  object.access_scope_id:    ASCP_CUST
+
+-
+  object.id:                 ATTR0011
+  object.class:              SIAM::Attribute
+  attribute.name:            vm.disk.size
+  object.access_scope_id:    ASCP_CUST
+

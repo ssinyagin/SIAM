@@ -1,11 +1,13 @@
 #!perl -T
 
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 BEGIN {
     use_ok( 'SIAM' ) || print "Bail out!
 ";
     use_ok( 'SIAM::Object' ) || print "Bail out!
+";
+    use_ok( 'SIAM::Driver::Simple' ) || print "Bail out!
 ";
 }
 

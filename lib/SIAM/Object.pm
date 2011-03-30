@@ -3,7 +3,7 @@ package SIAM::Object;
 use warnings;
 use strict;
 
-our $is_error = 0;
+our $had_error = 0;
 our $errmsg = '';
 our $logmgr;
 
@@ -82,7 +82,7 @@ sub new
 
 =head2 get_contained_objects
 
- my $list = $object->get_contained_objects($classname);
+ my $list = $object->get_contained_objects($classname, $options);
 
 Fetches the list of contained objects of a given class. Returns arrayref of
 C<SIAM::Object> instances. This is the preferred method of instantiating new
@@ -91,16 +91,28 @@ objects instead of manually calling the C<new> method.
 It is assumed that the class name is already known to Perl, and the
 corresponding module was loaded with C<use> or C<require>.
 
+Without the options, the method retrieves all available objects. Options may
+define a filter criteria as follows:
+
+ my $list =
+   $siam->get_contained_objects('SIAM::Contract', {
+       'filter' => { 'object.access_scope_id' => ['SCOPEID01', 'SCOPEID02'] }
+     });
+
+Currently only one filter condition is supported. 
+
 =cut
 
 sub get_contained_objects
 {
     my $self = shift;
     my $classname = shift;
+    my $options = shift;
+
+    my $driver = $self->_driver;
 
     my $ids =
-        $self->_driver->fetch_contained_object_ids($self->id, $classname);
-    my $driver = $self->_driver;
+        $driver->fetch_contained_object_ids($self->id, $classname, $options);
     
     my $ret = [];
     foreach my $id (@{$ids})
@@ -148,8 +160,17 @@ Returns true if the object is a root.
 
 =cut
 
-sub is_root { shift->id eq 'ROOT' }
+sub is_root { shift->id eq 'SIAM.ROOT' }
 
+
+=head2 is_predefined
+
+Returns true if the object is a predefined object (the one with the ID
+starting with I<SIAM.>)
+
+=cut
+
+sub is_predefined { substr(shift->id, 0, 5) eq 'SIAM.' }
 
 
 =head1 CLASS METHODS
@@ -186,13 +207,13 @@ sub validate_driver
 
 
 
-=head2 is_error
+=head2 had_error
 
 Returns true in case of an error;
 
 =cut
 
-sub is_error { $is_error }
+sub had_error { $had_error }
 
 
 
@@ -306,7 +327,7 @@ sub error
     my $class = shift;
     my $msg = shift;
 
-    $is_error = 1;
+    $had_error = 1;
     $errmsg = $msg;
     
     my $dispatched = 0;
@@ -336,7 +357,7 @@ sub critical
     my $class = shift;
     my $msg = shift;
 
-    $is_error = 1;
+    $had_error = 1;
     $errmsg = $msg;
     my $dispatched = 0;
     if( defined($logmgr) )

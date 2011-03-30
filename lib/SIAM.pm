@@ -77,7 +77,7 @@ sub new
         return undef;
     }
     
-    my $self = $class->SUPER::new( $driver, {'object.id' => 'ROOT'} );
+    my $self = $class->SUPER::new( $driver, {'object.id' => 'SIAM.ROOT'} );
     return undef unless defined($self);
     
     return $self;

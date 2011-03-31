@@ -1,3 +1,5 @@
+# -*- coding: utf-8-emacs; -*-
+
 ---
 # Reference test data for SIAM::Driver::Simple
 
@@ -27,6 +29,7 @@
           svcunit.name:              BIS.64876.45
           svcunit.type:              fttx.p2p
           svcunit.inventory_id:      BIS.64876.45
+          svcunit.location:          Musterstrasse 10, 8050 Zürich
           access.node.name:          ZUR8050AN33
           access.port.name:          Gi3/0/5
           access.speed.downstream:   100
@@ -52,6 +55,7 @@
           svcunit.type:              fttx.p2p
           svcunit.inventory_id:      BIS.89999.56
           access.node.name:          OLT4600AN03
+          svcunit.location:          Musterstrasse 5, 4600 Olten
           access.port.name:          Gi1/0/7
           access.speed.downstream:   100
           access.speed.upstream:     20
@@ -84,6 +88,7 @@
           svcunit.type:              rackspace
           svcunit.inventory_id:      BRS.8979.23
           access.node.name:          DUB8600AN04
+          svcunit.location:          Datastrasse 77, 8600 Dübendorf
           access.port.name:          Gi1/2/1
           access.ip_prefix:          2607:f140:55::00/64
           room.id:                   DUB8600R02
@@ -122,6 +127,7 @@
           svcunit.name:              VPH.8788.99
           svcunit.type:              vps
           svcunit.inventory_id:      VPH.8788.99
+          svcunit.location:          Datastrasse 78, 8600 Dübendorf
           vm.phy.host:               DUB8600VH05
           vm.phy.type:               esxi
           vm.ram.limit:              1024

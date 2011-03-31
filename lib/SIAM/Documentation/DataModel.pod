@@ -56,6 +56,9 @@ nonzero is treated as "true". Usually numerical 1 indicates a true value.
 Some attributes contain identifiers of other objects. The string value I<NIL>
 is reserved to indicate an undefined identifier.
 
+Attribute values are strings in UTF-8 encoding. The client software
+should treat UTF-8 correctly, especially where it deals with names and
+addresses.
 
 In this document, XYZ refers to the enterprise name.
 
@@ -252,6 +255,10 @@ required for each unit type.
 Service Unit ID in external inventory. If it's a strict one-to-one relation
 between Services and their Units, this attribute is equal to
 C<svc.inventory_id>.
+
+=item * svcunit.location
+
+Free-form location string for the point of service hand-over.
 
 =back
 

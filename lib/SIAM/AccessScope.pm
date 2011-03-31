@@ -57,9 +57,7 @@ sub new
 {
     my $class = shift;
     my $driver = shift;
-    my $attributes = shift;
-
-    my $id = $attributes->{'object.id'};
+    my $id = shift;
     
     if( defined($id) and defined($match_all_id{$id}) )
     {
@@ -76,7 +74,7 @@ sub new
     }
     else
     {
-        return $class->SUPER::new( $driver, $attributes );
+        return $class->SUPER::new( $driver, $id );
     }
 }
 

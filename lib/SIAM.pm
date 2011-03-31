@@ -60,7 +60,20 @@ sub new
     my $options = shift;
 
     my $drvclass = $config->{'Driver'}{'Class'};
+    if( not defined($drvclass) )
+    {
+        SIAM::Object->critical
+              ('Missing Driver->Class in SIAM configuration');
+        return undef;
+    }
+    
     my $drvopts = $config->{'Driver'}{'Options'};
+    if( not defined($drvopts) )
+    {
+        SIAM::Object->critical
+              ('Missing Driver->Options in SIAM configuration');
+        return undef;
+    }
 
     eval('require ' . $drvclass);
     if( $@ )
@@ -81,9 +94,34 @@ sub new
         SIAM::Object->critical('Failed to initialize the driver');
         return undef;
     }
-    
+
+    my $root_attr = $config->{'Root'}{'Attributes'};
+    if( not defined($root_attr) )
+    {
+        SIAM::Object->critical
+              ('Missing Root->Attributes in SIAM configuration');
+        return undef;
+    }
+
     my $self = $class->SUPER::new( $driver, 'SIAM.ROOT' );
     return undef unless defined($self);
+    
+    foreach my $key ('siam.enterprise_name',
+                     'siam.enterprise_url',
+                     'siam.enterprise_logo_url')
+    {
+        if( defined($root_attr->{$key}) )
+        {
+            $self->{'_attr'}{$key} = $root_attr->{$key};
+        }
+        else
+        {
+            SIAM::Object->critical
+                  ('Missing mandatory attribute "' . $key .
+                   '" in SIAM configuration');
+            return undef;
+        }            
+    }    
     
     return $self;
 }

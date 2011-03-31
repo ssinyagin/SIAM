@@ -94,12 +94,12 @@ sub new
         }
     }
 
-    $self->{'logger'} = new Log::Handler($drvopts->{'logger'});
+    $self->{'logger'} = new Log::Handler(%{$drvopts->{'logger'}});
 
     if( not -r $self->{'config'}{'datafile'} )
     {
-        $self->log->critical('Data file is not readable: ' .
-                             $self->{'config'}{'datafile'});
+        $self->error('Data file is not readable: ' .
+                     $self->{'config'}{'datafile'});
         return undef;
     }
 
@@ -119,12 +119,11 @@ sub connect
 {
     my $self = shift;
 
-    my $yaml = new YAML;
-    my $data = $yaml->LoadFile($self->{'config'}{'datafile'});
-    if( not defined($data) )
+    my $data = eval { YAML::LoadFile($self->{'config'}{'datafile'}) };
+    if( $@ )
     {
         $self->error('Cannot load YAML data from ' .
-                     $self->{'config'}{'datafile'} . ': ' . $!);
+                     $self->{'config'}{'datafile'} . ': ' . $@);
         return undef;
     }
     

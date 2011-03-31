@@ -143,7 +143,33 @@ Returns a value of an attribute.
 
 =cut
 
-sub attr { shift->{'_attr'}{shift} }
+sub attr
+{
+    my $self = shift;
+    my $key = shift;
+    return $self->{'_attr'}{$key};
+}
+
+
+=head2 attributes
+
+Returns a hashref with copies of all object attributes.
+
+=cut
+
+sub attributes
+{
+    my $self = shift;
+
+    my $ret = {};
+    while( my($key, $val) = each %{$self->{'_attr'}} )
+    {
+        $ret->{$key} = $val;
+    }
+    return $ret;
+}
+
+
 
 
 =head2 is_root
@@ -152,7 +178,7 @@ Returns true if the object is a root.
 
 =cut
 
-sub is_root { shift->id eq 'SIAM.ROOT' }
+sub is_root { (shift->id) eq 'SIAM.ROOT' }
 
 
 =head2 is_predefined

@@ -5,6 +5,11 @@ use strict;
 
 use base 'SIAM::Object';
 
+use SIAM::Contract;
+use SIAM::User;
+use SIAM::Privilege;
+
+
 =head1 NAME
 
 SIAM - Service Inventory Abstraction Model
@@ -77,7 +82,7 @@ sub new
         return undef;
     }
     
-    my $self = $class->SUPER::new( $driver, {'object.id' => 'SIAM.ROOT'} );
+    my $self = $class->SUPER::new( $driver, 'SIAM.ROOT' );
     return undef unless defined($self);
     
     return $self;
@@ -116,6 +121,84 @@ sub disconnect
 }
 
 
+=head2 get_all_contracts
+
+Returns an arrayref with all available C<SIAM::Contract> objects.
+
+=cut
+
+sub get_all_contracts
+{
+    my $self = shift;
+    return $self->get_contained_objects('SIAM::Contract');
+}
+
+
+
+=head2 get_contracts_by_user_privilege
+
+  my $user_contracts =
+      $siam->get_contracts_by_user_privilege($user, 'ViewContract');
+
+Arguments: C<SIAM::User> object and a privilege string.  Returns
+arrayref with all available C<SIAM::Contract> objects that match the
+privilege.
+
+=cut
+
+sub get_contracts_by_user_privilege
+{
+    my $self = shift;
+    my $user = shift;
+    my $priv = shift;
+
+    my $privileges = $user->get_contained_objects
+        ('SIAM::Privilege',
+         {'match_attribute' => ['privilege.type', [$priv]]});
+    
+    my %scope_ids;
+
+    foreach my $privilege (@{$privileges})
+    {
+        if( $privilege->matches_all() )
+        {
+            return $self->get_contained_objects('SIAM::Contract');
+        }
+        
+        $scope_ids{$privilege->attr('privilege.access_scope_id')} = 1;
+    }
+
+    return $self->get_contained_objects
+        ('SIAM::Contract',
+         {'match_attribute' => ['object.access_scope_id', [keys %scope_ids]]});
+}
+         
+
+
+=head2 get_user
+
+Expects a UID string as an argument. Returns a C<SIAM::User> object or undef.
+
+=cut
+
+sub get_user
+{
+    my $self = shift;
+    my $uid = shift;
+
+    my $users = $self->get_contained_objects
+        ('SIAM::User', {'match_attribute' => ['user.uid', [$uid]]});
+    if( scalar(@{$users}) > 1 )
+    {
+        $self->error('Driver returned more than one SIAM::User object with ' .
+                     'user.uid=' . $uid);
+    }
+    return $users->[0];
+}
+
+
+
+    
 
 
 
@@ -202,7 +285,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 # mode: cperl
 # indent-tabs-mode: nil
 # cperl-indent-level: 4
-# cperl-brace-offset: -4
 # cperl-continued-statement-offset: 4
-# cperl-continued-brace-offset: 0
+# cperl-continued-brace-offset: -4
+# cperl-brace-offset: 0
+# cperl-label-offset: -2
 # End:

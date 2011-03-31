@@ -72,7 +72,8 @@ Options define a filter as follows. If no filter is defined, all
 relevant object IDs should be returned.
 
   $ids = $driver->fetch_contained_object_ids($id, 'SIAM::Contract', {
-       'filter' => { 'object.access_scope_id' => ['SCOPEID01', 'SCOPEID02'] }
+       'match_attribute' => [ 'object.access_scope_id',
+                                 ['SCOPEID01', 'SCOPEID02'] ]
       }
      );
 

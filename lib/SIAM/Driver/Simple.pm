@@ -254,7 +254,8 @@ sub fetch_attributes
 =head2 fetch_contained_object_ids
 
    $ids = $driver->fetch_contained_object_ids($id, 'SIAM::Contract', {
-       'filter' => { 'object.access_scope_id' => ['SCOPEID01', 'SCOPEID02'] }
+       'match_attribute' => [ 'object.access_scope_id',
+                              ['SCOPEID01', 'SCOPEID02'] ]
       }
      );
 
@@ -273,10 +274,10 @@ sub fetch_contained_object_ids
     my $filter_attr;
     my $filter_val;
 
-    if( defined($options) and defined($options->{'filter'}) )
+    if( defined($options) and defined($options->{'match_attribute'}) )
     {
-        ($filter_attr, $filter_val) = each %{$options->{'filter'}};
-        $apply_filter = 0;
+        ($filter_attr, $filter_val) = @{$options->{'match_attribute'}};
+        $apply_filter = 1;
     }
     
     my $ret = [];
@@ -379,7 +380,8 @@ L<SIAM::Documentation::DriverSpec>, L<YAML>, L<Log::Handler>
 # mode: cperl
 # indent-tabs-mode: nil
 # cperl-indent-level: 4
-# cperl-brace-offset: -4
 # cperl-continued-statement-offset: 4
-# cperl-continued-brace-offset: 0
+# cperl-continued-brace-offset: -4
+# cperl-brace-offset: 0
+# cperl-label-offset: -2
 # End:

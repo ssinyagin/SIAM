@@ -24,16 +24,9 @@ SIAM::Object - the base class for all SIAM object (including the root).
 
 =head2 new
 
-  $new_object = new SIAM::Object($driver, $attributes)
+  $new_object = new SIAM::Object($driver, $id)
 
-Instantiates a new object. The method expects a driver object and a hash
-reference containing the attributes, as follows:
-
-=over 4
-
-=item * object.id
-
-=back
+Instantiates a new object. The method expects a driver object and an Object ID.
 
 =cut
 
@@ -41,28 +34,13 @@ sub new
 {
     my $class = shift;
     my $driver = shift;
-    my $attributes = shift;
+    my $id = shift;
 
     my $self = {};
     bless $self, $class;
 
-    $self->{'_attr'} = {};
-    foreach my $attr ('object.id')
-    {
-        if( defined($attributes->{$attr}) )
-        {
-            $self->{'_attr'}{$attr} = $attributes->{$attr};
-        }
-        else
-        {
-            SIAM::Object->critical
-                  ('Missing mandatiry attribute ' . $attr .
-                   ' in SIAM::Object->new()');
-            return undef;
-        }
-    }
-    
-    $self->{'_attr'}{'object.class'} = $class;
+    $self->{'_attr'} = {'object.id'    => $id,
+                        'object.class' => $class};    
     $self->{'_driver'} = $driver;
 
     # retrieve attributes from the driver unless I am root
@@ -72,6 +50,20 @@ sub new
         {
             SIAM::Object->error($driver->errmsg);
             return undef;
+        }
+
+        if( $self->can('_mandatory_attributes') )
+        {
+            foreach my $attr (@{ $self->_mandatory_attributes() })
+            {
+                if( not defined($self->{'_attr'}{$attr}) )
+                {
+                    SIAM::Object->error
+                          ('Driver did not fetch a mandatory attribute "' .
+                           $attr . '" for object ID "' . $id . '"');
+                    return undef;
+                }
+            }
         }
     }
 
@@ -96,7 +88,8 @@ define a filter criteria as follows:
 
  my $list =
    $siam->get_contained_objects('SIAM::Contract', {
-       'filter' => { 'object.access_scope_id' => ['SCOPEID01', 'SCOPEID02'] }
+       'match_attribute' => [ 'object.access_scope_id',
+                                 ['SCOPEID01', 'SCOPEID02'] ]
      });
 
 Currently only one filter condition is supported. 
@@ -117,8 +110,7 @@ sub get_contained_objects
     my $ret = [];
     foreach my $id (@{$ids})
     {
-        my $attributes = {'object.id' => $id};
-        my $obj = eval($classname . '->new($driver, $attributes)');
+        my $obj = eval($classname . '->new($driver, $id)');
 
         if( $@ )
         {
@@ -416,7 +408,8 @@ sub _print_stderr
 # mode: cperl
 # indent-tabs-mode: nil
 # cperl-indent-level: 4
-# cperl-brace-offset: -4
 # cperl-continued-statement-offset: 4
-# cperl-continued-brace-offset: 0
+# cperl-continued-brace-offset: -4
+# cperl-brace-offset: 0
+# cperl-label-offset: -2
 # End:

@@ -5,6 +5,7 @@ use strict;
 
 use base 'SIAM::Object';
 
+use SIAM::Service;
 
 =head1 NAME
 
@@ -16,11 +17,21 @@ SIAM::Contract - Contract object class
    my $user_contracts =
        $siam->get_contracts_by_user_privilege($user, 'ViewContract');
 
+   my $services = $contract->get_services();
 
 =head1 METHODS
 
+=head2 get_services
+
+Returns arrayref with SIAM::Service objects
 
 =cut
+
+sub get_services
+{
+    my $self = shift;
+    return $self->get_contained_objects('SIAM::Service');
+}
 
 
 # mandatory attributes

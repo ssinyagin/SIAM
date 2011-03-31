@@ -181,7 +181,7 @@ sub _import_object
         if( $key ne '_contains_' )
         {
             $dup->{$key} = $val;
-            $self->{'attr_index'}{$key}{$val}{$id} = 1;
+            $self->{'attr_index'}{$class}{$container_id}{$key}{$val}{$id} = 1;
         }
     }
     
@@ -270,41 +270,28 @@ sub fetch_contained_object_ids
     my $class = shift;
     my $options = shift;
 
-    my $apply_filter = 0;
-    my $filter_attr;
-    my $filter_val;
-
-    if( defined($options) and defined($options->{'match_attribute'}) )
-    {
-        ($filter_attr, $filter_val) = @{$options->{'match_attribute'}};
-        $apply_filter = 1;
-    }
-    
     my $ret = [];
 
-    if( defined($self->{'contains'}{$class}{$container_id}) )
+    if( defined($options) )
     {
-        foreach my $id (keys %{$self->{'contains'}{$class}{$container_id}})
+        if( defined($options->{'match_attribute'}) )
         {
-            my $match = 1;
-            if( $apply_filter )
+            my ($filter_attr, $filter_val) = @{$options->{'match_attribute'}};
+            
+            foreach my $val (@{$filter_val})                
             {
-                $match = 0;
-                foreach my $val (@{$filter_val})
-                {
-                    if( $self->{'attr_index'}{$filter_attr}{$val}{$id} )
-                    {
-                        $match = 1;
-                        last;
-                    }
-                }
+                push(@{$ret}, 
+                     keys %{$self->{'attr_index'}{$class}{$container_id}{
+                         $filter_attr}{$val}});
             }
 
-            if( $match )
-            {
-                push(@{$ret}, $id);
-            }
+            return $ret;
         }
+    }
+    
+    if( defined($self->{'contains'}{$class}{$container_id}) )
+    {
+        push(@{$ret}, keys %{$self->{'contains'}{$class}{$container_id}});
     }
 
     return $ret;

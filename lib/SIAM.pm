@@ -8,7 +8,7 @@ use base 'SIAM::Object';
 use SIAM::Contract;
 use SIAM::User;
 use SIAM::Privilege;
-
+use SIAM::Attribute;
 
 =head1 NAME
 
@@ -121,6 +121,28 @@ sub disconnect
 }
 
 
+=head2 get_user
+
+Expects a UID string as an argument. Returns a C<SIAM::User> object or undef.
+
+=cut
+
+sub get_user
+{
+    my $self = shift;
+    my $uid = shift;
+
+    my $users = $self->get_contained_objects
+        ('SIAM::User', {'match_attribute' => ['user.uid', [$uid]]});
+    if( scalar(@{$users}) > 1 )
+    {
+        $self->error('Driver returned more than one SIAM::User object with ' .
+                     'user.uid=' . $uid);
+    }
+    return $users->[0];
+}
+
+
 =head2 get_all_contracts
 
 Returns an arrayref with all available C<SIAM::Contract> objects.
@@ -175,28 +197,68 @@ sub get_contracts_by_user_privilege
          
 
 
-=head2 get_user
+=head2 filter_visible_attributes
 
-Expects a UID string as an argument. Returns a C<SIAM::User> object or undef.
+   my $visible_attrs =
+       $siam->filter_visible_attributes($user, $object_attrs);
+
+Arguments: C<SIAM::User> object and a hashref with object attributes.
+Returns a new hashref with copies of attributes which are allowed to be
+shown to the user as specified by C<ViewAttribute> privileges.
 
 =cut
 
-sub get_user
+sub filter_visible_attributes
 {
     my $self = shift;
-    my $uid = shift;
+    my $user = shift;
+    my $attrs_in = shift;
 
-    my $users = $self->get_contained_objects
-        ('SIAM::User', {'match_attribute' => ['user.uid', [$uid]]});
-    if( scalar(@{$users}) > 1 )
+    my $attrs_out = {};
+
+    # Fetch SIAM::Attribute objects only once and cache them by attribute.name
+    if( not defined($self->{'siam_attribute_objects'}) )
     {
-        $self->error('Driver returned more than one SIAM::User object with ' .
-                     'user.uid=' . $uid);
+        $self->{'siam_attribute_objects'} = {};
+        foreach my $obj (@{ $self->get_contained_objects('SIAM::Attribute') })
+        {
+            my $name = $obj->attr('attribute.name');
+            $self->{'siam_attribute_objects'}{$name} = $obj;
+        }
     }
-    return $users->[0];
+
+    my $privileges = $user->get_contained_objects
+        ('SIAM::Privilege',
+         {'match_attribute' => ['privilege.type', ['ViewAttribute']]});
+    
+    foreach my $privilege (@{$privileges})
+    {
+        if( $privilege->matches_all() )
+        {
+            # this user can see all. Copy everything and return.
+            while( my($key, $val) = each %{$attrs_in} )
+            {
+                $attrs_out->{$key} = $val;
+            }
+
+            return $attrs_out;
+        }
+        else
+        {
+            while( my($key, $val) = each %{$attrs_in} )
+            {
+                my $attr_obj = $self->{'siam_attribute_objects'}{$key};
+                if( defined($attr_obj) and
+                    $privilege->match_object($attr_obj) )
+                {
+                    $attrs_out->{$key} = $val;
+                }
+            }
+        }
+    }
+
+    return $attrs_out;
 }
-
-
 
     
 

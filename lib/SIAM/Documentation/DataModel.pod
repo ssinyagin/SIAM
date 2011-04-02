@@ -199,9 +199,9 @@ Mandatory attributes:
 
 =over 4
 
-=item * svc.name
+=item * svc.procuct_name
 
-Service name as displayed to the user.
+A name from the enterprise's product catalog.
 
 =item * svc.type
 

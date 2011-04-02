@@ -19,7 +19,7 @@
     -
       object.id:                 SRVC0001.01
       object.class:              SIAM::Service
-      svc.name:                  Business Internet Standard
+      svc.product_name:          Business Internet Standard
       svc.type:                  fttx
       svc.inventory_id:          BIS0001
       _contains_:
@@ -77,7 +77,7 @@
     -
       object.id:                 SRVC0001.02
       object.class:              SIAM::Service
-      svc.name:                  Business Rack Space
+      svc.product_name:          Business Rack Space
       svc.type:                  xyz.rackspace
       svc.inventory_id:          BIS0002
       _contains_:
@@ -117,7 +117,7 @@
     -
       object.id:                 SRVC0002.01
       object.class:              SIAM::Service
-      svc.name:                  Virtual Private Hosting
+      svc.product_name:          Virtual Private Hosting
       svc.type:                  xyz.vps
       svc.inventory_id:          BIS0003
       _contains_:
@@ -256,7 +256,7 @@
 -
   object.id:                 ATTR0003
   object.class:              SIAM::Attribute
-  attribute.name:            svc.name
+  attribute.name:            svc.product_name
   object.access_scope_id:    ASCP_CUST
   
 -

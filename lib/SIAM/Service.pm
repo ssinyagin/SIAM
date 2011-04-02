@@ -33,7 +33,7 @@ sub get_service_units
 # mandatory attributes
 
 my $mandatory_attributes =
-    [ 'svc.name',
+    [ 'svc.product_name',
       'svc.type',
       'svc.inventory_id' ];
 

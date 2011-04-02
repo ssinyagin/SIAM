@@ -39,7 +39,6 @@ sub get_services
 my $mandatory_attributes =
     [ 'contract.inventory_id',
       'contract.customer_name',
-      'object.access_scope_id',
       'contract.last_modified' ];
 
 sub _mandatory_attributes

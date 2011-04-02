@@ -12,7 +12,6 @@
   object.class:              SIAM::Contract
   contract.inventory_id:     INVC0001
   contract.customer_name:    Perpetualair Lavishbison, Inc.
-  object.access_scope_id:  CSCP0001
   contract.last_modified:    0
   xyz.billing_ok:            1
   _contains_:
@@ -111,7 +110,6 @@
   object.class:              SIAM::Contract
   contract.inventory_id:     INVC0002
   contract.customer_name:    Zetamouse Ecosysteminfo, Inc.
-  object.access_scope_id:    CSCP0002
   contract.last_modified:    0
   _contains_:
     -
@@ -162,18 +160,73 @@
   object.class:              SIAM::AccessScope
   scope.name:                Contract.0001
   scope.applies_to:          SIAM::Contract
+  _contains_:
+    -
+      object.id:                 CSCP0001.m01
+      object.class:              SIAM::ScopeMember
+      scmember.object_id:        CTRT0001
 
 -
   object.id:                 CSCP0002
   object.class:              SIAM::AccessScope
   scope.name:                Contract.0002
   scope.applies_to:          SIAM::Contract
+  _contains_:
+    -
+      object.id:                 CSCP0002.m01
+      object.class:              SIAM::ScopeMember
+      scmember.object_id:        CTRT0002
 
 -
   object.id:                 ASCP_CUST
   object.class:              SIAM::AccessScope
   scope.name:                CustomerVisibleAttributes
   scope.applies_to:          SIAM::Attribute
+  _contains_:
+    -
+      object.id:                 ASCP_CUST.m01
+      object.class:              SIAM::ScopeMember
+      scmember.object_id:        ATTR0001
+    -
+      object.id:                 ASCP_CUST.m02
+      object.class:              SIAM::ScopeMember
+      scmember.object_id:        ATTR0002
+    -
+      object.id:                 ASCP_CUST.m03
+      object.class:              SIAM::ScopeMember
+      scmember.object_id:        ATTR0003
+    -
+      object.id:                 ASCP_CUST.m04
+      object.class:              SIAM::ScopeMember
+      scmember.object_id:        ATTR0004
+    -
+      object.id:                 ASCP_CUST.m05
+      object.class:              SIAM::ScopeMember
+      scmember.object_id:        ATTR0005
+    -
+      object.id:                 ASCP_CUST.m06
+      object.class:              SIAM::ScopeMember
+      scmember.object_id:        ATTR0006
+    -
+      object.id:                 ASCP_CUST.m07
+      object.class:              SIAM::ScopeMember
+      scmember.object_id:        ATTR0007
+    -
+      object.id:                 ASCP_CUST.m08
+      object.class:              SIAM::ScopeMember
+      scmember.object_id:        ATTR0008
+    -
+      object.id:                 ASCP_CUST.m09
+      object.class:              SIAM::ScopeMember
+      scmember.object_id:        ATTR0009
+    -
+      object.id:                 ASCP_CUST.m10
+      object.class:              SIAM::ScopeMember
+      scmember.object_id:        ATTR0010
+    -
+      object.id:                 ASCP_CUST.m11
+      object.class:              SIAM::ScopeMember
+      scmember.object_id:        ATTR0011
 
   
 # Users
@@ -245,65 +298,54 @@
   object.id:                 ATTR0001
   object.class:              SIAM::Attribute
   attribute.name:            contract.customer_name
-  object.access_scope_id:    ASCP_CUST
 
 -
   object.id:                 ATTR0002
   object.class:              SIAM::Attribute
   attribute.name:            xyz.billing_ok
-  object.access_scope_id:    ASCP_CUST
   
 -
   object.id:                 ATTR0003
   object.class:              SIAM::Attribute
   attribute.name:            svc.product_name
-  object.access_scope_id:    ASCP_CUST
   
 -
   object.id:                 ATTR0004
   object.class:              SIAM::Attribute
   attribute.name:            svc.inventory_id
-  object.access_scope_id:    ASCP_CUST
 
 -
   object.id:                 ATTR0005
   object.class:              SIAM::Attribute
   attribute.name:            svcunit.inventory_id
-  object.access_scope_id:    ASCP_CUST
   
 -
   object.id:                 ATTR0006
   object.class:              SIAM::Attribute
   attribute.name:            access.speed.downstream
-  object.access_scope_id:    ASCP_CUST
 
 -
   object.id:                 ATTR0007
   object.class:              SIAM::Attribute
   attribute.name:            access.speed.upstream
-  object.access_scope_id:    ASCP_CUST
 
 -
   object.id:                 ATTR0008
   object.class:              SIAM::Attribute
   attribute.name:            access.ip_prefix
-  object.access_scope_id:    ASCP_CUST
 
 -
   object.id:                 ATTR0009
   object.class:              SIAM::Attribute
   attribute.name:            vm.ram.limit
-  object.access_scope_id:    ASCP_CUST
 
 -
   object.id:                 ATTR0010
   object.class:              SIAM::Attribute
   attribute.name:            vm.ram.guaranteed
-  object.access_scope_id:    ASCP_CUST
 
 -
   object.id:                 ATTR0011
   object.class:              SIAM::Attribute
   attribute.name:            vm.disk.size
-  object.access_scope_id:    ASCP_CUST
 

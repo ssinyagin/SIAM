@@ -14,13 +14,23 @@ SIAM::Attribute - Attribute object class
 
 =head1 METHODS
 
+=head2 name
+
+Returns the value of C<attribute.name> attribute.
+
 =cut
+
+sub name
+{
+    my $self = shift;
+    return $self->attr('attribute.name');
+}
+
 
 # mandatory attributes
 
 my $mandatory_attributes =
-    [ 'attribute.name',
-      'object.access_scope_id' ];
+    [ 'attribute.name' ];
 
 sub _mandatory_attributes
 {

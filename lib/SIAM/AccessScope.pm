@@ -5,6 +5,7 @@ use strict;
 
 use base 'SIAM::Object';
 
+use SIAM::ScopeMember;
 
 =head1 NAME
 
@@ -104,14 +105,42 @@ sub match_object
         return 1;
     }
 
-    # check if object.access_scope_id matches our ID
-    if( $obj->attr('object.access_scope_id') eq $self->id )
+    # check if object ID matches one of our members
+    my $members = $self->get_contained_objects
+        ('SIAM::ScopeMember',
+         {'match_attribute' => ['scmember.object_id', [$obj->id()]]});
+
+    if( scalar(@{$members}) > 0 )
     {
         return 1;
     }
-
+    
     return undef;
 }
+
+
+
+=head2 get_object_ids
+
+Returns arrayref with all object IDs to which this scope's members point to.
+
+=cut
+
+
+sub get_object_ids
+{
+    my $self = shift;
+    
+    my $members = $self->get_contained_objects('SIAM::ScopeMember');
+
+    my $ret = [];
+    foreach my $member (@{$members})
+    {
+        push(@{$ret}, $member->points_to);
+    }
+    return $ret;
+}
+            
 
 
 
@@ -120,8 +149,8 @@ sub match_object
 
 =head2 matches_all
 
-Takes an ID of an SIAM::AccessScope object and returns true if it's a
-match-all scope.
+Takes an ID of an SIAM::AccessScope object and the object class.
+Returns true if it's a match-all scope for a given class.
 
 =cut
 
@@ -130,8 +159,10 @@ sub matches_all
 {
     my $class = shift;
     my $id = shift;
+    my $objclass = shift;
 
-    return defined($match_all_id{$id});
+    return( defined($match_all_id{$id}) and
+            $match_all_id{$id}{'scope.applies_to'} eq $objclass );
 }
 
 

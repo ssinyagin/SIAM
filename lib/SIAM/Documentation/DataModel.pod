@@ -163,11 +163,6 @@ contract number as seen in the enterprise billing system.
 
 String identifying the contract holder name
 
-=item * object.access_scope_id
-
-Access Scope associated with this contract. It controls the visibility of
-data to various users.
-
 =item * contract.last_modified
 
 UNIX timestamp of last change in any contract details. This attribute
@@ -358,7 +353,8 @@ names.
 Two scope names are reserved, and corresponding objects always belong to
 them: I<AllContracts>, I<AllAttributes>.
 
-Access Scope objects are contained within the root SIAM object.
+Access Scope objects are contained within the root SIAM object. Each
+Access Scope object contains one or more Scope Member objects.
 
 Mandatory attributes:
 
@@ -373,6 +369,25 @@ I<AllContracts>, I<Contract.123456>, I<Wholesale.654321>.
 
 Class of objects that this scope covers. Known values: I<SIAM::Contract>,
 I<SIAM::Attribute>.
+
+=back
+
+
+=head2 SIAM::ScopeMember
+
+Scope Member object points to the object at which the corresponding
+privileges apply.
+
+Scope Members are contained within Access Scope objects.
+
+Mandatory attribute:
+
+=over 4
+
+=item * scmember.object_id
+
+ID of a corresponding Contract or Attribute object which comprises the
+given Scope.
 
 =back
 
@@ -479,10 +494,6 @@ Mandatory attributes:
 =item * attribute.name
 
 Name of the attribute.
-
-=item * object.access_scope_id
-
-Access Scope associated with this attribute.
 
 =back
 

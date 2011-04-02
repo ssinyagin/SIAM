@@ -212,25 +212,7 @@ sub get_contracts_by_user_privilege
     my $user = shift;
     my $priv = shift;
 
-    my $privileges = $user->get_contained_objects
-        ('SIAM::Privilege',
-         {'match_attribute' => ['privilege.type', [$priv]]});
-    
-    my %scope_ids;
-
-    foreach my $privilege (@{$privileges})
-    {
-        if( $privilege->matches_all() )
-        {
-            return $self->get_contained_objects('SIAM::Contract');
-        }
-        
-        $scope_ids{$privilege->attr('privilege.access_scope_id')} = 1;
-    }
-
-    return $self->get_contained_objects
-        ('SIAM::Contract',
-         {'match_attribute' => ['object.access_scope_id', [keys %scope_ids]]});
+    return $user->get_objects_by_privilege($priv, 'SIAM::Contract', $self);
 }
          
 
@@ -260,8 +242,7 @@ sub filter_visible_attributes
         $self->{'siam_attribute_objects'} = {};
         foreach my $obj (@{ $self->get_contained_objects('SIAM::Attribute') })
         {
-            my $name = $obj->attr('attribute.name');
-            $self->{'siam_attribute_objects'}{$name} = $obj;
+            $self->{'siam_attribute_objects'}{$obj->name} = $obj;
         }
     }
 
@@ -271,7 +252,7 @@ sub filter_visible_attributes
     
     foreach my $privilege (@{$privileges})
     {
-        if( $privilege->matches_all() )
+        if( $privilege->matches_all('SIAM::Attribute') )
         {
             # this user can see all. Copy everything and return.
             while( my($key, $val) = each %{$attrs_in} )

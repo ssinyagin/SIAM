@@ -17,6 +17,20 @@ SIAM::Privilege - Privilege object class
 
 =head1 METHODS
 
+
+=head2 scope_id
+
+Retrurns the value of C<privilege.access_scope_id> attribute.
+
+=cut
+
+sub scope_id
+{
+    my $self = shift;
+    return $self->attr('privilege.access_scope_id');
+}
+
+
 =head2 match_object
 
 Expects an object as an argument. Returns true if the object matches the
@@ -30,8 +44,7 @@ sub match_object
     my $self = shift;
     my $obj = shift;
 
-    my $scopeid = $self->attr('privilege.access_scope_id');
-    my $scope = new SIAM::AccessScope($self->_driver, $scopeid);    
+    my $scope = new SIAM::AccessScope($self->_driver, $self->scope_id);    
     return $scope->match_object($obj);
 }
 
@@ -39,7 +52,8 @@ sub match_object
 
 =head2 matches_all
 
-Returns true if the privilege is associated with a match-all scope.
+Takes an object class. Returns true if the privilege is associated with
+a match-all scope for a given class.
 
 =cut
 
@@ -47,8 +61,10 @@ Returns true if the privilege is associated with a match-all scope.
 sub matches_all
 {
     my $self = shift;
+    my $objclass = shift;
+
     return SIAM::AccessScope->matches_all
-        ($self->attr('privilege.access_scope_id'));
+        ($self->attr('privilege.access_scope_id'), $objclass);
 }
 
 

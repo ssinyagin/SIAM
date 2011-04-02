@@ -423,7 +423,7 @@ sub _print_stderr
     my $class = shift;
     my $msg = shift;
 
-    print STDERR scalar(localtime(time())) . ' ' . $msg;
+    print STDERR '[' . scalar(localtime(time())) . '] ' . $msg . "\n";
 }
 
 

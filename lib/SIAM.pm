@@ -25,18 +25,93 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
     use SIAM;
 
-    my $siam = new SIAM({configuration...}, {options...});
+    # Example SIAM configuration. You would normally load it
+    # from a YAML file instead of inline Perl
+    my $config = {
+      'Driver' => {
+        'Class' => 'XYZ::SIAM::Driver',
+        'Options' => {
+          'dblink' => {
+            'dsn' => 'DBI:mysql:database=xyz_inventory;host=dbhost',
+            'username' => 'siam',
+            'password' => 'Lu9iifoo',
+          },
+          'logger' => {
+            'screen' => {
+              'log_to'   => 'STDERR',
+              'maxlevel' => 'warning',
+              'minlevel' => 'emergency',
+          },
+        },
+      },
+      'Root' => {
+        'Attributes' => {
+          'siam.enterprise_name' => 'XYZ Inc.',
+          'siam.enterprise_url' => 'http://www.example.com',
+          'siam.enterprise_logo_url' => 'http://www.example.com/l.png',
+        },
+      },
+    };
+
+    my $siam = new SIAM($config) or die('Failed loading SIAM');
+    $siam->connect() or die('Failed connecting to SIAM');
+
+    # The monitoring system would normally need all the contracts.
+    # Walk down the hierarchy and retrieve the data for the
+    # monitoring software configuration
+
+    my $all_contracts = $siam->get_all_contracts();
+    foreach my $contract (@{$all_contracts}) {
+      my $services = $contract->get_services();
+      foreach my $service (@{$services}) {
+        my $units = $service->get_service_units();
+        foreach my $unit (@{$units}) {
+          # some useful attributes for the physical unit
+          my $host = $unit->attr('access.node.name');
+          my $port = $unit->attr('access.port.name');
+
+          # statistics associated with the service unit
+          my $dataelements = $unit->get_data_elements();
+          foreach my $element (@{$dataelements}) {
+            # do something with the element attributes            
+          }
+        }
+      }
+    }
+                                     
+    # The front-end system deals with privileges
+    my $user = $siam->get_user($uid) or return([0, 'User not found']);
+
+    # All the contracts this user is allowed to see
+    my $contracts =
+      $siam->get_contracts_by_user_privilege($user, 'ViewContract');
+
+    # ... walk down the hierarchy as shown above ...
+
+    # Prepare the unit attributes for display
+    my $attrs =
+      $siam->filter_visible_attributes($user, $unit->attributes());
+        
+    # Random access to an object
+    my $el =
+      $siam->instantiate_object('SIAM::ServiceDataElement', $id);
+
+    # Check privileges on a contract
+    if( $user->has_privilege('ViewContract', $contract) ) {
+      ...
+    }
+
+    # close the database connections
+    $siam->disconnect()
 
 
 =head1 METHODS
 
 =head2 new
 
-Expects two hash refs: configuration and options.
+Expects a hashref with SIAM configuration.
 
 =head3 Configuration
 
@@ -48,8 +123,22 @@ A hash with two entries: C<Class> identifying the driver module class
 which is going to be C<require>'d; and C<Options>, a hash which is
 supplied to the driver's C<new> method.
 
+=item * Root
+
+A hash that sets properties for the root object. The key C<Attributes>
+is expected, pointing to the following mandatory attributes:
+
+=over 8
+
+=item * siam.enterprise_name
+
+=item * siam.enterprise_url
+
+=item * siam.enterprise_logo_url
+
 =back
 
+=back
 
 =cut
 
@@ -57,7 +146,6 @@ sub new
 {
     my $class = shift;
     my $config = shift;
-    my $options = shift;
 
     my $drvclass = $config->{'Driver'}{'Class'};
     if( not defined($drvclass) )
@@ -156,6 +244,30 @@ sub disconnect
 {
     my $self = shift;
     $self->_driver->disconnect();
+}
+
+
+=head2 instantiate_object
+
+Expects the object class and ID. Returns an object retrieved from the driver.
+
+=cut
+
+sub instantiate_object
+{
+    my $self = shift;
+    my $obj_class = shift;
+    my $obj_id = shift;
+
+    my $obj = eval 'new ' . $obj_class . '($self->_driver, $obj_id)';
+    if( $@ )
+    {
+        $self->error('Cannot instantiate object of class "' . $obj_class .
+                     '" and ID "' . $obj_id . '": ' . $@);
+        return undef;
+    }
+    
+    return $obj;
 }
 
 

@@ -1,6 +1,6 @@
 #!perl -T
 
-use Test::More tests => 22;
+use Test::More tests => 23;
 
 use strict;
 use warnings;
@@ -43,6 +43,10 @@ ok( defined(my $siam = new SIAM($config)), 'load SIAM');
 
 note('connecting the driver');
 ok($siam->connect(), 'connect');
+
+ok(defined($siam->instantiate_object('SIAM::ServiceDataElement',
+                                     'SRVC0001.02.u01.d01')),
+   '$siam->instantiate_object');
 
 ### user: root
 note('testing the root user');

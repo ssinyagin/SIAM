@@ -7,7 +7,10 @@ The purpose of this universal API is to reduce the integration costs for
 such software systems as network monitoring, CRM, Customer self-service
 portals, etc.
 
-
+For more details, see:
+  lib/SIAM/Documentation/DataModel.pod  -- detailed data model specs
+  t/driver-simple.data.yaml             -- reference data for testing
+  lib/SIAM.pm                           -- API usage guidelines
 
 
 INSTALLATION

@@ -107,6 +107,39 @@ our $VERSION = '0.01';
     $siam->disconnect()
 
 
+=head1 INTRODUCTION
+
+Many Service Provider companies (ISP, Hosting, Carriers, ...) have their
+own, historically developed, databases for customer service
+inventory. Therefore any system that would require access to such data
+should be adapted to the local environment.
+
+SIAM is intended as a common API that would connect to
+enterprise-specific service inventory systems and present the inventory
+data in a uniform format. The purpose of this universal API is to reduce
+the integration costs for such software systems as network monitoring,
+CRM, Customer self-service portals, etc.
+
+We assume that monitoring systems (such as: Torrus, ...) and front-end
+systems (such as: Customer portal, Extopus, ...) would connect to SIAM
+to retrieve any service-specific information, and SIAM would deliver a
+complete set of data required for those client applications.
+
+SIAM does not include any database of its own: all data is retrieved
+directly from the enterprise systems and databases. The SIAM library
+communicates with the enterprise-specific I<driver> and presents
+the data in an abstracted way.
+
+SIAM takes its configuration data from a single hierarchical data
+structure. This data is usually read from a YAML file. The
+configuration describes all data connections, driver configuration,
+enterprise-specific modules, etc.
+
+The SIAM core modules are distributed as an open-source Perl package
+available at CPAN. Enterprise-specific modules are integrated in a way
+that the core can be upgraded without breaking any local setup.
+
+
 =head1 METHODS
 
 =head2 new
@@ -393,6 +426,9 @@ sub filter_visible_attributes
 
     
 
+=head1 SEE ALSO
+
+L<SIAM::Documentation::DataModel>, L<SIAM::Documentation::DriverSpec>
 
 
 =head1 AUTHOR

@@ -19,7 +19,6 @@ my $builder = Module::Build->new(
         'Log::Handler' => 0,
     },
     add_to_cleanup      => [ 'SIAM-*' ],
-    create_makefile_pl => 'traditional',
 );
 
 $builder->create_build_script();

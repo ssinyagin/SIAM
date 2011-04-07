@@ -48,3 +48,5 @@
 
 # Pod2HTML leftovers
 \bpod2htm.+\.tmp$
+
+^MYMETA.yml$

@@ -14,4 +14,4 @@ MANIFEST
 MANIFEST.bak
 MANIFEST.SKIP.bak
 META.yml
-Makefile.PL
+MYMETA.yml

@@ -35,6 +35,13 @@ Attribute values are strings in UTF-8 encoding. The client software
 should treat UTF-8 correctly, especially where it deals with names and
 addresses.
 
+Some objects may also define I<computables>. A computable is a special
+attribute which requires substantial CPU time to derive its
+value. Computables are not retrieved automatically among other
+attributes, and are only delivered via explicit method calls. In case if
+the underlying driver does not support a particular computable, it
+should return an empty string.
+
 In this document, XYZ refers to the enterprise name.
 
 =head2 SIAM::Object
@@ -138,6 +145,17 @@ modification time.
 
 =back
 
+Computables:
+
+=over 4
+
+=item * contract.content_md5hash
+
+Returns a hex string representing the MD5 hash of all the objects
+related to this contract. The client application may use this value as
+an indicator if it has to refresh its internal cache. 
+
+=back
 
 Attribute examples:
 

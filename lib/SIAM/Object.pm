@@ -193,6 +193,22 @@ sub attributes
 }
 
 
+=head2 computable
+
+ $val = $contract->computable('contract.content_md5hash');
+
+Returns a value of a computable.
+
+=cut
+
+sub computable
+{
+    my $self = shift;
+    my $key = shift;
+    return $self->_driver->fetch_computable($self->id, $key);
+}
+
+
 
 
 =head2 is_root

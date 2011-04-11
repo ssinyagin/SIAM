@@ -11,12 +11,14 @@ my $builder = Module::Build->new(
         'Test::More' => 0,
         'YAML' => 0,
         'Log::Handler' => 0,
+        'Digest::MD5' => 0,
     },
     requires => {
     },
     recommends => {
         'YAML' => 0,
         'Log::Handler' => 0,
+        'Digest::MD5' => 0,
     },
     add_to_cleanup      => [ 'SIAM-*' ],
 );

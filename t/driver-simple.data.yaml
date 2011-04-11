@@ -2,6 +2,8 @@
 
 ---
 # Reference test data for SIAM::Driver::Simple
+# WARNING: t/10-driver-simple.t verifies the MD5 data of this data. Update the
+# test script if you modify the contents below.
 
 # Contracts and services
 

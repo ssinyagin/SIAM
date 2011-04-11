@@ -5,6 +5,7 @@ use strict;
 
 use YAML ();
 use Log::Handler;
+use Digest::MD5 ();
 
 =head1 NAME
 
@@ -184,7 +185,7 @@ sub _import_object
     }
     
     $self->{'objects'}{$id} = $dup;    
-    $self->{'contains'}{$class}{$container_id}{$id} = 1;
+    $self->{'contains'}{$container_id}{$class}{$id} = 1;
     $self->{'container'}{$id} = $container_id;
         
     if( defined($obj->{'_contains_'}) )
@@ -250,6 +251,69 @@ sub fetch_attributes
 }
     
 
+=head2 fetch_computable
+
+  $value = $driver->fetch_computable($id, $key);
+
+Retrieve a computable. Return empty string if unsupported.
+
+=cut
+
+sub fetch_computable
+{
+    my $self = shift;
+    my $id = shift;
+    my $key = shift;
+
+    my $obj = $self->{'objects'}{$id};
+    if( not defined($obj) )
+    {
+        $self->error('Object not found: ' . $id );
+        return undef;
+    }
+
+    if( $key eq 'contract.content_md5hash' )
+    {
+        if( $obj->{'object.class'} eq 'SIAM::Contract' )
+        {
+            my $md5 = new Digest::MD5;
+            $self->_object_content_md5($id, $md5);
+            return $md5->hexdigest();
+        }
+    }
+    
+    return '';
+}
+            
+
+# recursively add all contained objects for MD5 calculation
+sub _object_content_md5
+{
+    my $self = shift;
+    my $id = shift;
+    my $md5 = shift;
+
+    my $obj = $self->{'objects'}{$id};
+    
+    foreach my $attr (sort keys %{$obj})
+    {
+        $md5->add($attr . '//' . $obj->{$attr});
+    }
+
+    if( defined($self->{'contains'}{$id}) )
+    {
+        foreach my $class (sort keys %{$self->{'contains'}{$id}})
+        {
+            foreach my $contained_id (sort
+                                      keys %{$self->{'contains'}{$id}{$class}})
+            {
+                $self->_object_content_md5($contained_id, $md5);
+            }
+        }        
+    }
+}
+    
+
 
 =head2 fetch_contained_object_ids
 
@@ -289,9 +353,9 @@ sub fetch_contained_object_ids
         }
     }
     
-    if( defined($self->{'contains'}{$class}{$container_id}) )
+    if( defined($self->{'contains'}{$container_id}{$class}) )
     {
-        push(@{$ret}, keys %{$self->{'contains'}{$class}{$container_id}});
+        push(@{$ret}, keys %{$self->{'contains'}{$container_id}{$class}});
     }
 
     return $ret;

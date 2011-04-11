@@ -60,6 +60,15 @@ methods.
 
 
 
+=head2 fetch_computable
+
+  $value = $driver->fetch_computable($id, $key);
+
+Returns a computable value for the object. The driver must return empty
+string if the computable is not supported. Returns undef if the object
+ID is invalid.
+
+
 =head2 fetch_contained_object_ids
 
   $ids = $driver->fetch_contained_object_ids($id, $classname, $options);

@@ -1,6 +1,6 @@
 #!perl -T
 
-use Test::More tests => 27;
+use Test::More tests => 30;
 
 use strict;
 use warnings;
@@ -197,7 +197,22 @@ ok($x2->attr('object.class') eq 'SIAM::ServiceUnit') or
 ok($x2->id eq 'SRVC0001.02.u01') or
     diag('contained_in() returned object.id: ' . $x2->id);
 
-   
+### contract.content_md5hash
+note('testing computable: contract.content_md5hash');
+my $md5sum = $user2_contracts->[0]->computable('contract.content_md5hash');
+ok(defined($md5sum) and $md5sum ne '') or
+    diag('Computable contract.content_md5hash returned undef or empty string');
+
+my $expected_md5 = 'a04984facd3492a127f20c42048a2155';
+ok($md5sum eq $expected_md5) or
+    diag('Computable contract.content_md5hash returned unexpected value: ' .
+         $md5sum);
+
+$siam->_driver->{'objects'}{'SRVC0001.02.u01.d01'}{'torrus.nodeid'} = 'xx';
+ok($user2_contracts->[0]->computable('contract.content_md5hash') ne
+   $expected_md5) or
+    diag('Computable contract.content_md5hash did not change as expected');
+
 
 
 

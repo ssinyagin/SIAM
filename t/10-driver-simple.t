@@ -1,9 +1,11 @@
 #!perl -T
 
-use Test::More tests => 30;
+use Test::More tests => 32;
 
 use strict;
 use warnings;
+use File::Temp qw/tempfile/;
+use YAML ();
 use SIAM;
 use SIAM::Driver::Simple;
 
@@ -213,6 +215,23 @@ ok($user2_contracts->[0]->computable('contract.content_md5hash') ne
    $expected_md5) or
     diag('Computable contract.content_md5hash did not change as expected');
 
+
+### clone_data
+note('testing SIAM::Driver::Simple->clone_data');
+my ($fh, $filename) = tempfile();
+binmode($fh, ':utf8');
+
+ok(SIAM::Driver::Simple->clone_data($siam, $fh,
+                                    {'SIAM::Contract' => '0002$'}));
+$fh->close;
+my $data = YAML::LoadFile($filename);
+my $len = scalar(@{$data});
+ok( $len == 18 ) or
+    diag('clone_data is expected to produce array of size 18, got: ' . $len);
+
+unlink $filename;
+
+   
 
 
 

@@ -90,6 +90,15 @@ In this example, only the contracts which match the specified access
 scopes are returned.
 
 
+=head2 fetch_contained_classes
+
+  $classes = $driver->fetch_contained_classes($id);
+
+The method returns an arrayref with all object classes that are
+contained within the specified object.
+
+
+
 =head2 fetch_container
 
   $attr = $driver->fetch_container($id);

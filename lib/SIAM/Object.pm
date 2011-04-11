@@ -270,7 +270,8 @@ sub validate_driver
 
     my $ok = 1;
     foreach my $m ('fetch_attributes', 'fetch_contained_object_ids',
-                   'fetch_container', 'errmsg', 'connect', 'disconnect')
+                   'fetch_contained_classes', 'fetch_container',
+                   'errmsg', 'connect', 'disconnect')
     {
         if( not $driver->can($m) )
         {

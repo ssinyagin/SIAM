@@ -54,20 +54,12 @@ are only meaningful within the driver data model.  Maximum length: 1024
 bytes. The identifiers starting with the string I<SIAM.> are reserved to
 the SIAM internals and must not be used by the drivers.
 
-
 =item * object.class
 
 The full Perl package name of the object, such as I<SIAM::ServiceUnit>.
 The back-end drivers should rely on these values in their internal
 logics.  The drivers should be flexible enough to accept new object
 classes without breaking the logics.
-
-=item * object.container_id
-
-Each object (except for the root) is contained in another object, and
-may also be a container for other objects. This attribute defines the ID
-of the container object. The root object has this attribute set to C<NIL>, and
-it is the most reliable way to identify the root object.
 
 =back
 

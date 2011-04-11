@@ -41,9 +41,7 @@ C<SIAM::Service> objects.
 
 All other keys in the object entry define the object attributes. The
 values are expected to be strings and numbers. The data file should
-define all the attributes, including C<object.id> and C<object.class>,
-with a single exclusion for C<object.container_id> which is calculated
-automatically.
+define all the attributes, including C<object.id> and C<object.class>.
 
 See the file I<t/driver-simple.data.yaml> in SIAM package distribution
 for reference.
@@ -137,6 +135,7 @@ sub connect
     $self->{'objects'} = {};
     $self->{'attr_index'} = {};
     $self->{'contains'} = {};
+    $self->{'container'} = {};
     $self->{'data_ready'} = 1;
     
     foreach my $obj (@{$data})
@@ -186,7 +185,8 @@ sub _import_object
     
     $self->{'objects'}{$id} = $dup;    
     $self->{'contains'}{$class}{$container_id}{$id} = 1;
-
+    $self->{'container'}{$id} = $container_id;
+        
     if( defined($obj->{'_contains_'}) )
     {
         foreach my $contained_obj (@{$obj->{'_contains_'}})
@@ -210,6 +210,7 @@ sub disconnect
     delete $self->{'objects'};
     delete $self->{'attr_index'};
     delete $self->{'contains'};
+    delete $self->{'container'};
     $self->{'data_ready'} = 0;
 }
 
@@ -297,6 +298,34 @@ sub fetch_contained_object_ids
 }
 
 
+=head2 fetch_container
+
+  $attr = $driver->fetch_container($id);
+
+Retrieve the container ID and class.
+
+=cut
+
+sub fetch_container
+{
+    my $self = shift;
+    my $id = shift;
+
+    my $container_id = $self->{'container'}{$id};
+    if( not defined($container_id) )
+    {
+        return undef;
+    }
+
+    my $ret = {'object.id' => $container_id};
+    if( $container_id ne 'SIAM.ROOT' )
+    {
+        $ret->{'object.class'} =
+            $self->{'objects'}{$container_id}{'object.class'};
+    }
+    
+    return $ret;
+}
 
 
 =head2 errmsg

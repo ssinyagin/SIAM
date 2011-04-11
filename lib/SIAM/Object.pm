@@ -71,6 +71,29 @@ sub new
 }
 
 
+=head2 instantiate_object
+
+Expects the object class and ID. Returns an object retrieved from the driver.
+
+=cut
+
+sub instantiate_object
+{
+    my $self = shift;
+    my $obj_class = shift;
+    my $obj_id = shift;
+
+    my $obj = eval 'new ' . $obj_class . '($self->_driver, $obj_id)';
+    if( $@ )
+    {
+        $self->error('Cannot instantiate object of class "' . $obj_class .
+                     '" and ID "' . $obj_id . '": ' . $@);
+        return undef;
+    }
+    
+    return $obj;
+}
+
 
 =head2 get_contained_objects
 
@@ -191,6 +214,29 @@ starting with I<SIAM.>)
 sub is_predefined { substr(shift->id, 0, 5) eq 'SIAM.' }
 
 
+=head2 contained_in
+
+Returns the object that contains this object. Returns undef if container
+is the root object.
+
+=cut
+
+sub contained_in
+{
+    my $self = shift;
+
+    my $attr = $self->_driver->fetch_container($self->id);
+    if( $attr->{'object.id'} eq 'SIAM.ROOT' )
+    {
+        return undef;
+    }
+    
+    return $self->instantiate_object($attr->{'object.class'},
+                                     $attr->{'object.id'});
+}
+    
+
+
 =head1 CLASS METHODS
 
 =head2 validate_driver
@@ -208,7 +254,7 @@ sub validate_driver
 
     my $ok = 1;
     foreach my $m ('fetch_attributes', 'fetch_contained_object_ids',
-                   'errmsg', 'connect', 'disconnect')
+                   'fetch_container', 'errmsg', 'connect', 'disconnect')
     {
         if( not $driver->can($m) )
         {

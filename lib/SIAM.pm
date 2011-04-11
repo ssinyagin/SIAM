@@ -280,29 +280,6 @@ sub disconnect
 }
 
 
-=head2 instantiate_object
-
-Expects the object class and ID. Returns an object retrieved from the driver.
-
-=cut
-
-sub instantiate_object
-{
-    my $self = shift;
-    my $obj_class = shift;
-    my $obj_id = shift;
-
-    my $obj = eval 'new ' . $obj_class . '($self->_driver, $obj_id)';
-    if( $@ )
-    {
-        $self->error('Cannot instantiate object of class "' . $obj_class .
-                     '" and ID "' . $obj_id . '": ' . $@);
-        return undef;
-    }
-    
-    return $obj;
-}
-
 
 =head2 get_user
 

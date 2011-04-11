@@ -275,7 +275,7 @@ sub validate_driver
         if( not $driver->can($m) )
         {
             SIAM::Object->critical
-                  ('The driver of class ' . ref($driver) . 'does not ' .
+                  ('The driver of class ' . ref($driver) . ' does not ' .
                    'implement a required method: ' . $m);
             $ok = 0;
         }

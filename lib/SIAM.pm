@@ -216,6 +216,12 @@ sub new
         return undef;
     }
 
+    if( not SIAM::Object->validate_driver($driver) )
+    {
+        SIAM::Object->critical('Failed to validate the driver');
+        return undef;
+    }
+
     my $root_attr = $config->{'Root'}{'Attributes'};
     if( not defined($root_attr) )
     {

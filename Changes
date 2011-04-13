@@ -3,3 +3,11 @@ Revision history for SIAM
 0.01    2011-04-04
         First version uploaded to CPAN
 
+0.02    2011-04-13
+        * Removed Makefile.PL from distribution
+        * Replaced object.container_id with a method contained_in()
+        * Moved instantiate_object() from SIAM into SIAM::Object
+        * Added computable: contract.content_md5hash
+        * Enabled driver validation
+        * Added method: SIAM::Driver::Simple->clone_data
+        

@@ -16,7 +16,7 @@ my $builder = Module::Build->new(
     requires => {
     },
     recommends => {
-        'YAML' => 0,
+        'YAML' => 0.71,
         'Log::Handler' => 0,
         'Digest::MD5' => 0,
     },

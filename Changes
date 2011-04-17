@@ -1,6 +1,6 @@
 Revision history for SIAM
 
-0.03    2011-04-16
+0.04    2011-04-17
         * YAML version 0.71 or higher required. The older ones did not treat
         UTF-8 data correclty.
 

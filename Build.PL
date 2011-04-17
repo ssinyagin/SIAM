@@ -9,7 +9,7 @@ my $builder = Module::Build->new(
     dist_version_from   => 'lib/SIAM.pm',
     build_requires => {
         'Test::More' => 0,
-        'YAML' => 0,
+        'YAML' => 0.71,
         'Log::Handler' => 0,
         'Digest::MD5' => 0,
     },

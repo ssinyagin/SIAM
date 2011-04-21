@@ -1,6 +1,6 @@
 #!perl -T
 
-use Test::More tests => 32;
+use Test::More tests => 35;
 
 use strict;
 use warnings;
@@ -191,6 +191,22 @@ ok($x2->attr('siam.object.class') eq 'SIAM::ServiceUnit') or
 ok($x2->id eq 'SRVC0001.02.u01') or
     diag('contained_in() returned siam.object.id: ' . $x2->id);
 
+
+### Devices and Service Units
+note('testing Device and ServiceUnit relationship');
+my $dev = $siam->get_device('ZUR8050AN33');
+ok(defined($dev)) or diag('$siam->get_device(\'ZUR8050AN33\') returned undef');
+
+$units = $dev->get_all_service_units();
+ok(scalar(@{$units}) == 1) or
+    diag('$dev->get_all_service_units() is expected to return 1 unit, got: ' .
+         scalar(@{$units}));
+
+my $unit_id = $units->[0]->id();
+ok($unit_id eq 'SRVC0001.01.u01') or
+    diag('$dev->get_all_service_units() returned "' . $unit_id .
+         '", but expected "SRVC0001.01.u01"');
+
 ### siam.contract.content_md5hash
 note('testing computable: siam.contract.content_md5hash');
 my $md5sum =
@@ -199,7 +215,7 @@ ok(defined($md5sum) and $md5sum ne '') or
     diag('Computable siam.contract.content_md5hash ' .
          'returned undef or empty string');
 
-my $expected_md5 = '49bda22d2f15a14ccab65fa4dbd94747';
+my $expected_md5 = '66efbf6c2a52abb70952acbfe6bea62c';
 ok($md5sum eq $expected_md5) or
     diag('Computable siam.contract.content_md5hash ' .
          'returned unexpected value: ' . $md5sum);
@@ -220,8 +236,8 @@ ok(SIAM::Driver::Simple->clone_data($siam, $fh,
 $fh->close;
 my $data = YAML::LoadFile($filename);
 my $len = scalar(@{$data});
-ok( $len == 18 ) or
-    diag('clone_data is expected to produce array of size 18, got: ' . $len);
+ok( $len == 22 ) or
+    diag('clone_data is expected to produce array of size 22, got: ' . $len);
 
 unlink $filename;
 

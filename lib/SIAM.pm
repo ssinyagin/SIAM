@@ -360,7 +360,46 @@ sub filter_visible_attributes
     return $attrs_out;
 }
 
+
+=head2 get_all_devices
+
+Returns an arrayref with all available C<SIAM::Device> objects.
+
+=cut
+
+sub get_all_devices
+{
+    my $self = shift;
+    return $self->get_contained_objects('SIAM::Device');
+}
+
+
+=head2 get_device
+
+Takes the device inventory ID and returns an C<SIAM::Device> object.
+
+=cut
+
+sub get_device
+{
+    my $self = shift;
+    my $invid = shift;
     
+    my $devices = $self->get_contained_objects
+        ('SIAM::Device',
+         {'match_attribute' => ['siam.device.inventory_id', [$invid]]});
+    
+    if( scalar(@{$devices}) > 1 )
+    {
+        $self->error('Driver returned more than one SIAM::Device object ' .
+                     ' with siam.device.inventory_id=' . $invid);
+    }
+    return $devices->[0];
+}
+
+
+
+
 
 =head1 SEE ALSO
 

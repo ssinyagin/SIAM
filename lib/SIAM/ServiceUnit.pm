@@ -6,6 +6,7 @@ use strict;
 use base 'SIAM::Object';
 
 use SIAM::ServiceDataElement;
+use SIAM::Device;
 
 =head1 NAME
 
@@ -36,6 +37,7 @@ my $mandatory_attributes =
     [ 'siam.svcunit.name',
       'siam.svcunit.type',
       'siam.svcunit.inventory_id',
+      'siam.svcunit.device_id',
       'siam.svcunit.location' ];
 
 sub _mandatory_attributes

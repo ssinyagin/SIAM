@@ -31,7 +31,7 @@
           siam.svcunit.type:         fttx.p2p
           siam.svcunit.inventory_id: BIS.64876.45
           siam.svcunit.location:     Musterstrasse 10, 8050 Zürich
-          access.node.name:          ZUR8050AN33
+          siam.svcunit.device_id:    DEV_ZUR8050AN33
           access.port.name:          Gi3/0/5
           access.speed.downstream:   100
           access.speed.upstream:     20
@@ -54,7 +54,7 @@
           siam.svcunit.name:         BIS.89999.56
           siam.svcunit.type:         fttx.p2p
           siam.svcunit.inventory_id: BIS.89999.56
-          access.node.name:          OLT4600AN03
+          siam.svcunit.device_id:    DEV_OLT4600AN03
           siam.svcunit.location:     Musterstrasse 5, 4600 Olten
           access.port.name:          Gi1/0/7
           access.speed.downstream:   100
@@ -86,7 +86,7 @@
           siam.svcunit.name:         BRS.8979.23
           siam.svcunit.type:         rackspace
           siam.svcunit.inventory_id: BRS.8979.23
-          access.node.name:          DUB8600AN04
+          siam.svcunit.device_id:    DEV_DUB8600AN04
           siam.svcunit.location:     Datastrasse 77, 8600 Dübendorf
           access.port.name:          Gi1/2/1
           access.ip_prefix:          2607:f140:55::00/64
@@ -125,7 +125,7 @@
           siam.svcunit.type:         vps
           siam.svcunit.inventory_id: VPH.8788.99
           siam.svcunit.location:     Datastrasse 78, 8600 Dübendorf
-          vm.phy.host:               DUB8600VH05
+          siam.svcunit.device_id:    DEV_DUB8600VH05
           vm.phy.type:               esxi
           vm.ram.limit:              1024
           vm.ram.guaranteed:         512
@@ -149,6 +149,34 @@
               torrus.nodeid:             xyz-vm://VPH.8788.99//cpu
           
 
+# Devices
+-
+  siam.object.id:            DEV_ZUR8050AN33
+  siam.object.class:         SIAM::Device
+  siam.device.inventory_id:  ZUR8050AN33
+  snmp.managed:              1
+  snmp.host:                 ZUR8050AN33.domain.net
+  
+-
+  siam.object.id:            DEV_OLT4600AN03
+  siam.object.class:         SIAM::Device
+  siam.device.inventory_id:  OLT4600AN03
+  snmp.managed:              1
+  snmp.host:                 OLT4600AN03.domain.net
+  
+-
+  siam.object.id:            DEV_DUB8600AN04
+  siam.object.class:         SIAM::Device
+  siam.device.inventory_id:  DUB8600AN04
+  snmp.managed:              1
+  snmp.host:                 DUB8600AN04.domain.net
+
+-
+  siam.object.id:            DEV_DUB8600VH05
+  siam.object.class:         SIAM::Device
+  siam.device.inventory_id:  DUB8600VH05
+  snmp.managed:              1
+  snmp.host:                 DUB8600VH05.domain.net
 
 # Users and access control
 

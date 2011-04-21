@@ -16,11 +16,11 @@ SIAM - Service Inventory Abstraction Model
 
 =head1 VERSION
 
-Version 0.05_00
+Version 0.05
 
 =cut
 
-our $VERSION = '0.05_00';
+our $VERSION = '0.05';
 
 
 =head1 SYNOPSIS

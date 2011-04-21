@@ -45,7 +45,6 @@
               siam.svcdata.name:         Traffic Statistics
               siam.svcdata.type:         TrafficStats
               siam.svcdata.driver_class: Torrus::SIAM::TimeSeries
-              siam.svcdata.available:    1
               torrus.tree-url:           http://test01.torrus.net/torrus/main
               torrus.nodeid:             xyz-if://BIS.64876.45//inout
           
@@ -70,7 +69,6 @@
               siam.svcdata.name:         Traffic Statistics
               siam.svcdata.type:         TrafficStats
               siam.svcdata.driver_class: Torrus::SIAM::TimeSeries
-              siam.svcdata.available:    1
               torrus.tree-url:           http://test01.torrus.net/torrus/main
               torrus.nodeid:             xyz-if://BIS.89999.56//inout
 
@@ -102,7 +100,6 @@
               siam.svcdata.name:         Traffic Statistics
               siam.svcdata.type:         TrafficStats
               siam.svcdata.driver_class: Torrus::SIAM::TimeSeries
-              siam.svcdata.available:    1
               torrus.tree-url:           http://test01.torrus.net/torrus/main
               torrus.nodeid:             xyz-if://BRS.8979.23//inout
       
@@ -140,7 +137,6 @@
               siam.svcdata.name:         Memory Usage
               siam.svcdata.type:         MemoryStats
               siam.svcdata.driver_class: Torrus::SIAM::TimeSeries
-              siam.svcdata.available:    1
               torrus.tree-url:           http://test01.torrus.net/torrus/main
               torrus.nodeid:             xyz-vm://VPH.8788.99//mem
             -
@@ -149,7 +145,6 @@
               siam.svcdata.name:         CPU Usage
               siam.svcdata.type:         CPUStats
               siam.svcdata.driver_class: Torrus::SIAM::TimeSeries
-              siam.svcdata.available:    1
               torrus.tree-url:           http://test01.torrus.net/torrus/main
               torrus.nodeid:             xyz-vm://VPH.8788.99//cpu
           

@@ -199,7 +199,7 @@ ok(defined($md5sum) and $md5sum ne '') or
     diag('Computable siam.contract.content_md5hash ' .
          'returned undef or empty string');
 
-my $expected_md5 = '2c004ff24b9399108171e5b3359c9c18';
+my $expected_md5 = '49bda22d2f15a14ccab65fa4dbd94747';
 ok($md5sum eq $expected_md5) or
     diag('Computable siam.contract.content_md5hash ' .
          'returned unexpected value: ' . $md5sum);

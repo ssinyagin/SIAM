@@ -52,6 +52,13 @@ sub new
             return undef;
         }
 
+        # set siam.object.complete to true if undefined
+        if( not defined($self->{'_attr'}{'siam.object.complete'}) )
+        {
+            $self->{'_attr'}{'siam.object.complete'} = 1;
+        }
+
+        # check if mandatory attributes are defined by the driver
         if( $self->can('_mandatory_attributes') )
         {
             foreach my $attr (@{ $self->_mandatory_attributes() })

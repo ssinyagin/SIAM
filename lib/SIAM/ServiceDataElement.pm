@@ -23,8 +23,7 @@ SIAM::ServiceDataElement - Service data element object class
 my $mandatory_attributes =
     [ 'siam.svcdata.name',
       'siam.svcdata.type',
-      'siam.svcdata.driver_class',
-      'siam.svcdata.available' ];
+      'siam.svcdata.driver_class' ];
 
 sub _mandatory_attributes
 {

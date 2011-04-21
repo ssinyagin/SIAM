@@ -68,6 +68,16 @@ The back-end drivers should rely on these values in their internal
 logics.  The drivers should be flexible enough to accept new object
 classes without breaking the logics.
 
+=item * siam.object.complete
+
+The attribute should return true value when it's completely ready to
+use. For example, a Service Data Element object may not be ready to
+deliver the data because the underlying system has not yet prepared
+it. In this case, this attribute would return false value.
+
+If the driver does not deliver a value for this attribute, SIAM::Object
+sets it to true.
+
 =back
 
 
@@ -275,13 +285,6 @@ representation based on the value of this attribute. Example:
 
 Name of the data driver. 
 Examples: I<Torrus::SIAM::TimeSeries>, I<Torrus::SIAM::MonthlyUsage>
-
-=item * siam.svcdata.available
-
-If the data driver is not ready to provide the data, this
-attribute must return false value. The front-end system should inform
-the user that the data is currently unavailable if this attribute
-returns a false value.
 
 =back
 

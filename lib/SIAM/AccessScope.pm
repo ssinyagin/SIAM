@@ -18,7 +18,7 @@ SIAM::AccessScope - access scope object class
 
 =head2 new
 
-  $scope = new SIAM::AccessScope($driver, {'object.id' => $id})
+  $scope = new SIAM::AccessScope($driver, {'siam.object.id' => $id})
 
 Instantiates a new object. The following object IDs are predefined and
 are not fetched from the driver:
@@ -42,14 +42,14 @@ implicitly in it.
 my %match_all_id =
     ('SIAM.SCOPE.ALL.CONTRACTS' =>
      {
-      'scope.name' => 'AllContracts',
-      'scope.applies_to' => 'SIAM::Contract',
+      'siam.scope.name' => 'AllContracts',
+      'siam.scope.applies_to' => 'SIAM::Contract',
      },
      
      'SIAM.SCOPE.ALL.ATTRIBUTES' =>
      {
-      'scope.name' => 'AllAttributes',
-      'scope.applies_to' => 'SIAM::Attribute',
+      'siam.scope.name' => 'AllAttributes',
+      'siam.scope.applies_to' => 'SIAM::Attribute',
      },
     );
 
@@ -65,7 +65,7 @@ sub new
         my $self = {};
         bless $self, $class;
 
-        $self->{'_attr'} = {'object.id' => $id};
+        $self->{'_attr'} = {'siam.object.id' => $id};
         while( my($key, $val) = each %{$match_all_id{$id}} )
         {
             $self->{'_attr'}{$key} = $val;
@@ -93,8 +93,8 @@ sub match_object
     my $self = shift;
     my $obj = shift;
 
-    # scope.applies_to should match the object class
-    if( $obj->attr('object.class') ne $self->attr('scope.applies_to') )
+    # siam.scope.applies_to should match the object class
+    if( $obj->attr('siam.object.class') ne $self->attr('siam.scope.applies_to') )
     {
         return undef;
     }
@@ -108,7 +108,7 @@ sub match_object
     # check if object ID matches one of our members
     my $members = $self->get_contained_objects
         ('SIAM::ScopeMember',
-         {'match_attribute' => ['scmember.object_id', [$obj->id()]]});
+         {'match_attribute' => ['siam.scmember.object_id', [$obj->id()]]});
 
     if( scalar(@{$members}) > 0 )
     {
@@ -162,7 +162,7 @@ sub matches_all
     my $objclass = shift;
 
     return( defined($match_all_id{$id}) and
-            $match_all_id{$id}{'scope.applies_to'} eq $objclass );
+            $match_all_id{$id}{'siam.scope.applies_to'} eq $objclass );
 }
 
 
@@ -170,8 +170,8 @@ sub matches_all
 # mandatory attributes
 
 my $mandatory_attributes =
-    [ 'scope.name',
-      'scope.applies_to' ];
+    [ 'siam.scope.name',
+      'siam.scope.applies_to' ];
 
 sub _mandatory_attributes
 {

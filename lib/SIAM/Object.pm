@@ -39,8 +39,8 @@ sub new
     my $self = {};
     bless $self, $class;
 
-    $self->{'_attr'} = {'object.id'    => $id,
-                        'object.class' => $class};    
+    $self->{'_attr'} = {'siam.object.id'    => $id,
+                        'siam.object.class' => $class};    
     $self->{'_driver'} = $driver;
 
     # retrieve attributes from the driver unless I am root
@@ -111,7 +111,7 @@ define a filter criteria as follows:
 
  my $list =
    $siam->get_contained_objects('SIAM::Contract', {
-       'match_attribute' => [ 'object.access_scope_id',
+       'match_attribute' => [ 'siam.object.access_scope_id',
                                  ['SCOPEID01', 'SCOPEID02'] ]
      });
 
@@ -151,16 +151,16 @@ sub get_contained_objects
 
 =head2 id
 
-Returns a value of C<object.id> attribute
+Returns a value of C<siam.object.id> attribute
 
 =cut
 
-sub id { shift->attr('object.id') }
+sub id { shift->attr('siam.object.id') }
 
 
 =head2 attr
 
- $val = $contract->attr('contract.inventory_id');
+ $val = $contract->attr('siam.contract.inventory_id');
 
 Returns a value of an attribute.
 
@@ -195,7 +195,7 @@ sub attributes
 
 =head2 computable
 
- $val = $contract->computable('contract.content_md5hash');
+ $val = $contract->computable('siam.contract.content_md5hash');
 
 Returns a value of a computable.
 
@@ -242,13 +242,13 @@ sub contained_in
     my $self = shift;
 
     my $attr = $self->_driver->fetch_container($self->id);
-    if( $attr->{'object.id'} eq 'SIAM.ROOT' )
+    if( $attr->{'siam.object.id'} eq 'SIAM.ROOT' )
     {
         return undef;
     }
     
-    return $self->instantiate_object($attr->{'object.class'},
-                                     $attr->{'object.id'});
+    return $self->instantiate_object($attr->{'siam.object.class'},
+                                     $attr->{'siam.object.id'});
 }
     
 

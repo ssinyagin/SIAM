@@ -18,7 +18,7 @@ SIAM::ScopeMember - Scope Member object class
 
 =head2 points_to
 
-Returns the value of C<scmember.object_id> attribute.
+Returns the value of C<siam.scmember.object_id> attribute.
 
 =cut
 
@@ -26,7 +26,7 @@ Returns the value of C<scmember.object_id> attribute.
 sub points_to
 {
     my $self = shift;
-    return $self->attr('scmember.object_id');
+    return $self->attr('siam.scmember.object_id');
 }
 
 
@@ -44,7 +44,7 @@ sub match_object
     my $self = shift;
     my $obj = shift;
 
-    return ($obj->id eq $self->attr('scmember.object_id'));
+    return ($obj->id eq $self->attr('siam.scmember.object_id'));
 }
 
 
@@ -52,7 +52,7 @@ sub match_object
 # mandatory attributes
 
 my $mandatory_attributes =
-    [ 'scmember.object_id' ];
+    [ 'siam.scmember.object_id' ];
 
 sub _mandatory_attributes
 {

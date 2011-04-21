@@ -36,7 +36,7 @@ sub has_privilege
 
     my $privileges = $self->get_contained_objects
         ('SIAM::Privilege',
-         {'match_attribute' => ['privilege.type', [$priv]]});
+         {'match_attribute' => ['siam.privilege.type', [$priv]]});
 
     foreach my $privilege (@{$privileges})
     {
@@ -69,7 +69,7 @@ sub get_objects_by_privilege
     
     my $privileges = $self->get_contained_objects
         ('SIAM::Privilege',
-         {'match_attribute' => ['privilege.type', [$priv]]});
+         {'match_attribute' => ['siam.privilege.type', [$priv]]});
 
     # Driver may return the same scope twice, so we keep track of which scopes
     # we've already seen
@@ -109,7 +109,7 @@ sub get_objects_by_privilege
     
     return $objcontainer->get_contained_objects
         ($objclass,
-         {'match_attribute' => ['object.id', [keys %object_ids]]});
+         {'match_attribute' => ['siam.object.id', [keys %object_ids]]});
 }
     
 
@@ -122,7 +122,7 @@ sub get_objects_by_privilege
 # mandatory attributes
 
 my $mandatory_attributes =
-    [ 'user.uid' ];
+    [ 'siam.user.uid' ];
 
 sub _mandatory_attributes
 {

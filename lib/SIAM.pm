@@ -252,11 +252,11 @@ sub get_user
     my $uid = shift;
 
     my $users = $self->get_contained_objects
-        ('SIAM::User', {'match_attribute' => ['user.uid', [$uid]]});
+        ('SIAM::User', {'match_attribute' => ['siam.user.uid', [$uid]]});
     if( scalar(@{$users}) > 1 )
     {
         $self->error('Driver returned more than one SIAM::User object with ' .
-                     'user.uid=' . $uid);
+                     'siam.user.uid=' . $uid);
     }
     return $users->[0];
 }
@@ -329,7 +329,7 @@ sub filter_visible_attributes
 
     my $privileges = $user->get_contained_objects
         ('SIAM::Privilege',
-         {'match_attribute' => ['privilege.type', ['ViewAttribute']]});
+         {'match_attribute' => ['siam.privilege.type', ['ViewAttribute']]});
     
     foreach my $privilege (@{$privileges})
     {

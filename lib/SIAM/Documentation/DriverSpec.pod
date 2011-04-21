@@ -49,7 +49,7 @@ internal memory. The driver should be able to connect() again.
  $status = $driver->fetch_attributes($attrs);
 
 The argument is a hash reference that contains the SIAM::Object mandatory
-attributes (C<object.id> and C<object.class>).
+attributes (C<siam.object.id> and C<siam.object.class>).
 
 The driver should populate the provided hashref with the rest of the object's
 attributes, based on its ID and class.
@@ -81,7 +81,7 @@ Options define a filter as follows. If no filter is defined, all
 relevant object IDs should be returned.
 
   $ids = $driver->fetch_contained_object_ids($id, 'SIAM::Contract', {
-       'match_attribute' => [ 'object.access_scope_id',
+       'match_attribute' => [ 'siam.object.access_scope_id',
                                  ['SCOPEID01', 'SCOPEID02'] ]
       }
      );
@@ -103,13 +103,13 @@ contained within the specified object.
 
   $attr = $driver->fetch_container($id);
 
-The method returns a hashref containing C<object.id> and C<object.class>
-attribute values of the object that is a container for the specified
-object.
+The method returns a hashref containing C<siam.object.id> and
+C<siam.object.class> attribute values of the object that is a container
+for the specified object.
 
 The method returns undef if the specified object ID does not exist.
 
-If the container is the SIAM root, only the C<object.id> attribute
+If the container is the SIAM root, only the C<siam.object.id> attribute
 should be returned, with the value I<SIAM.ROOT>.
 
 

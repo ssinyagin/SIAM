@@ -33,9 +33,9 @@ sub get_service_units
 # mandatory attributes
 
 my $mandatory_attributes =
-    [ 'svc.product_name',
-      'svc.type',
-      'svc.inventory_id' ];
+    [ 'siam.svc.product_name',
+      'siam.svc.type',
+      'siam.svc.inventory_id' ];
 
 sub _mandatory_attributes
 {

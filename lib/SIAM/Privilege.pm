@@ -20,14 +20,14 @@ SIAM::Privilege - Privilege object class
 
 =head2 scope_id
 
-Retrurns the value of C<privilege.access_scope_id> attribute.
+Retrurns the value of C<siam.privilege.access_scope_id> attribute.
 
 =cut
 
 sub scope_id
 {
     my $self = shift;
-    return $self->attr('privilege.access_scope_id');
+    return $self->attr('siam.privilege.access_scope_id');
 }
 
 
@@ -64,15 +64,15 @@ sub matches_all
     my $objclass = shift;
 
     return SIAM::AccessScope->matches_all
-        ($self->attr('privilege.access_scope_id'), $objclass);
+        ($self->attr('siam.privilege.access_scope_id'), $objclass);
 }
 
 
 # mandatory attributes
 
 my $mandatory_attributes =
-    [ 'privilege.access_scope_id',
-      'privilege.type' ];
+    [ 'siam.privilege.access_scope_id',
+      'siam.privilege.type' ];
 
 sub _mandatory_attributes
 {

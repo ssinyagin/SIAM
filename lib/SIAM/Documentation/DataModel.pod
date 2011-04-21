@@ -22,8 +22,8 @@ for a particular object class.
 Visibility of attributes and their values is defined by Access Scope
 associated with a particular client user.
 
-Attribute names with certain prefixes are reserved solely for SIAM use:
-siam.*, object.*, contract.*, svc.*, svcunit.*, svcdata.*, ...
+Attribute names starting with the prefix siam.* are reserved solely for
+SIAM use.
 
 In boolean attributes, numerical zero is interpreted as "false", and numerical
 nonzero is treated as "true". Usually numerical 1 indicates a true value.
@@ -52,7 +52,7 @@ mandatory for every object:
 
 =over 4
 
-=item * object.id
+=item * siam.object.id
 
 The attribute defines a unique identifier for the object. Client
 applications must not set any assumptions on the ID values or their
@@ -61,7 +61,7 @@ are only meaningful within the driver data model.  Maximum length: 1024
 bytes. The identifiers starting with the string I<SIAM.> are reserved to
 the SIAM internals and must not be used by the drivers.
 
-=item * object.class
+=item * siam.object.class
 
 The full Perl package name of the object, such as I<SIAM::ServiceUnit>.
 The back-end drivers should rely on these values in their internal
@@ -110,16 +110,16 @@ Mandatory attributes:
 
 =over 4
 
-=item * contract.inventory_id
+=item * siam.contract.inventory_id
 
 Contract identifier in external inventory. This should refer to the
 contract number as seen in the enterprise billing system.
 
-=item * contract.customer_name
+=item * siam.contract.customer_name
 
 String identifying the contract holder name
 
-=item * contract.last_modified
+=item * siam.contract.last_modified
 
 UNIX timestamp of last change in any contract details. This attribute
 may be set to zero if the underlying system is unable to deliver the last
@@ -131,7 +131,7 @@ Computables:
 
 =over 4
 
-=item * contract.content_md5hash
+=item * siam.contract.content_md5hash
 
 Returns a hex string representing the MD5 hash of all the objects
 related to this contract. The client application may use this value as
@@ -161,17 +161,17 @@ Mandatory attributes:
 
 =over 4
 
-=item * svc.procuct_name
+=item * siam.svc.procuct_name
 
 A name from the enterprise's product catalog.
 
-=item * svc.type
+=item * siam.svc.type
 
 A string from a limited dictionary of predefined service types. It
 refers to a service template which identifies the attributes which are
 required for each service type.
 
-=item * svc.inventory_id
+=item * siam.svc.inventory_id
 
 Service ID in external inventory, such as the billing system.
 
@@ -202,23 +202,23 @@ Mandatory attributes:
 
 =over 4
 
-=item * svcunit.name
+=item * siam.svcunit.name
 
 Service Unit name as displayed to the user.
 
-=item * svcunit.type
+=item * siam.svcunit.type
 
 A string from a limited dictionary of predefined service unit types. It
 refers to a service template which identifies the attributes which are
 required for each unit type.
 
-=item * svcunit.inventory_id
+=item * siam.svcunit.inventory_id
 
 Service Unit ID in external inventory. If it's a strict one-to-one relation
 between Services and their Units, this attribute is equal to
-C<svc.inventory_id>.
+C<siam.svc.inventory_id>.
 
-=item * svcunit.location
+=item * siam.svcunit.location
 
 Free-form location string for the point of service hand-over.
 
@@ -260,23 +260,23 @@ Mandatory attributes:
 
 =over 4
 
-=item * svcdata.name
+=item * siam.svcdata.name
 
 Data Element name as displayed to the user. SIAM clients should only use
 it for displaying, and should not build any logic on its value.
 
-=item * svcdata.type
+=item * siam.svcdata.type
 
 A string from a limited dictionary. SIAM clients may build the data
 representation based on the value of this attribute. Example:
 “TrafficStats”.
 
-=item * svcdata.driver_class
+=item * siam.svcdata.driver_class
 
 Name of the data driver. 
 Examples: I<Torrus::SIAM::TimeSeries>, I<Torrus::SIAM::MonthlyUsage>
 
-=item * svcdata.available
+=item * siam.svcdata.available
 
 If the data driver is not ready to provide the data, this
 attribute must return false value. The front-end system should inform
@@ -327,12 +327,12 @@ Mandatory attributes:
 
 =over 4
 
-=item * scope.name
+=item * siam.scope.name
 
 Unique name of Access Scope. It has usually a mnemonic value, such as
 I<AllContracts>, I<Contract.123456>, I<Wholesale.654321>.
 
-=item * scope.applies_to
+=item * siam.scope.applies_to
 
 Class of objects that this scope covers. Known values: I<SIAM::Contract>,
 I<SIAM::Attribute>.
@@ -351,7 +351,7 @@ Mandatory attribute:
 
 =over 4
 
-=item * scmember.object_id
+=item * siam.scmember.object_id
 
 ID of a corresponding Contract or Attribute object which comprises the
 given Scope.
@@ -376,7 +376,7 @@ Mandatory attributes:
 
 =over 4
 
-=item * user.uid
+=item * siam.user.uid
 
 Unique user ID that is known through some authentication mechanism.
 
@@ -428,11 +428,11 @@ Mandatory attributes:
 
 =over 4
 
-=item * privilege.access_scope_id
+=item * siam.privilege.access_scope_id
 
 Reference to the corresponding C<SIAM::AccessScope> object ID.
 
-=item * privilege.type
+=item * siam.privilege.type
 
 String from a limited dictionary of known privilege types. Examples:
 I<ViewContract>, I<ViewAttribute>, I<SuspendContract>
@@ -458,7 +458,7 @@ Mandatory attributes:
 
 =over 4
 
-=item * attribute.name
+=item * siam.attribute.name
 
 Name of the attribute.
 

@@ -10,27 +10,27 @@
 # This is an example of a business user with dual fiber connection and
 # a leased rack space
 -
-  object.id:                 CTRT0001
-  object.class:              SIAM::Contract
-  contract.inventory_id:     INVC0001
-  contract.customer_name:    Perpetualair Lavishbison, Inc.
-  contract.last_modified:    0
+  siam.object.id:                 CTRT0001
+  siam.object.class:              SIAM::Contract
+  siam.contract.inventory_id:     INVC0001
+  siam.contract.customer_name:    Perpetualair Lavishbison, Inc.
+  siam.contract.last_modified:    0
   xyz.billing_ok:            1
   _contains_:
     -
-      object.id:                 SRVC0001.01
-      object.class:              SIAM::Service
-      svc.product_name:          Business Internet Standard
-      svc.type:                  fttx
-      svc.inventory_id:          BIS0001
+      siam.object.id:            SRVC0001.01
+      siam.object.class:         SIAM::Service
+      siam.svc.product_name:     Business Internet Standard
+      siam.svc.type:             fttx
+      siam.svc.inventory_id:     BIS0001
       _contains_:
         -
-          object.id:                 SRVC0001.01.u01
-          object.class:              SIAM::ServiceUnit
-          svcunit.name:              BIS.64876.45
-          svcunit.type:              fttx.p2p
-          svcunit.inventory_id:      BIS.64876.45
-          svcunit.location:          Musterstrasse 10, 8050 Zürich
+          siam.object.id:            SRVC0001.01.u01
+          siam.object.class:         SIAM::ServiceUnit
+          siam.svcunit.name:         BIS.64876.45
+          siam.svcunit.type:         fttx.p2p
+          siam.svcunit.inventory_id: BIS.64876.45
+          siam.svcunit.location:     Musterstrasse 10, 8050 Zürich
           access.node.name:          ZUR8050AN33
           access.port.name:          Gi3/0/5
           access.speed.downstream:   100
@@ -40,23 +40,23 @@
           access.bgp.peer.asn:       77777
           _contains_:
             -
-              object.id:                 SRVC0001.01.u01.d01
-              object.class:              SIAM::ServiceDataElement
-              svcdata.name:              Traffic Statistics
-              svcdata.type:              TrafficStats
-              svcdata.driver_class:      Torrus::SIAM::TimeSeries
-              svcdata.available:         1
+              siam.object.id:            SRVC0001.01.u01.d01
+              siam.object.class:         SIAM::ServiceDataElement
+              siam.svcdata.name:         Traffic Statistics
+              siam.svcdata.type:         TrafficStats
+              siam.svcdata.driver_class: Torrus::SIAM::TimeSeries
+              siam.svcdata.available:    1
               torrus.tree-url:           http://test01.torrus.net/torrus/main
               torrus.nodeid:             xyz-if://BIS.64876.45//inout
           
         -
-          object.id:                 SRVC0001.01.u02
-          object.class:              SIAM::ServiceUnit
-          svcunit.name:              BIS.89999.56
-          svcunit.type:              fttx.p2p
-          svcunit.inventory_id:      BIS.89999.56
+          siam.object.id:            SRVC0001.01.u02
+          siam.object.class:         SIAM::ServiceUnit
+          siam.svcunit.name:         BIS.89999.56
+          siam.svcunit.type:         fttx.p2p
+          siam.svcunit.inventory_id: BIS.89999.56
           access.node.name:          OLT4600AN03
-          svcunit.location:          Musterstrasse 5, 4600 Olten
+          siam.svcunit.location:     Musterstrasse 5, 4600 Olten
           access.port.name:          Gi1/0/7
           access.speed.downstream:   100
           access.speed.upstream:     20
@@ -65,31 +65,31 @@
           access.bgp.peer.asn:       77777
           _contains_:
             -
-              object.id:                 SRVC0001.01.u02.d01
-              object.class:              SIAM::ServiceDataElement
-              svcdata.name:              Traffic Statistics
-              svcdata.type:              TrafficStats
-              svcdata.driver_class:      Torrus::SIAM::TimeSeries
-              svcdata.available:         1
+              siam.object.id:            SRVC0001.01.u02.d01
+              siam.object.class:         SIAM::ServiceDataElement
+              siam.svcdata.name:         Traffic Statistics
+              siam.svcdata.type:         TrafficStats
+              siam.svcdata.driver_class: Torrus::SIAM::TimeSeries
+              siam.svcdata.available:    1
               torrus.tree-url:           http://test01.torrus.net/torrus/main
               torrus.nodeid:             xyz-if://BIS.89999.56//inout
 
           
     -
-      object.id:                 SRVC0001.02
-      object.class:              SIAM::Service
-      svc.product_name:          Business Rack Space
-      svc.type:                  xyz.rackspace
-      svc.inventory_id:          BIS0002
+      siam.object.id:            SRVC0001.02
+      siam.object.class:         SIAM::Service
+      siam.svc.product_name:     Business Rack Space
+      siam.svc.type:             xyz.rackspace
+      siam.svc.inventory_id:     BIS0002
       _contains_:
         -
-          object.id:                 SRVC0001.02.u01
-          object.class:              SIAM::ServiceUnit
-          svcunit.name:              BRS.8979.23
-          svcunit.type:              rackspace
-          svcunit.inventory_id:      BRS.8979.23
+          siam.object.id:            SRVC0001.02.u01
+          siam.object.class:         SIAM::ServiceUnit
+          siam.svcunit.name:         BRS.8979.23
+          siam.svcunit.type:         rackspace
+          siam.svcunit.inventory_id: BRS.8979.23
           access.node.name:          DUB8600AN04
-          svcunit.location:          Datastrasse 77, 8600 Dübendorf
+          siam.svcunit.location:     Datastrasse 77, 8600 Dübendorf
           access.port.name:          Gi1/2/1
           access.ip_prefix:          2607:f140:55::00/64
           room.id:                   DUB8600R02
@@ -97,37 +97,37 @@
           rack.slice:                1-8          
           _contains_:
             -
-              object.id:                 SRVC0001.02.u01.d01
-              object.class:              SIAM::ServiceDataElement
-              svcdata.name:              Traffic Statistics
-              svcdata.type:              TrafficStats
-              svcdata.driver_class:      Torrus::SIAM::TimeSeries
-              svcdata.available:         1
+              siam.object.id:            SRVC0001.02.u01.d01
+              siam.object.class:         SIAM::ServiceDataElement
+              siam.svcdata.name:         Traffic Statistics
+              siam.svcdata.type:         TrafficStats
+              siam.svcdata.driver_class: Torrus::SIAM::TimeSeries
+              siam.svcdata.available:    1
               torrus.tree-url:           http://test01.torrus.net/torrus/main
               torrus.nodeid:             xyz-if://BRS.8979.23//inout
       
 
 -
-  object.id:                 CTRT0002
-  object.class:              SIAM::Contract
-  contract.inventory_id:     INVC0002
-  contract.customer_name:    Zetamouse Ecosysteminfo, Inc.
-  contract.last_modified:    0
+  siam.object.id:                 CTRT0002
+  siam.object.class:              SIAM::Contract
+  siam.contract.inventory_id:     INVC0002
+  siam.contract.customer_name:    Zetamouse Ecosysteminfo, Inc.
+  siam.contract.last_modified:    0
   _contains_:
     -
-      object.id:                 SRVC0002.01
-      object.class:              SIAM::Service
-      svc.product_name:          Virtual Private Hosting
-      svc.type:                  xyz.vps
-      svc.inventory_id:          BIS0003
+      siam.object.id:            SRVC0002.01
+      siam.object.class:         SIAM::Service
+      siam.svc.product_name:     Virtual Private Hosting
+      siam.svc.type:             xyz.vps
+      siam.svc.inventory_id:     BIS0003
       _contains_:
         -
-          object.id:                 SRVC0002.01.u01
-          object.class:              SIAM::ServiceUnit
-          svcunit.name:              VPH.8788.99
-          svcunit.type:              vps
-          svcunit.inventory_id:      VPH.8788.99
-          svcunit.location:          Datastrasse 78, 8600 Dübendorf
+          siam.object.id:            SRVC0002.01.u01
+          siam.object.class:         SIAM::ServiceUnit
+          siam.svcunit.name:         VPH.8788.99
+          siam.svcunit.type:         vps
+          siam.svcunit.inventory_id: VPH.8788.99
+          siam.svcunit.location:     Datastrasse 78, 8600 Dübendorf
           vm.phy.host:               DUB8600VH05
           vm.phy.type:               esxi
           vm.ram.limit:              1024
@@ -135,21 +135,21 @@
           vm.disk.size:              40
           _contains_:
             -
-              object.id:                 SRVC0002.01.u01.d01
-              object.class:              SIAM::ServiceDataElement
-              svcdata.name:              Memory Usage
-              svcdata.type:              MemoryStats
-              svcdata.driver_class:      Torrus::SIAM::TimeSeries
-              svcdata.available:         1
+              siam.object.id:            SRVC0002.01.u01.d01
+              siam.object.class:         SIAM::ServiceDataElement
+              siam.svcdata.name:         Memory Usage
+              siam.svcdata.type:         MemoryStats
+              siam.svcdata.driver_class: Torrus::SIAM::TimeSeries
+              siam.svcdata.available:    1
               torrus.tree-url:           http://test01.torrus.net/torrus/main
               torrus.nodeid:             xyz-vm://VPH.8788.99//mem
             -
-              object.id:                 SRVC0002.01.u01.d02
-              object.class:              SIAM::ServiceDataElement
-              svcdata.name:              CPU Usage
-              svcdata.type:              CPUStats
-              svcdata.driver_class:      Torrus::SIAM::TimeSeries
-              svcdata.available:         1
+              siam.object.id:            SRVC0002.01.u01.d02
+              siam.object.class:         SIAM::ServiceDataElement
+              siam.svcdata.name:         CPU Usage
+              siam.svcdata.type:         CPUStats
+              siam.svcdata.driver_class: Torrus::SIAM::TimeSeries
+              siam.svcdata.available:    1
               torrus.tree-url:           http://test01.torrus.net/torrus/main
               torrus.nodeid:             xyz-vm://VPH.8788.99//cpu
           
@@ -158,196 +158,196 @@
 # Users and access control
 
 -
-  object.id:                 CSCP0001
-  object.class:              SIAM::AccessScope
-  scope.name:                Contract.0001
-  scope.applies_to:          SIAM::Contract
+  siam.object.id:            CSCP0001
+  siam.object.class:         SIAM::AccessScope
+  siam.scope.name:           Contract.0001
+  siam.scope.applies_to:     SIAM::Contract
   _contains_:
     -
-      object.id:                 CSCP0001.m01
-      object.class:              SIAM::ScopeMember
-      scmember.object_id:        CTRT0001
+      siam.object.id:            CSCP0001.m01
+      siam.object.class:         SIAM::ScopeMember
+      siam.scmember.object_id:   CTRT0001
 
 -
-  object.id:                 CSCP0002
-  object.class:              SIAM::AccessScope
-  scope.name:                Contract.0002
-  scope.applies_to:          SIAM::Contract
+  siam.object.id:            CSCP0002
+  siam.object.class:         SIAM::AccessScope
+  siam.scope.name:           Contract.0002
+  siam.scope.applies_to:     SIAM::Contract
   _contains_:
     -
-      object.id:                 CSCP0002.m01
-      object.class:              SIAM::ScopeMember
-      scmember.object_id:        CTRT0002
+      siam.object.id:            CSCP0002.m01
+      siam.object.class:         SIAM::ScopeMember
+      siam.scmember.object_id:   CTRT0002
 
 -
-  object.id:                 ASCP_CUST
-  object.class:              SIAM::AccessScope
-  scope.name:                CustomerVisibleAttributes
-  scope.applies_to:          SIAM::Attribute
+  siam.object.id:            ASCP_CUST
+  siam.object.class:         SIAM::AccessScope
+  siam.scope.name:           CustomerVisibleAttributes
+  siam.scope.applies_to:     SIAM::Attribute
   _contains_:
     -
-      object.id:                 ASCP_CUST.m01
-      object.class:              SIAM::ScopeMember
-      scmember.object_id:        ATTR0001
+      siam.object.id:            ASCP_CUST.m01
+      siam.object.class:         SIAM::ScopeMember
+      siam.scmember.object_id:   ATTR0001
     -
-      object.id:                 ASCP_CUST.m02
-      object.class:              SIAM::ScopeMember
-      scmember.object_id:        ATTR0002
+      siam.object.id:            ASCP_CUST.m02
+      siam.object.class:         SIAM::ScopeMember
+      siam.scmember.object_id:   ATTR0002
     -
-      object.id:                 ASCP_CUST.m03
-      object.class:              SIAM::ScopeMember
-      scmember.object_id:        ATTR0003
+      siam.object.id:            ASCP_CUST.m03
+      siam.object.class:         SIAM::ScopeMember
+      siam.scmember.object_id:   ATTR0003
     -
-      object.id:                 ASCP_CUST.m04
-      object.class:              SIAM::ScopeMember
-      scmember.object_id:        ATTR0004
+      siam.object.id:            ASCP_CUST.m04
+      siam.object.class:         SIAM::ScopeMember
+      siam.scmember.object_id:   ATTR0004
     -
-      object.id:                 ASCP_CUST.m05
-      object.class:              SIAM::ScopeMember
-      scmember.object_id:        ATTR0005
+      siam.object.id:            ASCP_CUST.m05
+      siam.object.class:         SIAM::ScopeMember
+      siam.scmember.object_id:   ATTR0005
     -
-      object.id:                 ASCP_CUST.m06
-      object.class:              SIAM::ScopeMember
-      scmember.object_id:        ATTR0006
+      siam.object.id:            ASCP_CUST.m06
+      siam.object.class:         SIAM::ScopeMember
+      siam.scmember.object_id:   ATTR0006
     -
-      object.id:                 ASCP_CUST.m07
-      object.class:              SIAM::ScopeMember
-      scmember.object_id:        ATTR0007
+      siam.object.id:            ASCP_CUST.m07
+      siam.object.class:         SIAM::ScopeMember
+      siam.scmember.object_id:   ATTR0007
     -
-      object.id:                 ASCP_CUST.m08
-      object.class:              SIAM::ScopeMember
-      scmember.object_id:        ATTR0008
+      siam.object.id:            ASCP_CUST.m08
+      siam.object.class:         SIAM::ScopeMember
+      siam.scmember.object_id:   ATTR0008
     -
-      object.id:                 ASCP_CUST.m09
-      object.class:              SIAM::ScopeMember
-      scmember.object_id:        ATTR0009
+      siam.object.id:            ASCP_CUST.m09
+      siam.object.class:         SIAM::ScopeMember
+      siam.scmember.object_id:   ATTR0009
     -
-      object.id:                 ASCP_CUST.m10
-      object.class:              SIAM::ScopeMember
-      scmember.object_id:        ATTR0010
+      siam.object.id:            ASCP_CUST.m10
+      siam.object.class:         SIAM::ScopeMember
+      siam.scmember.object_id:   ATTR0010
     -
-      object.id:                 ASCP_CUST.m11
-      object.class:              SIAM::ScopeMember
-      scmember.object_id:        ATTR0011
+      siam.object.id:            ASCP_CUST.m11
+      siam.object.class:         SIAM::ScopeMember
+      siam.scmember.object_id:   ATTR0011
 
   
 # Users
 # inline passwords are the result of:
 #  echo -n `echo -n "secretsalt" | openssl sha`salt | openssl base64
 -
-  object.id:                 USER0001
-  object.class:              SIAM::User
-  user.uid:                  root
+  siam.object.id:            USER0001
+  siam.object.class:         SIAM::User
+  siam.user.uid:             root
   user.cn:                   Administrator
   user.auth.method:          inline
   user.auth.password: "{SSHA}NWE5MDg0MWU0ODY3Y2VjMTQ2NzU0NjNhOWEzZDFmMjI4MTFiZDQ2YnNhbHQ="
   _contains_:
     -
-      object.id:                 PRIV0001.01
-      object.class:              SIAM::Privilege
-      privilege.access_scope_id: SIAM.SCOPE.ALL.CONTRACTS
-      privilege.type:            ViewContract
+      siam.object.id:                 PRIV0001.01
+      siam.object.class:              SIAM::Privilege
+      siam.privilege.access_scope_id: SIAM.SCOPE.ALL.CONTRACTS
+      siam.privilege.type:            ViewContract
     -
-      object.id:                 PRIV0001.02
-      object.class:              SIAM::Privilege
-      privilege.access_scope_id: SIAM.SCOPE.ALL.ATTRIBUTES
-      privilege.type:            ViewAttribute
+      siam.object.id:                 PRIV0001.02
+      siam.object.class:              SIAM::Privilege
+      siam.privilege.access_scope_id: SIAM.SCOPE.ALL.ATTRIBUTES
+      siam.privilege.type:            ViewAttribute
 
 
       
 -
-  object.id:                 USER0002
-  object.class:              SIAM::User
-  user.uid:                  perpetualair
+  siam.object.id:            USER0002
+  siam.object.class:         SIAM::User
+  siam.user.uid:             perpetualair
   user.cn:                   Perpetualair Lavishbison
   user.auth.method:          inline
   user.auth.password: "{SSHA}NWE5MDg0MWU0ODY3Y2VjMTQ2NzU0NjNhOWEzZDFmMjI4MTFiZDQ2YnNhbHQ="
     
   _contains_:
     -
-      object.id:                 PRIV0002.01
-      object.class:              SIAM::Privilege
-      privilege.access_scope_id: CSCP0001
-      privilege.type:            ViewContract
+      siam.object.id:                 PRIV0002.01
+      siam.object.class:              SIAM::Privilege
+      siam.privilege.access_scope_id: CSCP0001
+      siam.privilege.type:            ViewContract
     -
-      object.id:                 PRIV0002.02
-      object.class:              SIAM::Privilege
-      privilege.access_scope_id: ASCP_CUST
-      privilege.type:            ViewAttribute
+      siam.object.id:                 PRIV0002.02
+      siam.object.class:              SIAM::Privilege
+      siam.privilege.access_scope_id: ASCP_CUST
+      siam.privilege.type:            ViewAttribute
 
 -
-  object.id:                 USER0003
-  object.class:              SIAM::User
-  user.uid:                  zetamouse
+  siam.object.id:            USER0003
+  siam.object.class:         SIAM::User
+  siam.user.uid:             zetamouse
   user.cn:                   Zetamouse Ecosysteminfo
   user.auth.method:          inline
   user.auth.password: "{SSHA}NWE5MDg0MWU0ODY3Y2VjMTQ2NzU0NjNhOWEzZDFmMjI4MTFiZDQ2YnNhbHQ="
   _contains_:
     -
-      object.id:                 PRIV0003.01
-      object.class:              SIAM::Privilege
-      privilege.access_scope_id: CSCP0002
-      privilege.type:            ViewContract
+      siam.object.id:                 PRIV0003.01
+      siam.object.class:              SIAM::Privilege
+      siam.privilege.access_scope_id: CSCP0002
+      siam.privilege.type:            ViewContract
     -
-      object.id:                 PRIV0003.02
-      object.class:              SIAM::Privilege
-      privilege.access_scope_id: ASCP_CUST
-      privilege.type:            ViewAttribute
+      siam.object.id:                 PRIV0003.02
+      siam.object.class:              SIAM::Privilege
+      siam.privilege.access_scope_id: ASCP_CUST
+      siam.privilege.type:            ViewAttribute
 
 
 ## Attrinutes visible to the customer
 -
-  object.id:                 ATTR0001
-  object.class:              SIAM::Attribute
-  attribute.name:            contract.customer_name
+  siam.object.id:            ATTR0001
+  siam.object.class:         SIAM::Attribute
+  siam.attribute.name:       siam.contract.customer_name
 
 -
-  object.id:                 ATTR0002
-  object.class:              SIAM::Attribute
-  attribute.name:            xyz.billing_ok
+  siam.object.id:            ATTR0002
+  siam.object.class:         SIAM::Attribute
+  siam.attribute.name:       xyz.billing_ok
   
 -
-  object.id:                 ATTR0003
-  object.class:              SIAM::Attribute
-  attribute.name:            svc.product_name
+  siam.object.id:            ATTR0003
+  siam.object.class:         SIAM::Attribute
+  siam.attribute.name:       siam.svc.product_name
   
 -
-  object.id:                 ATTR0004
-  object.class:              SIAM::Attribute
-  attribute.name:            svc.inventory_id
+  siam.object.id:            ATTR0004
+  siam.object.class:         SIAM::Attribute
+  siam.attribute.name:       siam.svc.inventory_id
 
 -
-  object.id:                 ATTR0005
-  object.class:              SIAM::Attribute
-  attribute.name:            svcunit.inventory_id
+  siam.object.id:            ATTR0005
+  siam.object.class:         SIAM::Attribute
+  siam.attribute.name:       siam.svcunit.inventory_id
   
 -
-  object.id:                 ATTR0006
-  object.class:              SIAM::Attribute
-  attribute.name:            access.speed.downstream
+  siam.object.id:            ATTR0006
+  siam.object.class:         SIAM::Attribute
+  siam.attribute.name:       access.speed.downstream
 
 -
-  object.id:                 ATTR0007
-  object.class:              SIAM::Attribute
-  attribute.name:            access.speed.upstream
+  siam.object.id:            ATTR0007
+  siam.object.class:         SIAM::Attribute
+  siam.attribute.name:       access.speed.upstream
 
 -
-  object.id:                 ATTR0008
-  object.class:              SIAM::Attribute
-  attribute.name:            access.ip_prefix
+  siam.object.id:            ATTR0008
+  siam.object.class:         SIAM::Attribute
+  siam.attribute.name:       access.ip_prefix
 
 -
-  object.id:                 ATTR0009
-  object.class:              SIAM::Attribute
-  attribute.name:            vm.ram.limit
+  siam.object.id:            ATTR0009
+  siam.object.class:         SIAM::Attribute
+  siam.attribute.name:       vm.ram.limit
 
 -
-  object.id:                 ATTR0010
-  object.class:              SIAM::Attribute
-  attribute.name:            vm.ram.guaranteed
+  siam.object.id:            ATTR0010
+  siam.object.class:         SIAM::Attribute
+  siam.attribute.name:       vm.ram.guaranteed
 
 -
-  object.id:                 ATTR0011
-  object.class:              SIAM::Attribute
-  attribute.name:            vm.disk.size
+  siam.object.id:            ATTR0011
+  siam.object.class:         SIAM::Attribute
+  siam.attribute.name:       vm.disk.size
 

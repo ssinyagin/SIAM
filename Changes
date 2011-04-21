@@ -9,7 +9,7 @@ Revision history for SIAM
         * Removed Makefile.PL from distribution
         * Replaced object.container_id with a method contained_in()
         * Moved instantiate_object() from SIAM into SIAM::Object
-        * Added computable: contract.content_md5hash
+        * Added computable: siam.contract.content_md5hash
         * Enabled driver validation
         * Added method: SIAM::Driver::Simple->clone_data
 

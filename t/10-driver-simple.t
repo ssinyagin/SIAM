@@ -76,9 +76,9 @@ ok(scalar(@{$user2_contracts}) == 1,
     diag('Expected 1 contract, got ' . scalar(@{$user2_contracts}));
 
 
-my $x = $user2_contracts->[0]->attr('object.id');
+my $x = $user2_contracts->[0]->attr('siam.object.id');
 ok($x eq 'CTRT0001', 'get_contracts_by_user_privilege perpetualair') or
-    diag('Expected object.id: CTRT0001, got: ' . $x);
+    diag('Expected siam.object.id: CTRT0001, got: ' . $x);
 
 
 
@@ -96,9 +96,9 @@ ok(scalar(@{$user3_contracts}) == 1,
     diag('Expected 1 contract, got ' . scalar(@{$user3_contracts}));
 
 
-$x = $user3_contracts->[0]->attr('object.id');
+$x = $user3_contracts->[0]->attr('siam.object.id');
 ok($x eq 'CTRT0002', 'get_contracts_by_user_privilege zetamouse') or
-    diag('Expected object.id: CTRT0002, got: ' . $x);
+    diag('Expected siam.object.id: CTRT0002, got: ' . $x);
 
 
 ### Privileges
@@ -184,27 +184,30 @@ ok(not defined($x1)) or
 my $x2 = $dataelement->contained_in();
 ok(defined($x2)) or diag('contained_in() returned undef');
 
-ok($x2->attr('object.class') eq 'SIAM::ServiceUnit') or
-    diag('contained_in() returned object.class: ' . $x2->attr('object.class'));
+ok($x2->attr('siam.object.class') eq 'SIAM::ServiceUnit') or
+    diag('contained_in() returned siam.object.class: ' .
+         $x2->attr('siam.object.class'));
 
 ok($x2->id eq 'SRVC0001.02.u01') or
-    diag('contained_in() returned object.id: ' . $x2->id);
+    diag('contained_in() returned siam.object.id: ' . $x2->id);
 
-### contract.content_md5hash
-note('testing computable: contract.content_md5hash');
-my $md5sum = $user2_contracts->[0]->computable('contract.content_md5hash');
+### siam.contract.content_md5hash
+note('testing computable: siam.contract.content_md5hash');
+my $md5sum =
+    $user2_contracts->[0]->computable('siam.contract.content_md5hash');
 ok(defined($md5sum) and $md5sum ne '') or
-    diag('Computable contract.content_md5hash returned undef or empty string');
+    diag('Computable siam.contract.content_md5hash ' .
+         'returned undef or empty string');
 
-my $expected_md5 = 'a04984facd3492a127f20c42048a2155';
+my $expected_md5 = '2c004ff24b9399108171e5b3359c9c18';
 ok($md5sum eq $expected_md5) or
-    diag('Computable contract.content_md5hash returned unexpected value: ' .
-         $md5sum);
+    diag('Computable siam.contract.content_md5hash ' .
+         'returned unexpected value: ' . $md5sum);
 
 $siam->_driver->{'objects'}{'SRVC0001.02.u01.d01'}{'torrus.nodeid'} = 'xx';
-ok($user2_contracts->[0]->computable('contract.content_md5hash') ne
+ok($user2_contracts->[0]->computable('siam.contract.content_md5hash') ne
    $expected_md5) or
-    diag('Computable contract.content_md5hash did not change as expected');
+    diag('Computable siam.contract.content_md5hash did not change as expected');
 
 
 ### clone_data

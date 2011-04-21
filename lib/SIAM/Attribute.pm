@@ -16,21 +16,21 @@ SIAM::Attribute - Attribute object class
 
 =head2 name
 
-Returns the value of C<attribute.name> attribute.
+Returns the value of C<siam.attribute.name> attribute.
 
 =cut
 
 sub name
 {
     my $self = shift;
-    return $self->attr('attribute.name');
+    return $self->attr('siam.attribute.name');
 }
 
 
 # mandatory attributes
 
 my $mandatory_attributes =
-    [ 'attribute.name' ];
+    [ 'siam.attribute.name' ];
 
 sub _mandatory_attributes
 {

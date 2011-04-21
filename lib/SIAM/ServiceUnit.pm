@@ -33,10 +33,10 @@ sub get_data_elements
 # mandatory attributes
 
 my $mandatory_attributes =
-    [ 'svcunit.name',
-      'svcunit.type',
-      'svcunit.inventory_id',
-      'svcunit.location' ];
+    [ 'siam.svcunit.name',
+      'siam.svcunit.type',
+      'siam.svcunit.inventory_id',
+      'siam.svcunit.location' ];
 
 sub _mandatory_attributes
 {

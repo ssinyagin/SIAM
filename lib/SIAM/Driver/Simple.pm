@@ -419,6 +419,24 @@ sub fetch_container
 }
 
 
+=head2 set_condition
+
+The method does nothing in this driver, but only issues a debug message.
+
+=cut
+
+sub set_condition
+{
+    my $self = shift;
+    my $id = shift;    
+    my $key = shift;
+    my $value = shift;
+
+    $self->debug('set_condition is called for ' . $id . ': (' .
+                 $key . ', ' . $value . ')');
+}
+
+
 =head2 errmsg
 
 Returns the last error message.

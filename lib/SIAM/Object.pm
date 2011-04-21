@@ -216,7 +216,25 @@ sub computable
 }
 
 
+=head2 set_condition
 
+ $dataelement->set_condition('torrus.import_successful', 1);
+
+The SIAM client application may use this method to send a (key, value)
+pair to the driver and tell it about some state update. The condition
+names and accepted values are defined by the driver and are
+driver-specific. This is a one-way communication, and there is no way to
+read the condition value.
+
+=cut
+
+sub set_condition
+{
+    my $self = shift;
+    my $key = shift;
+    my $value = shift;
+    $self->_driver->set_condition($self->id, $key, $value);
+}
 
 =head2 is_root
 
@@ -278,7 +296,7 @@ sub validate_driver
     my $ok = 1;
     foreach my $m ('fetch_attributes', 'fetch_contained_object_ids',
                    'fetch_contained_classes', 'fetch_container',
-                   'errmsg', 'connect', 'disconnect')
+                   'set_condition', 'errmsg', 'connect', 'disconnect')
     {
         if( not $driver->can($m) )
         {

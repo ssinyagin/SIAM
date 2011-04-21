@@ -113,6 +113,14 @@ If the container is the SIAM root, only the C<siam.object.id> attribute
 should be returned, with the value I<SIAM.ROOT>.
 
 
+=head2 set_condition
+
+  $driver->set_condition($id, 'torrus.import_successful', 1);
+
+The method interprets a (key, value) pair that the client application
+sets as a new condition for an object. The driver is free to do anything
+with this data.
+
 
 =head2 errmsg
 

@@ -42,6 +42,13 @@ attributes, and are only delivered via explicit method calls. In case if
 the underlying driver does not support a particular computable, it
 should return an empty string.
 
+The driver may define I<conditions> for some objects. A condition is a
+(key, value) pair that the SIAM client application sends towards the
+driver. This is a one-way communication: there is no direct access to
+the condition value, and the driver is free to do anything with it or
+ignore it. Usually drivers update some internal state databases upin
+receiveing a new condition.
+
 In this document, XYZ refers to the enterprise name.
 
 =head2 SIAM::Object

@@ -71,31 +71,6 @@ classes without breaking the logics.
 =back
 
 
-
-=head2 Root object
-
-The root object of class C<SIAM> is the only object in the hierarchy that is
-not retrieved from the back-end driver. Its attributes are defined by the
-calling application upon initialization.
-
-Attributes:
-
-=over 4
-
-=item * siam.enterprise_name
-
-Company name as displayed to the end user. Default: I<Example Inc.>
-
-=item * siam.enterprise_url
-
-Link to the company website. Default: I<http://www.example.com>
-
-=item * siam.enterprise_logo_url
-
-Link to the company logo image. Default: I<http://www.example.org/foo.png>
-
-=back
-
 The following object IDs are predefined by SIAM and are not queried via
 the driver:
 
@@ -116,6 +91,13 @@ The access scope with the name I<AllAttributes>. All attribute names are
 implicitly in it.
 
 =back
+
+
+
+=head2 Root object
+
+The root object of class C<SIAM> is the only object in the hierarchy that is
+not retrieved from the back-end driver. The root object has no attributes.
 
 
 

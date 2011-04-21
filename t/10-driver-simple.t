@@ -29,15 +29,6 @@ my $config =
    }
   },
  },
- 'Root' =>
- {
-  'Attributes' =>
-  {
-   'siam.enterprise_name' => 'XYZ Inc.',
-   'siam.enterprise_url' => 'http://www.example.com',
-   'siam.enterprise_logo_url' => 'http://www.example.com/logo.png'
-  },
- },
 };
 
 note('loading SIAM');

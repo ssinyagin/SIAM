@@ -16,11 +16,11 @@ SIAM - Service Inventory Abstraction Model
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05_00
 
 =cut
 
-our $VERSION = '0.04';
+our $VERSION = '0.05_00';
 
 
 =head1 SYNOPSIS
@@ -44,13 +44,6 @@ our $VERSION = '0.04';
               'maxlevel' => 'warning',
               'minlevel' => 'emergency',
           },
-        },
-      },
-      'Root' => {
-        'Attributes' => {
-          'siam.enterprise_name' => 'XYZ Inc.',
-          'siam.enterprise_url' => 'http://www.example.com',
-          'siam.enterprise_logo_url' => 'http://www.example.com/l.png',
         },
       },
     };
@@ -156,21 +149,6 @@ A hash with two entries: C<Class> identifying the driver module class
 which is going to be C<require>'d; and C<Options>, a hash which is
 supplied to the driver's C<new> method.
 
-=item * Root
-
-A hash that sets properties for the root object. The key C<Attributes>
-is expected, pointing to the following mandatory attributes:
-
-=over 8
-
-=item * siam.enterprise_name
-
-=item * siam.enterprise_url
-
-=item * siam.enterprise_logo_url
-
-=back
-
 =back
 
 =cut
@@ -222,34 +200,9 @@ sub new
         return undef;
     }
 
-    my $root_attr = $config->{'Root'}{'Attributes'};
-    if( not defined($root_attr) )
-    {
-        SIAM::Object->critical
-              ('Missing Root->Attributes in SIAM configuration');
-        return undef;
-    }
-
     my $self = $class->SUPER::new( $driver, 'SIAM.ROOT' );
     return undef unless defined($self);
-    
-    foreach my $key ('siam.enterprise_name',
-                     'siam.enterprise_url',
-                     'siam.enterprise_logo_url')
-    {
-        if( defined($root_attr->{$key}) )
-        {
-            $self->{'_attr'}{$key} = $root_attr->{$key};
-        }
-        else
-        {
-            SIAM::Object->critical
-                  ('Missing mandatory attribute "' . $key .
-                   '" in SIAM configuration');
-            return undef;
-        }            
-    }    
-    
+        
     return $self;
 }
 

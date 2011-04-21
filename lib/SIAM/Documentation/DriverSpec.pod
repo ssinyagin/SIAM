@@ -113,6 +113,15 @@ If the container is the SIAM root, only the C<siam.object.id> attribute
 should be returned, with the value I<SIAM.ROOT>.
 
 
+=head2 fetch_object_ids_by_attribute
+
+  $list = $driver->fetch_object_ids_by_attribute($classname, $attr, $value);
+
+The method returns an arrayref with object identifiers of given class
+and a matched attribute value. Empty arrayref should be returned if no
+objects match the criteria.
+
+
 =head2 set_condition
 
   $driver->set_condition($id, 'torrus.import_successful', 1);

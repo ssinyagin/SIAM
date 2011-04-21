@@ -133,7 +133,6 @@ sub get_contained_objects
     my $options = shift;
 
     my $driver = $self->_driver;
-
     my $ids =
         $driver->fetch_contained_object_ids($self->id, $classname, $options);
     
@@ -154,6 +153,49 @@ sub get_contained_objects
 
     return $ret;
 }
+
+
+=head2 get_objects_by_attribute
+
+  my $list = $siam->get_objects_by_attribute(
+       'SIAM::Device', 'siam.device.inventory_id', $id);
+
+The method takes 3 arguments: class name, attribute name, and attribute
+value. It returns an arrayref of objects matching the attribute. Empty
+arrayref is returned if no objects match the criteria.
+
+=cut
+
+sub get_objects_by_attribute
+{
+    my $self = shift;
+    my $classname = shift;
+    my $attr = shift;
+    my $value = shift;
+
+    my $driver = $self->_driver;
+    my $ids =
+        $driver->fetch_object_ids_by_attribute($classname, $attr, $value);
+    
+    my $ret = [];
+    foreach my $id (@{$ids})
+    {
+        my $obj = eval($classname . '->new($driver, $id)');
+        
+        if( $@ )
+        {
+            SIAM::Object->critical($@);
+        }
+        elsif( defined($obj) )
+        {
+            push(@{$ret}, $obj);
+        }
+    }
+
+    return $ret;
+}
+    
+
 
 
 =head2 id
@@ -296,7 +338,8 @@ sub validate_driver
     my $ok = 1;
     foreach my $m ('fetch_attributes', 'fetch_contained_object_ids',
                    'fetch_contained_classes', 'fetch_container',
-                   'set_condition', 'errmsg', 'connect', 'disconnect')
+                   'fetch_object_ids_by_attribute', 'set_condition',
+                   'errmsg', 'connect', 'disconnect')
     {
         if( not $driver->can($m) )
         {

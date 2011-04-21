@@ -135,6 +135,7 @@ sub connect
     }
 
     $self->{'objects'} = {};
+    $self->{'cont_attr_index'} = {};
     $self->{'attr_index'} = {};
     $self->{'contains'} = {};
     $self->{'container'} = {};
@@ -181,7 +182,9 @@ sub _import_object
         if( $key ne '_contains_' )
         {
             $dup->{$key} = $val;
-            $self->{'attr_index'}{$class}{$container_id}{$key}{$val}{$id} = 1;
+            $self->{'cont_attr_index'}{$class}{$container_id}{
+                $key}{$val}{$id} = 1;
+            $self->{'attr_index'}{$class}{$key}{$val}{$id} = 1;
         }
     }
     
@@ -233,7 +236,7 @@ sub fetch_attributes
     my $id = $obj->{'siam.object.id'};
     if( not defined($id) )
     {
-        $self->error('siam.object.id is not specified in fetch_attributes' );      
+        $self->error('siam.object.id is not specified in fetch_attributes' );
         return undef;
     }
     
@@ -346,7 +349,7 @@ sub fetch_contained_object_ids
             foreach my $val (@{$filter_val})                
             {
                 push(@{$ret}, 
-                     keys %{$self->{'attr_index'}{$class}{$container_id}{
+                     keys %{$self->{'cont_attr_index'}{$class}{$container_id}{
                          $filter_attr}{$val}});
             }
 
@@ -417,6 +420,26 @@ sub fetch_container
     
     return $ret;
 }
+
+
+=head2 fetch_object_ids_by_attribute
+
+  $list = $driver->fetch_object_ids_by_attribute($classname, $attr, $value);
+
+Returns a list of object IDs which match the attribute value.
+
+=cut
+
+sub fetch_object_ids_by_attribute
+{
+    my $self = shift;
+    my $class = shift;
+    my $attr = shift;
+    my $value = shift;
+
+    return [keys %{$self->{'attr_index'}{$class}{$attr}{$value}}];
+}
+        
 
 
 =head2 set_condition

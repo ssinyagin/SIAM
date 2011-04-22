@@ -10,14 +10,13 @@ my $builder = Module::Build->new(
     build_requires => {
         'Test::More' => 0,
         'YAML' => 0.71,
-        'Log::Handler' => 0,
         'Digest::MD5' => 0,
     },
     requires => {
+        'Log::Handler' => 0,
     },
     recommends => {
         'YAML' => 0.71,
-        'Log::Handler' => 0,
         'Digest::MD5' => 0,
     },
     add_to_cleanup      => [ 'SIAM-*' ],

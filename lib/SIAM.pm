@@ -16,88 +16,88 @@ SIAM - Service Inventory Abstraction Model
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06_00
 
 =cut
 
-our $VERSION = '0.05';
+our $VERSION = '0.06_00';
 
 
 =head1 SYNOPSIS
 
-    use SIAM;
+  use SIAM;
 
-    # Example SIAM configuration. You would normally load it
-    # from a YAML file instead of inline Perl
-    my $config = {
-      'Driver' => {
-        'Class' => 'XYZ::SIAM::Driver',
-        'Options' => {
-          'dblink' => {
-            'dsn' => 'DBI:mysql:database=xyz_inventory;host=dbhost',
-            'username' => 'siam',
-            'password' => 'Lu9iifoo',
-          },
-          'logger' => {
-            'screen' => {
-              'log_to'   => 'STDERR',
-              'maxlevel' => 'warning',
-              'minlevel' => 'emergency',
-          },
-        },
-      },
-    };
+  # Example of a SIAM driver configuration in a YAML file
+  ---
+  Driver:
+    Class: XYZ::SIAM::Driver
+    Options:
+      Dblink:
+        dsn: "DBI:mysql:database=xyz_inventory;host=dbhost"
+        username: siam
+        password: Lu9iifoo
 
-    my $siam = new SIAM($config) or die('Failed loading SIAM');
-    $siam->connect() or die('Failed connecting to SIAM');
 
-    # The monitoring system would normally need all the contracts.
-    # Walk down the hierarchy and retrieve the data for the
-    # monitoring software configuration
+  # Load the driver configuration from a YAML file
+  use YAML;
+  my $siamcfg = eval { YAML::LoadFile($filename) };
+  if( $@ ){
+    die("Cannot load YAML data from $filename : $@"); 
+  }
 
-    my $all_contracts = $siam->get_all_contracts();
-    foreach my $contract (@{$all_contracts}) {
-      my $services = $contract->get_services();
-      foreach my $service (@{$services}) {
-        my $units = $service->get_service_units();
-        foreach my $unit (@{$units}) {
-          # some useful attributes for the physical unit
-          my $host = $unit->attr('access.node.name');
-          my $port = $unit->attr('access.port.name');
+  # Specify your own logger object instead of the standard Log::Handler
+  $siamcfg->{'Logger'} = $logger;
 
-          # statistics associated with the service unit
-          my $dataelements = $unit->get_data_elements();
-          foreach my $element (@{$dataelements}) {
-            # do something with the element attributes            
-          }
+  my $siam = new SIAM($siamcfg) or die('Failed loading SIAM');
+  $siam->connect() or die('Failed connecting to SIAM');
+
+  # The monitoring system would normally need all the contracts.
+  # Walk down the hierarchy and retrieve the data for the
+  # monitoring software configuration
+
+  my $all_contracts = $siam->get_all_contracts();
+  foreach my $contract (@{$all_contracts}) {
+    my $services = $contract->get_services();
+    foreach my $service (@{$services}) {
+      my $units = $service->get_service_units();
+      foreach my $unit (@{$units}) {
+        # some useful attributes for the physical unit
+        my $host = $unit->attr('access.node.name');
+        my $port = $unit->attr('access.port.name');
+
+        # statistics associated with the service unit
+        my $dataelements = $unit->get_data_elements();
+        foreach my $element (@{$dataelements}) {
+          # do something with the element attributes            
         }
       }
     }
-                                     
-    # The front-end system deals with privileges
-    my $user = $siam->get_user($uid) or return([0, 'User not found']);
+  }
+                                   
+  # The front-end system deals with privileges
+  my $user = $siam->get_user($uid) or return([0, 'User not found']);
 
-    # All the contracts this user is allowed to see
-    my $contracts =
-      $siam->get_contracts_by_user_privilege($user, 'ViewContract');
+  # All the contracts this user is allowed to see
+  my $contracts =
+    $siam->get_contracts_by_user_privilege($user, 'ViewContract');
 
-    # ... walk down the hierarchy as shown above ...
+  # ... walk down the hierarchy as shown above ...
 
-    # Prepare the unit attributes for display
-    my $attrs =
-      $siam->filter_visible_attributes($user, $unit->attributes());
-        
-    # Random access to an object
-    my $el =
-      $siam->instantiate_object('SIAM::ServiceDataElement', $id);
+  # Prepare the unit attributes for display
+  my $attrs =
+    $siam->filter_visible_attributes($user, $unit->attributes());
+      
+  # Random access to an object
+  my $el =
+    $siam->instantiate_object('SIAM::ServiceDataElement', $id);
 
-    # Check privileges on a contract
-    if( $user->has_privilege('ViewContract', $contract) ) {
-      ...
-    }
+  # Check privileges on a contract
+  if( $user->has_privilege('ViewContract', $contract) ) {
+    ...
+  }
 
-    # close the database connections
-    $siam->disconnect()
+  # close the database connections
+  $siam->disconnect()
 
 
 =head1 INTRODUCTION
@@ -137,17 +137,27 @@ that the core can be upgraded without breaking any local setup.
 
 =head2 new
 
-Expects a hashref with SIAM configuration.
+Expects a hashref with SIAM configuration. Normally the calling
+application would load the driver configuration from some data file
+(YAML or JSON), and optionally supply its own logger object.
 
-=head3 Configuration
+The following entries are supported in the configuration:
 
 =over 4
 
 =item * Driver
 
-A hash with two entries: C<Class> identifying the driver module class
-which is going to be C<require>'d; and C<Options>, a hash which is
+Mandatory hash with two entries: C<Class> identifying the driver module
+class which is going to be C<require>'d; and C<Options>, a hash which is
 supplied to the driver's C<new> method.
+
+=item * Logger
+
+Optional object reference that is to be used for all logging inside SIAM
+and in the driver. The default logger is an instance of C<Log::Handler>
+with STDERR output of warnings and errors. The logger object must
+implement the following methods: B<debug>, B<info>, B<warn>, and
+B<error>.
 
 =back
 
@@ -158,10 +168,15 @@ sub new
     my $class = shift;
     my $config = shift;
 
+    if( defined($config->{'Logger'}) )
+    {
+        SIAM::Object->set_log_manager($config->{'Logger'});
+    }
+    
     my $drvclass = $config->{'Driver'}{'Class'};
     if( not defined($drvclass) )
     {
-        SIAM::Object->critical
+        SIAM::Object->error
               ('Missing Driver->Class in SIAM configuration');
         return undef;
     }
@@ -169,7 +184,7 @@ sub new
     my $drvopts = $config->{'Driver'}{'Options'};
     if( not defined($drvopts) )
     {
-        SIAM::Object->critical
+        SIAM::Object->error
               ('Missing Driver->Options in SIAM configuration');
         return undef;
     }
@@ -177,26 +192,29 @@ sub new
     eval('require ' . $drvclass);
     if( $@ )
     {
-        SIAM::Object->critical($@);
+        SIAM::Object->error($@);
         return undef;
     }
+    
+    my $logger = SIAM::Object->get_log_manager();
+    $drvopts->{'Logger'} = $logger;
     
     my $driver = eval($drvclass . '->new($drvopts)');
     if( $@ )
     {
-        SIAM::Object->critical($@);
+        SIAM::Object->error($@);
         return undef;
     }
     
     if( not defined($driver) )
     {
-        SIAM::Object->critical('Failed to initialize the driver');
+        SIAM::Object->error('Failed to initialize the driver');
         return undef;
     }
 
     if( not SIAM::Object->validate_driver($driver) )
     {
-        SIAM::Object->critical('Failed to validate the driver');
+        SIAM::Object->error('Failed to validate the driver');
         return undef;
     }
 

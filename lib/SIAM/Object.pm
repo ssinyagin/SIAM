@@ -3,9 +3,15 @@ package SIAM::Object;
 use warnings;
 use strict;
 
-our $had_error = 0;
-our $errmsg = '';
-our $logmgr;
+use Log::Handler;
+
+# default log manager
+our $logmgr = Log::Handler->new(
+                                'screen' =>
+                                {'log_to' => 'STDERR',
+                                 maxlevel => 'warning',
+                                 minlevel => 'emergency'});
+
 
 =head1 NAME
 
@@ -143,7 +149,7 @@ sub get_contained_objects
 
         if( $@ )
         {
-            SIAM::Object->critical($@);
+            SIAM::Object->error($@);
         }
         elsif( defined($obj) )
         {
@@ -184,7 +190,7 @@ sub get_objects_by_attribute
         
         if( $@ )
         {
-            SIAM::Object->critical($@);
+            SIAM::Object->error($@);
         }
         elsif( defined($obj) )
         {
@@ -326,7 +332,7 @@ sub contained_in
 
 Takes a driver object as an argument and verifies if it implements all
 required methods. returns true if all required methods are present. It
-issues critical error messages in case of missing methods.
+issues error messages in case of missing methods.
 
 =cut
 
@@ -339,11 +345,11 @@ sub validate_driver
     foreach my $m ('fetch_attributes', 'fetch_contained_object_ids',
                    'fetch_contained_classes', 'fetch_container',
                    'fetch_object_ids_by_attribute', 'set_condition',
-                   'errmsg', 'connect', 'disconnect')
+                   'connect', 'disconnect')
     {
         if( not $driver->can($m) )
         {
-            SIAM::Object->critical
+            SIAM::Object->error
                   ('The driver of class ' . ref($driver) . ' does not ' .
                    'implement a required method: ' . $m);
             $ok = 0;
@@ -356,30 +362,10 @@ sub validate_driver
 
 
 
-=head2 had_error
-
-Returns true in case of an error;
-
-=cut
-
-sub had_error { $had_error }
-
-
-
-=head2 errmsg
-
-Returns the error string with the error details.
-
-=cut
-
-sub errmsg { $errmsg }
-
-
 
 =head2 set_log_manager
 
-Sets a log manager. Unless a log manager is set, all warnings and errors
-are sent to STDERR. The method expects one argument, an object which
+Sets a log manager for SIAM objects. Note that it does not set the log manager for the driver.  The default log manager is a C<Log::Handler> object with STDERR output of warnings and errors. The method expects one argument, an object which
 implements the following methods:
 
 =over 4
@@ -388,11 +374,9 @@ implements the following methods:
 
 =item * info
 
-=item * warn, warning
+=item * warn
 
-=item * error, err
-
-=item * critical, fatal
+=item * error
 
 =back
 
@@ -407,13 +391,23 @@ sub set_log_manager
 }
 
 
-=head2 debug, info, warning, error, critical
+=head2 get_log_manager
+
+Returns the current logger object.
+
+=cut
+
+sub get_log_manager
+{
+    return $logmgr;
+}
+
+
+=head2 debug, info, warn, error
 
 These methods dispatch a message to the log manager. If the log manager
 is undefined, all except C<debug()> print the message to STDERR with a
 preceeding timestamp.
-
-C<error()> and C<critical()> also set the error status and error message.
 
 =cut
 
@@ -421,113 +415,28 @@ sub debug
 {
     my $class = shift;
     my $msg = shift;
-    if( defined($logmgr) and $logmgr->can('debug') )
-    {
-        $logmgr->debug($msg);
-    }
+    $logmgr->debug($msg);
 }
 
 sub info
 {
     my $class = shift;
     my $msg = shift;
-    if( defined($logmgr) )
-    {
-        if( $logmgr->can('info') )
-        {
-            $logmgr->info($msg);
-        }
-    }
-    else
-    {
-        SIAM::Object->_print_stderr('INFO: ' .$msg);
-    }
+    $logmgr->info($msg);
 }
 
-sub warning
+sub warn
 {
     my $class = shift;
     my $msg = shift;
-
-    my $dispatched = 0;
-    if( defined($logmgr) )
-    {
-        if( $logmgr->can('warn') )
-        {
-            $logmgr->warn($msg);
-            $dispatched = 1;
-        }
-        elsif( $logmgr->can('warning') )
-        {
-            $logmgr->warning($msg);
-            $dispatched = 1;
-        }
-    }
-
-    # warnings are important -- fall back to STDERR
-    if( not $dispatched )
-    {
-        SIAM::Object->_print_stderr('WARNING: ' . $msg);
-    }
+    $logmgr->warn($msg);
 }
 
 sub error
 {
     my $class = shift;
     my $msg = shift;
-
-    $had_error = 1;
-    $errmsg = $msg;
-    
-    my $dispatched = 0;
-    if( defined($logmgr) )
-    {
-        if( $logmgr->can('error') )
-        {
-            $logmgr->error($msg);
-            $dispatched = 1;
-        }
-        elsif( $logmgr->can('err') )
-        {
-            $logmgr->err($msg);
-            $dispatched = 1;
-        }
-    }
-
-    # errors are important -- fall back to STDERR
-    if( not $dispatched )
-    {
-        SIAM::Object->_print_stderr('ERROR: ' . $msg);
-    }
-}
-
-sub critical
-{
-    my $class = shift;
-    my $msg = shift;
-
-    $had_error = 1;
-    $errmsg = $msg;
-    my $dispatched = 0;
-    if( defined($logmgr) )
-    {
-        if( $logmgr->can('critical') )
-        {
-            $logmgr->critical($msg);
-            $dispatched = 1;
-        }
-        elsif( $logmgr->can('fatal') )
-        {
-            $logmgr->fatal($msg);
-            $dispatched = 1;
-        }
-    }
-    
-    # Critical errors are important -- fall back to STDERR
-    if( not $dispatched )
-    {
-        SIAM::Object->_print_stderr('CRITICAL: ' . $msg);
-    }
+    $logmgr->error($msg);
 }
 
 

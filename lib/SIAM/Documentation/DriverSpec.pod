@@ -27,9 +27,18 @@ to send its error messages to STDERR or a log file.
 
 The new() method creates an instance of the driver object. It takes a
 hash reference as an argument. This hash defines all configuration
-needed to initialize the driver. The contents of the hash are solely
-defined by the driver class. The new() method should validate the
-configuration and return undef in case of problems.
+needed to initialize the driver.
+
+One entry in the configuration hash is mandatory: C<Logger>. It supplies
+a reference to an object which is used for all logging. The object must
+implement the following methods: B<debug>, B<info>, B<warn>, and
+B<error>.
+
+Requirements for the rest of configuration hash are defined by the
+driver class.
+
+The new() method should validate the configuration and return undef in
+case of problems.
 
 
 =head2 connect
@@ -131,10 +140,6 @@ sets as a new condition for an object. The driver is free to do anything
 with this data.
 
 
-=head2 errmsg
-
-Returns the last error message in case of a failure. The method must
-return an empty string if there are no errors.
 
 
 

@@ -1,6 +1,6 @@
 #!perl -T
 
-use Test::More tests => 35;
+use Test::More tests => 36;
 
 use strict;
 use warnings;
@@ -10,26 +10,16 @@ use SIAM;
 use SIAM::Driver::Simple;
 
 
-my $config =
-{
- 'Driver' =>
- {
-  'Class' => 'SIAM::Driver::Simple',
-  'Options' =>
-  {
-   'datafile' => 't/driver-simple.data.yaml',
-   'logger' =>
-   {
-    'screen' =>
-    {
-     'log_to'   => 'STDERR',
-     'maxlevel' => 'warning',
-     'minlevel' => 'emergency',
-    },
-   }
-  },
- },
-};
+my $yaml = <<EOT;
+---
+Driver:
+  Class: SIAM::Driver::Simple
+  Options:
+    Datafile: t/driver-simple.data.yaml
+EOT
+
+my $config = YAML::Load($yaml);
+ok(ref($config)) or diag('Failed to read the configuration YAML');
 
 note('loading SIAM');
 ok( defined(my $siam = new SIAM($config)), 'load SIAM');

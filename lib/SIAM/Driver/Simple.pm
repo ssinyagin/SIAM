@@ -56,18 +56,18 @@ The following methods are required by C<SIAM::Documentation::DriverSpec>.
 
 =head2 new
 
-Instantiates a new driver object. The method expects a driver object and a hash
-reference containing the attributes, as follows:
+Instantiates a new driver object. The method expects a hashref
+containing the attributes, as follows:
 
 =over 4
 
-=item * datafile
+=item * Logger
+
+The logger object is supplied by SIAM.
+
+=item * Datafile
 
 Full path of the YAML data file which defines all the objects for this driver.
-
-=item * logger
-
-Logger configuration as specified in C<Log::Handler> description.
 
 =back
 
@@ -81,29 +81,27 @@ sub new
     my $self = {};
     bless $self, $class;
 
-    $self->{'config'} = $drvopts;
+    $self->{'logger'} = $drvopts->{'Logger'};
+    die('Logger is not supplied to the driver')
+        unless defined($self->{'logger'});
     
-    foreach my $param ('datafile', 'logger')
+    foreach my $param ('Datafile')
     {
         if( not defined($drvopts->{$param}) )
         {
-            print STDERR 
-                ('Missing mandatiry parameter ' . $param .
-                 ' in SIAM::Driver::Simple->new()');
+            $self->error('Missing mandatiry parameter ' . $param .
+                         ' in SIAM::Driver::Simple->new()');
             return undef;
         }
     }
 
-    $self->{'logger'} = new Log::Handler(%{$drvopts->{'logger'}});
-
-    if( not -r $self->{'config'}{'datafile'} )
+    $self->{'datafile'} = $drvopts->{'Datafile'};
+    
+    if( not -r $self->{'datafile'} )
     {
-        $self->error('Data file is not readable: ' .
-                     $self->{'config'}{'datafile'});
+        $self->error('Data file is not readable: ' . $self->{'datafile'});
         return undef;
     }
-
-    $self->{'errmsg'} = '';
     
     return $self;    
 }
@@ -119,18 +117,17 @@ sub connect
 {
     my $self = shift;
 
-    my $data = eval { YAML::LoadFile($self->{'config'}{'datafile'}) };
+    my $data = eval { YAML::LoadFile($self->{'datafile'}) };
     if( $@ )
     {
         $self->error('Cannot load YAML data from ' .
-                     $self->{'config'}{'datafile'} . ': ' . $@);
+                     $self->{'datafile'} . ': ' . $@);
         return undef;
     }
     
     if( ref($data) ne 'ARRAY' )
     {
-        $self->error('Top level is not a sequence in ' .
-                     $self->{'config'}{'datafile'});
+        $self->error('Top level is not a sequence in ' . $self->{'datafile'});
         return undef;
     }
 
@@ -460,13 +457,6 @@ sub set_condition
 }
 
 
-=head2 errmsg
-
-Returns the last error message.
-
-=cut
-
-sub errmsg {shift->{'errmsg'}}
 
 
 
@@ -479,32 +469,29 @@ The following methods are not in the Specification.
 
 =head2 debug
 
-Prints a debug message to the logger
+Prints a debug message to the logger.
 
 =cut
 
 sub debug
 {
     my $self = shift;
-    my $msg = shift;
-    
+    my $msg = shift;    
     $self->{'logger'}->debug($msg);
 }
 
 
 =head2 error
 
-Prints an error message to the logger. Also saves the message for errmsg();
+Prints an error message to the logger.
 
 =cut
 
 sub error
 {
     my $self = shift;
-    my $msg = shift;
-    
+    my $msg = shift;    
     $self->{'logger'}->error($msg);
-    $self->{'errmsg'} = $msg;
 }
 
 

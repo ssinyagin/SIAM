@@ -9,8 +9,8 @@ use Log::Handler;
 our $logmgr = Log::Handler->new(
                                 'screen' =>
                                 {'log_to' => 'STDERR',
-                                 maxlevel => 'warning',
-                                 minlevel => 'emergency'});
+                                 'maxlevel' => 'warning',
+                                 'minlevel' => 'emergency'});
 
 
 =head1 NAME
@@ -365,8 +365,10 @@ sub validate_driver
 
 =head2 set_log_manager
 
-Sets a log manager for SIAM objects. Note that it does not set the log manager for the driver.  The default log manager is a C<Log::Handler> object with STDERR output of warnings and errors. The method expects one argument, an object which
-implements the following methods:
+Sets a log manager for SIAM objects. Note that it does not set the log
+manager for the driver.  The default log manager is a C<Log::Handler>
+object with STDERR output of warnings and errors. The method expects one
+argument, an object which implements the following methods:
 
 =over 4
 

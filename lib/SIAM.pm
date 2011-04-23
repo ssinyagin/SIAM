@@ -73,12 +73,12 @@ our $VERSION = '0.06_00';
         # statistics associated with the service unit
         my $dataelements = $unit->get_data_elements();
         foreach my $element (@{$dataelements}) {
-          # do something with the element attributes            
+          # do something with the element attributes
         }
       }
     }
   }
-                                   
+
   # The front-end system deals with privileges
   my $user = $siam->get_user($uid) or return([0, 'User not found']);
 
@@ -91,7 +91,7 @@ our $VERSION = '0.06_00';
   # Prepare the unit attributes for display
   my $attrs =
     $siam->filter_visible_attributes($user, $unit->attributes());
-      
+
   # Random access to an object
   my $el =
     $siam->instantiate_object('SIAM::ServiceDataElement', $id);

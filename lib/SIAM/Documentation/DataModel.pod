@@ -340,6 +340,10 @@ Mandatory attributes:
 Reference to the device identifier in an external inventory system. This
 may or may not be the same as hostname.
 
+=item * siam.device.name
+
+Device name.
+
 =back
 
 Attribute examples:

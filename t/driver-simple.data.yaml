@@ -154,6 +154,7 @@
   siam.object.id:            DEV_ZUR8050AN33
   siam.object.class:         SIAM::Device
   siam.device.inventory_id:  ZUR8050AN33
+  siam.device.name:          ZUR8050AN33
   snmp.managed:              1
   snmp.host:                 ZUR8050AN33.domain.net
   
@@ -161,6 +162,7 @@
   siam.object.id:            DEV_OLT4600AN03
   siam.object.class:         SIAM::Device
   siam.device.inventory_id:  OLT4600AN03
+  siam.device.name:          OLT4600AN03
   snmp.managed:              1
   snmp.host:                 OLT4600AN03.domain.net
   
@@ -168,6 +170,7 @@
   siam.object.id:            DEV_DUB8600AN04
   siam.object.class:         SIAM::Device
   siam.device.inventory_id:  DUB8600AN04
+  siam.device.name:          DUB8600AN04
   snmp.managed:              1
   snmp.host:                 DUB8600AN04.domain.net
 
@@ -175,6 +178,7 @@
   siam.object.id:            DEV_DUB8600VH05
   siam.object.class:         SIAM::Device
   siam.device.inventory_id:  DUB8600VH05
+  siam.device.name:          DUB8600VH05
   snmp.managed:              1
   snmp.host:                 DUB8600VH05.domain.net
 

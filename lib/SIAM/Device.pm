@@ -34,7 +34,8 @@ sub get_all_service_units
 # mandatory attributes
 
 my $mandatory_attributes =
-    [ 'siam.device.inventory_id' ];
+    [ 'siam.device.inventory_id',
+      'siam.device.name'];
 
 sub _mandatory_attributes
 {

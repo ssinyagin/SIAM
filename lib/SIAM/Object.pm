@@ -345,7 +345,7 @@ sub validate_driver
     foreach my $m ('fetch_attributes', 'fetch_contained_object_ids',
                    'fetch_contained_classes', 'fetch_container',
                    'fetch_object_ids_by_attribute', 'set_condition',
-                   'connect', 'disconnect')
+                   'manifest_attributes', 'connect', 'disconnect')
     {
         if( not $driver->can($m) )
         {

@@ -30,6 +30,10 @@ sub _mandatory_attributes
     return $mandatory_attributes;
 }
 
+sub _manifest_attributes
+{
+    return $mandatory_attributes;
+}
 
 1;
 

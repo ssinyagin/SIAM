@@ -94,7 +94,8 @@ sub match_object
     my $obj = shift;
 
     # siam.scope.applies_to should match the object class
-    if( $obj->attr('siam.object.class') ne $self->attr('siam.scope.applies_to') )
+    if( $obj->attr('siam.object.class') ne
+        $self->attr('siam.scope.applies_to') )
     {
         return undef;
     }
@@ -178,6 +179,14 @@ sub _mandatory_attributes
     return $mandatory_attributes;
 }
 
+sub _manifest_attributes
+{
+    my $ret = [];
+    push(@{$ret}, @{$mandatory_attributes},
+         @{ SIAM::ScopeMember->_manifest_attributes() });
+
+    return $ret;
+}
 
 
 1;

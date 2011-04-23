@@ -139,6 +139,12 @@ The method interprets a (key, value) pair that the client application
 sets as a new condition for an object. The driver is free to do anything
 with this data.
 
+=head2 manifest_attributes
+
+  my $manifest = $driver->manifest_attributes();
+
+The method returns an arrayref with all attribute names introduced by
+the driver.
 
 
 

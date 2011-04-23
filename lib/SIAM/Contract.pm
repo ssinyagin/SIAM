@@ -46,6 +46,15 @@ sub _mandatory_attributes
     return $mandatory_attributes;
 }
 
+sub _manifest_attributes
+{
+    my $ret = [];
+    push(@{$ret}, @{$mandatory_attributes},
+         @{ SIAM::Service->_manifest_attributes() });
+
+    return $ret;
+
+}
 
 1;
 

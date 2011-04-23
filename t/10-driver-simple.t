@@ -1,6 +1,6 @@
 #!perl -T
 
-use Test::More tests => 37;
+use Test::More tests => 38;
 
 use strict;
 use warnings;
@@ -237,8 +237,14 @@ ok( $len == 22 ) or
 
 unlink $filename;
 
-   
-
+### manifest_attributes
+note('testing $siam->manifest_attributes()');
+my $manifest = $siam->manifest_attributes();
+my $manifest_size = scalar(@{$manifest});
+ok($manifest_size == 46) or
+    diag('$siam->manifest_attributes() returned ' . $manifest_size .
+         ', expected: 46');
+# print STDERR "\n", join("\n", @{$manifest}), "\n";
 
 
 # Local Variables:

@@ -8,6 +8,7 @@ use base 'SIAM::Object';
 use SIAM::Contract;
 use SIAM::User;
 use SIAM::Privilege;
+use SIAM::AccessScope;
 use SIAM::Attribute;
 
 =head1 NAME
@@ -27,7 +28,7 @@ our $VERSION = '0.06_00';
 
   use SIAM;
 
-  # Example of a SIAM driver configuration in a YAML file
+  # Example of a SIAM configuration in a YAML file
   ---
   Driver:
     Class: XYZ::SIAM::Driver
@@ -43,7 +44,7 @@ our $VERSION = '0.06_00';
       enterprise.logo: http://example.com/logo.png
 
 
-  # Load the driver configuration from a YAML file
+  # Load the configuration from a YAML file
   use YAML;
   my $siamcfg = eval { YAML::LoadFile($filename) };
   if( $@ ){
@@ -449,6 +450,30 @@ sub get_client_config
     $ret = {} unless defined($ret);
     return $ret;
 }
+
+
+=head2 manifest_attributes
+
+The method returns an arrayref with all known attrubute names that are
+supported by SIAM internal modules and the driver.
+
+=cut
+
+sub manifest_attributes
+{
+    my $self = shift;
+
+    my $ret = ['siam.object.id', 'siam.object.class'];
+    foreach my $class ('SIAM::User', 'SIAM::Contract', 'SIAM::Attribute',
+                       'SIAM::AccessScope', 'SIAM::Device')
+    {
+        push(@{$ret}, @{ $class->_manifest_attributes() });
+    }
+
+    push(@{$ret}, @{ $self->_driver->manifest_attributes() });
+    return [sort @{$ret}];
+}
+
 
 
 =head1 SEE ALSO

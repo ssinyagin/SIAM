@@ -130,6 +130,15 @@ sub _mandatory_attributes
 }
 
 
+sub _manifest_attributes
+{
+    my $ret = [];
+    push(@{$ret}, @{$mandatory_attributes},
+         @{ SIAM::Privilege->_manifest_attributes() });
+
+    return $ret;
+}
+
 1;
 
 # Local Variables:

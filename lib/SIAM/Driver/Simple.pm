@@ -457,7 +457,31 @@ sub set_condition
 }
 
 
+=head2 manifest_attributes
 
+The method returns an arrayref with all known attribute names.
+
+=cut
+
+sub manifest_attributes
+{
+    my $self = shift;
+
+    # avoid duplicates and skip siam.* attributes
+    my %manifest;
+    while(my ($class, $r1) = each %{$self->{'attr_index'}})
+    {
+        while(my ($attr, $r2) = each %{$r1})
+        {
+            if( $attr !~ /^siam\./o )
+            {
+                $manifest{$attr} = 1;
+            }
+        }
+    }
+
+    return [keys %manifest];
+}
 
 
 

@@ -36,6 +36,11 @@ our $VERSION = '0.06_00';
         dsn: "DBI:mysql:database=xyz_inventory;host=dbhost"
         username: siam
         password: Lu9iifoo
+  Client:
+    Frontend:
+      enterprise.name: XYZ, Inc.
+      enterprise.url: http://example.com
+      enterprise.logo: http://example.com/logo.png
 
 
   # Load the driver configuration from a YAML file
@@ -159,6 +164,12 @@ with STDERR output of warnings and errors. The logger object must
 implement the following methods: B<debug>, B<info>, B<warn>, and
 B<error>.
 
+=item * Client
+
+Optional hash that defines some configuration information for SIAM
+clients. The keys define categories, and values point to configuration
+hashes within each category.
+
 =back
 
 =cut
@@ -220,7 +231,11 @@ sub new
 
     my $self = $class->SUPER::new( $driver, 'SIAM.ROOT' );
     return undef unless defined($self);
-        
+
+    my $clientconfig = $config->{'Client'};
+    $clientconfig = {} unless defined($clientconfig);
+    $self->{'siam_client_config'} = $clientconfig;
+
     return $self;
 }
 
@@ -417,6 +432,23 @@ sub get_device
 
 
 
+=head2 get_client_config
+
+Takes the category name and returns a hashref with I<Client>
+configuration for the specified category. Returns an empty hashref if
+the configuration is not available.
+
+=cut
+
+sub get_client_config    
+{
+    my $self = shift;
+    my $category = shift;
+    
+    my $ret = $self->{'siam_client_config'}{$category};
+    $ret = {} unless defined($ret);
+    return $ret;
+}
 
 
 =head1 SEE ALSO

@@ -1,6 +1,6 @@
 #!perl -T
 
-use Test::More tests => 36;
+use Test::More tests => 37;
 
 use strict;
 use warnings;
@@ -16,6 +16,9 @@ Driver:
   Class: SIAM::Driver::Simple
   Options:
     Datafile: t/driver-simple.data.yaml
+Client:
+  Test:
+    x: 5
 EOT
 
 my $config = YAML::Load($yaml);
@@ -26,6 +29,9 @@ ok( defined(my $siam = new SIAM($config)), 'load SIAM');
 
 note('connecting the driver');
 ok($siam->connect(), 'connect');
+
+ok($siam->get_client_config('Test')->{'x'} == 5) or
+    diag('Failed to retrieve client configuration');
 
 my $dataelement = $siam->instantiate_object('SIAM::ServiceDataElement',
                                             'SRVC0001.02.u01.d01');

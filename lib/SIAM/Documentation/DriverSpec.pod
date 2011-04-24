@@ -64,8 +64,6 @@ The driver should populate the provided hashref with the rest of the object's
 attributes, based on its ID and class.
 
 The method should return undef in case of failures, and true otherwise.
-The failure details should be available through its C<error> and C<errmsg>
-methods.
 
 
 

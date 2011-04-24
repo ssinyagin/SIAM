@@ -54,7 +54,7 @@ sub new
     {
         if( not $driver->fetch_attributes($self->{'_attr'}) )
         {
-            SIAM::Object->error($driver->errmsg);
+            SIAM::Object->error('Failed fetching attributes for ' . $id);
             return undef;
         }
 

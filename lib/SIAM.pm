@@ -252,7 +252,7 @@ sub connect
     my $self = shift;
     if( not $self->_driver->connect() )
     {
-        $self->error($self->_driver->errmsg);
+        $self->error('SIAM failed to connect its driver');
         return undef;
     }
 

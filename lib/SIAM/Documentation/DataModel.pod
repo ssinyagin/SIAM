@@ -178,7 +178,7 @@ Mandatory attributes:
 
 =over 4
 
-=item * siam.svc.procuct_name
+=item * siam.svc.product_name
 
 A name from the enterprise's product catalog.
 

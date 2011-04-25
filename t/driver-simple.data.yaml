@@ -14,7 +14,6 @@
   siam.object.class:              SIAM::Contract
   siam.contract.inventory_id:     INVC0001
   siam.contract.customer_name:    Perpetualair Lavishbison, Inc.
-  siam.contract.last_modified:    0
   xyz.billing_ok:            1
   _contains_:
     -
@@ -109,7 +108,6 @@
   siam.object.class:              SIAM::Contract
   siam.contract.inventory_id:     INVC0002
   siam.contract.customer_name:    Zetamouse Ecosysteminfo, Inc.
-  siam.contract.last_modified:    0
   _contains_:
     -
       siam.object.id:            SRVC0002.01

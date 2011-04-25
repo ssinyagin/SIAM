@@ -136,12 +136,6 @@ contract number as seen in the enterprise billing system.
 
 String identifying the contract holder name
 
-=item * siam.contract.last_modified
-
-UNIX timestamp of last change in any contract details. This attribute
-may be set to zero if the underlying system is unable to deliver the last
-modification time.
-
 =back
 
 Computables:

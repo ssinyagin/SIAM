@@ -211,7 +211,7 @@ ok(defined($md5sum) and $md5sum ne '') or
     diag('Computable siam.contract.content_md5hash ' .
          'returned undef or empty string');
 
-my $expected_md5 = '66efbf6c2a52abb70952acbfe6bea62c';
+my $expected_md5 = 'd270628de964154f1f1bd2e089ce19f5';
 ok($md5sum eq $expected_md5) or
     diag('Computable siam.contract.content_md5hash ' .
          'returned unexpected value: ' . $md5sum);
@@ -241,7 +241,7 @@ unlink $filename;
 note('testing $siam->manifest_attributes()');
 my $manifest = $siam->manifest_attributes();
 my $manifest_size = scalar(@{$manifest});
-my $manifest_size_expected = 47;
+my $manifest_size_expected = 46;
 ok($manifest_size == $manifest_size_expected) or
     diag('$siam->manifest_attributes() returned ' . $manifest_size .
          ', expected: ' . $manifest_size_expected);

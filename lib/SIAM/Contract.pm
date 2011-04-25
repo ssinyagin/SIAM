@@ -38,8 +38,7 @@ sub get_services
 
 my $mandatory_attributes =
     [ 'siam.contract.inventory_id',
-      'siam.contract.customer_name',
-      'siam.contract.last_modified' ];
+      'siam.contract.customer_name' ];
 
 sub _mandatory_attributes
 {

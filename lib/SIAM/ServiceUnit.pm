@@ -37,8 +37,7 @@ my $mandatory_attributes =
     [ 'siam.svcunit.name',
       'siam.svcunit.type',
       'siam.svcunit.inventory_id',
-      'siam.svcunit.device_id',
-      'siam.svcunit.location' ];
+      'siam.svcunit.device_id' ];
 
 sub _mandatory_attributes
 {

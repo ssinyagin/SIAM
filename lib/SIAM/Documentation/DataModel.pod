@@ -188,6 +188,16 @@ Service ID in external inventory, such as the billing system.
 
 =back
 
+Attribute examples:
+
+=over 4
+
+=item * xyz.svc.city, xyz.svc.zip, xyz.svc.street
+
+Location information for a service.
+
+=back
+
 
 
 =head2 SIAM::ServiceUnit
@@ -232,10 +242,6 @@ C<siam.svc.inventory_id>.
 =item * siam.svcunit.device_id
 
 Identifier of an associated SIAM::Device object or NIL.
-
-=item * siam.svcunit.location
-
-Free-form location string for the point of service hand-over.
 
 =back
 

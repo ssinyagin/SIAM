@@ -1,5 +1,12 @@
 Revision history for SIAM
 
+0.06    2011-05-11
+        * Logging API changed
+        * SIAM initialization data changed
+        * Client configuration: $siam->get_client_config()
+        * new method: $siam->manifest_attributes()
+        * some attributes changed
+        
 0.05    2011-04-21
         * Removed all attributes from the root object
         * All SIAM attribute names are now prefixed with siam.*

@@ -45,8 +45,10 @@
               siam.object.class:         SIAM::ServiceDataElement
               siam.svcdata.name:         Traffic Statistics
               siam.svcdata.type:         TrafficStats
-              siam.svcdata.driver_class: Torrus::SIAM::TimeSeries
-              torrus.tree-url:           http://test01.torrus.net/torrus/main
+              siam.svcdata.driver:       Torrus.TimeSeries
+              torrus.server:             test01.torrus.net
+              torrus.url-prefix:         /torrus/
+              torrus.tree:               t01
               torrus.nodeid:             xyz-if://BIS.64876.45//inout
           
         -
@@ -68,8 +70,10 @@
               siam.object.class:         SIAM::ServiceDataElement
               siam.svcdata.name:         Traffic Statistics
               siam.svcdata.type:         TrafficStats
-              siam.svcdata.driver_class: Torrus::SIAM::TimeSeries
-              torrus.tree-url:           http://test01.torrus.net/torrus/main
+              siam.svcdata.driver:       Torrus.TimeSeries
+              torrus.server:             test01.torrus.net
+              torrus.url-prefix:         /torrus/
+              torrus.tree:               t01              
               torrus.nodeid:             xyz-if://BIS.89999.56//inout
 
           
@@ -101,8 +105,10 @@
               siam.object.class:         SIAM::ServiceDataElement
               siam.svcdata.name:         Traffic Statistics
               siam.svcdata.type:         TrafficStats
-              siam.svcdata.driver_class: Torrus::SIAM::TimeSeries
-              torrus.tree-url:           http://test01.torrus.net/torrus/main
+              siam.svcdata.driver:       Torrus.TimeSeries
+              torrus.server:             test01.torrus.net
+              torrus.url-prefix:         /torrus/
+              torrus.tree:               t01
               torrus.nodeid:             xyz-if://BRS.8979.23//inout
       
 
@@ -139,16 +145,20 @@
               siam.object.class:         SIAM::ServiceDataElement
               siam.svcdata.name:         Memory Usage
               siam.svcdata.type:         MemoryStats
-              siam.svcdata.driver_class: Torrus::SIAM::TimeSeries
-              torrus.tree-url:           http://test01.torrus.net/torrus/main
+              siam.svcdata.driver:       Torrus.TimeSeries
+              torrus.server:             test01.torrus.net
+              torrus.url-prefix:         /torrus/
+              torrus.tree:               t01
               torrus.nodeid:             xyz-vm://VPH.8788.99//mem
             -
               siam.object.id:            SRVC0002.01.u01.d02
               siam.object.class:         SIAM::ServiceDataElement
               siam.svcdata.name:         CPU Usage
               siam.svcdata.type:         CPUStats
-              siam.svcdata.driver_class: Torrus::SIAM::TimeSeries
-              torrus.tree-url:           http://test01.torrus.net/torrus/main
+              siam.svcdata.driver:       Torrus.TimeSeries
+              torrus.server:             test01.torrus.net
+              torrus.url-prefix:         /torrus/
+              torrus.tree:               t01
               torrus.nodeid:             xyz-vm://VPH.8788.99//cpu
           
 

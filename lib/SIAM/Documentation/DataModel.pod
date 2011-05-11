@@ -290,12 +290,14 @@ it for displaying, and should not build any logic on its value.
 
 A string from a limited dictionary. SIAM clients may build the data
 representation based on the value of this attribute. Example:
-“TrafficStats”.
+"PortTraffic".
 
-=item * siam.svcdata.driver_class
+=item * siam.svcdata.driver
 
-Name of the data driver. 
-Examples: I<Torrus::SIAM::TimeSeries>, I<Torrus::SIAM::MonthlyUsage>
+Name of the data back-end driver. The front-end system is supposed to
+know hoe to retrieve the data based on the driver name and the relevant
+attributes of a data element. Examples: I<Torrus.TimeSeries>,
+I<Torrus.MonthlyUsage>
 
 =back
 
@@ -304,7 +306,7 @@ Attribute examples:
 
 =over 4
 
-=item * torrus.tree-url, torrus.nodeid
+=item * torrus.server, torrus.url-prefix, torrus.tree, torrus.nodeid
 
 Example of a reference to a Torrus data element.
 

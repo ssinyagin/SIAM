@@ -519,6 +519,20 @@ sub error
 }
 
 
+=head2 object_exists
+
+Takes an object ID and returns true if such object is present in the database.
+
+=cut
+
+sub object_exists
+{
+    my $self = shift;
+    my $id = shift;
+    return defined($self->{'objects'}{$id});
+}
+
+
 =head2 clone_data
 
   SIAM::Driver::Simple->clone_data($siam, $fh,

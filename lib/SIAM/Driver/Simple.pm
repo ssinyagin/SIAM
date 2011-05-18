@@ -33,6 +33,10 @@ classes are expected to be contained by the root object:
 
 =item * SIAM::User
 
+=item * SIAM::Device
+
+=item * SIAM::Attribute
+
 =back
 
 Each object definition may have an entry with the key C<_contains_>

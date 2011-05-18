@@ -1,6 +1,6 @@
 #!perl -T
 
-use Test::More tests => 38;
+use Test::More tests => 37;
 
 use strict;
 use warnings;
@@ -180,9 +180,8 @@ ok(not defined($x1)) or
 my $x2 = $dataelement->contained_in();
 ok(defined($x2)) or diag('contained_in() returned undef');
 
-ok($x2->attr('siam.object.class') eq 'SIAM::ServiceUnit') or
-    diag('contained_in() returned siam.object.class: ' .
-         $x2->attr('siam.object.class'));
+ok($x2->objclass eq 'SIAM::ServiceUnit') or
+    diag('contained_in() returned siam.object.class: ' . $x2->objclass);
 
 ok($x2->id eq 'SRVC0001.02.u01') or
     diag('contained_in() returned siam.object.id: ' . $x2->id);
@@ -219,23 +218,42 @@ ok($md5sum eq $expected_md5) or
 $siam->_driver->{'objects'}{'SRVC0001.02.u01.d01'}{'torrus.nodeid'} = 'xx';
 ok($user2_contracts->[0]->computable('siam.contract.content_md5hash') ne
    $expected_md5) or
-    diag('Computable siam.contract.content_md5hash did not change as expected');
+    diag('Computable siam.contract.content_md5hash did not ' .
+         'change as expected');
 
 
 ### clone_data
 note('testing SIAM::Driver::Simple->clone_data');
+
+my $filter = sub {
+    my $obj = shift;
+    if( $obj->objclass eq 'SIAM::Contract' )
+    {
+        if( $obj->id =~ /0002$/ )
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    return 1;
+};
+
 my ($fh, $filename) = tempfile();
 binmode($fh, ':utf8');
-
-ok(SIAM::Driver::Simple->clone_data($siam, $fh,
-                                    {'SIAM::Contract' => '0002$'}));
+my $clone = SIAM::Driver::Simple->clone_data($siam, $filter);
+print $fh YAML::Dump($clone);
 $fh->close;
+
 my $data = YAML::LoadFile($filename);
 my $len = scalar(@{$data});
 ok( $len == 22 ) or
     diag('clone_data is expected to produce array of size 22, got: ' . $len);
 
-unlink $filename;
+# unlink $filename;
 
 ### manifest_attributes
 note('testing $siam->manifest_attributes()');

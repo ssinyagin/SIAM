@@ -535,17 +535,17 @@ sub object_exists
 
 =head2 clone_data
 
-  SIAM::Driver::Simple->clone_data($siam, $fh,
-                                   {'SIAM::Contract' => 'CTRT000[12]'});
+  $data = SIAM::Driver::Simple->clone_data($siam, $callback);
 
-The method takes a SIAM object, a write file handle, and optional hashref with
-filters. The method walks through the SIAM data and produces a YAML data
-file suitable for use by C<SIAM::Driver::Simple>. The method is usable
-for producing a test data out of productive system.
+The method takes a SIAM object and a callback reference.  It walks
+through the SIAM data and produces a clone suitable for
+storing into a YAML file and re-using with C<SIAM::Driver::Simple>.
 
-The third argument, if present, defines regular expressions to filter
-the object IDs. Keys are object classes, and values are regular
-expressions which would be matched against object IDs.
+The callback is a sub reference which is supplied with the object ID as
+an argument. Only the objects which result in true value are being
+cloned.
+
+The method is usable for producing a test data out of productive system.
 
 =cut
 
@@ -553,15 +553,9 @@ sub clone_data
 {
     my $class = shift;
     my $siam = shift;
-    my $outfh = shift;
-    my $filters = shift;
+    my $filter_callback = shift;
 
-    my $data =
-        SIAM::Driver::Simple->_retrieve_object_data($siam, $filters);
-    
-    print $outfh YAML::Dump($data);
-
-    return 1;
+    return $class->_retrieve_object_data($siam, $filter_callback);
 }
 
 # recursively walk the objects
@@ -570,7 +564,7 @@ sub _retrieve_object_data
 {
     my $class = shift;
     my $obj = shift;
-    my $filters = shift;
+    my $filter_callback = shift;
 
     my $ret = {};
 
@@ -587,21 +581,14 @@ sub _retrieve_object_data
     my $classes = $obj->_driver->fetch_contained_classes($obj->id);
     foreach my $objclass ( @{$classes} )
     {
-        my $re;
-        if( defined($filters) and defined($filters->{$objclass}) )
-        {
-            $re = $filters->{$objclass};
-        }
-
         my $objects = $obj->get_contained_objects($objclass);
         foreach my $contained_obj (@{$objects})
         {
-            if( not defined($re) or
-                $contained_obj->id() =~ $re )
+            if( &{$filter_callback}($contained_obj) )
             {
                 push(@{$contained_data}, 
-                     SIAM::Driver::Simple->_retrieve_object_data
-                     ($contained_obj, $filters));
+                     $class->_retrieve_object_data($contained_obj,
+                                                   $filter_callback));
             }
         }
     }

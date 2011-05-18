@@ -31,6 +31,24 @@ sub get_data_elements
 }
 
 
+=head2 get_device
+
+    $device = $unit->get_device();
+
+The method returns a SIAM::Device object instantiated from
+C<siam.svcunit.device_id> parameter.
+
+=cut
+
+sub get_device
+{
+    my $self = shift;
+    
+    return $self->instantiate_object
+        ('SIAM::Device', $self->attr('siam.svcunit.device_id'));
+}
+            
+    
 # mandatory attributes
 
 my $mandatory_attributes =

@@ -15,8 +15,30 @@ SIAM::ServiceDataElement - Service data element object class
 
 =head1 METHODS
 
+=head2 get_device
+
+    $device = $dataelement->get_device();
+
+The method returns a SIAM::Device object that is associated with the
+containing SIAM::ServiceUnit.
+
 =cut
 
+sub get_device
+{
+    my $self = shift;
+
+    my $unit = $self->contained_in();
+    if( not defined($unit) )
+    {
+        $self->error
+            ('Cannot find a containing object for SIAM::ServiceDataElement,' .
+             'id=' . $self->id);
+        return undef;
+    }
+
+    return $unit->get_device();
+}
 
 # mandatory attributes
 

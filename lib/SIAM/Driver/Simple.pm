@@ -593,16 +593,14 @@ sub _retrieve_object_data
         }
     }
 
+    if( $obj->is_root() )
+    {
+        return $contained_data;
+    }
+    
     if( scalar(@{$contained_data}) > 0 )
     {
-        if( $obj->is_root() )
-        {
-            return $contained_data;
-        }
-        else
-        {
-            $ret->{'_contains_'} = $contained_data;
-        }
+        $ret->{'_contains_'} = $contained_data;
     }
 
     return $ret;

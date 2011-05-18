@@ -1,5 +1,12 @@
 Revision history for SIAM
 
+0.07    2011-05-18
+        * new method in Simple driver:  object_exists()
+        *  new method in SIAM::Object:  objclass()
+        * call format changed for SIAM::Driver::Simple->clone_data
+        * new method: get_device() in SIAM::ServiceDataElement
+          and SIAM::ServiceUnit
+          
 0.06    2011-05-11
         * Logging API changed
         * SIAM initialization data changed

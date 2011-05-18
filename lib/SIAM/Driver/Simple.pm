@@ -117,6 +117,9 @@ sub connect
 {
     my $self = shift;
 
+    $self->debug('Connecting SIAM::Driver::Simple driver to data file: ' .
+                 $self->{'datafile'});
+    
     my $data = eval { YAML::LoadFile($self->{'datafile'}) };
     if( $@ )
     {

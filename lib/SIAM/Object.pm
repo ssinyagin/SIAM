@@ -213,6 +213,15 @@ Returns a value of C<siam.object.id> attribute
 sub id { shift->attr('siam.object.id') }
 
 
+=head2 objclass
+
+Returns the value of C<siam.object.class> attribute.
+
+=cut
+    
+sub objclass { shift->attr('siam.object.class') }
+
+
 =head2 attr
 
  $val = $contract->attr('siam.contract.inventory_id');

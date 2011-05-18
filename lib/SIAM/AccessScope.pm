@@ -94,8 +94,7 @@ sub match_object
     my $obj = shift;
 
     # siam.scope.applies_to should match the object class
-    if( $obj->attr('siam.object.class') ne
-        $self->attr('siam.scope.applies_to') )
+    if( $obj->objclass ne $self->attr('siam.scope.applies_to') )
     {
         return undef;
     }

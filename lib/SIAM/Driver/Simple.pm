@@ -218,6 +218,7 @@ sub disconnect
     
     delete $self->{'objects'};
     delete $self->{'attr_index'};
+    delete $self->{'cont_attr_index'};
     delete $self->{'contains'};
     delete $self->{'container'};
     $self->{'data_ready'} = 0;

@@ -1,5 +1,8 @@
 Revision history for SIAM
 
+0.08    2011-05-20
+        * SIAM::Device did not make it into CPAN
+
 0.07    2011-05-18
         * new method in Simple driver:  object_exists()
         *  new method in SIAM::Object:  objclass()

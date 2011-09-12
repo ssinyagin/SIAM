@@ -6,6 +6,7 @@ use strict;
 use YAML ();
 use Log::Handler;
 use Digest::MD5 ();
+use File::stat;
 
 =head1 NAME
 
@@ -123,6 +124,9 @@ sub connect
 
     $self->debug('Connecting SIAM::Driver::Simple driver to data file: ' .
                  $self->{'datafile'});
+
+    my $st = stat($self->{'datafile'});
+    $self->{'datafile_lastmod'} = $st->mtime();    
     
     my $data = eval { YAML::LoadFile($self->{'datafile'}) };
     if( $@ )
@@ -285,6 +289,13 @@ sub fetch_computable
     {
         if( $obj->{'siam.object.class'} eq 'SIAM::Contract' )
         {
+            my $st = stat($self->{'datafile'});
+            if( $st->mtime() != $self->{'datafile_lastmod'} )
+            {
+                $self->disconnect();
+                $self->connect();
+            }
+
             my $md5 = new Digest::MD5;
             $self->_object_content_md5($id, $md5);
             return $md5->hexdigest();

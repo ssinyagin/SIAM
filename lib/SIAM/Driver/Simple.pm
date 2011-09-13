@@ -148,6 +148,7 @@ sub connect
     $self->{'contains'} = {};
     $self->{'container'} = {};
     $self->{'data_ready'} = 1;
+    $self->{'computable_cache'} = {};
     
     foreach my $obj (@{$data})
     {
@@ -225,6 +226,7 @@ sub disconnect
     delete $self->{'cont_attr_index'};
     delete $self->{'contains'};
     delete $self->{'container'};
+    delete $self->{'computable_cache'};
     $self->{'data_ready'} = 0;
 }
 
@@ -295,10 +297,16 @@ sub fetch_computable
                 $self->disconnect();
                 $self->connect();
             }
-
+            elsif( defined($self->{'computable_cache'}{$key}) )
+            {
+                return $self->{'computable_cache'}{$key};
+            }
+                
             my $md5 = new Digest::MD5;
             $self->_object_content_md5($id, $md5);
-            return $md5->hexdigest();
+            my $ret = $md5->hexdigest();
+            $self->{'computable_cache'}{$key} = $ret;
+            return $ret;
         }
     }
     

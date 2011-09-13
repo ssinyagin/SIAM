@@ -216,6 +216,7 @@ ok($md5sum eq $expected_md5) or
          'returned unexpected value: ' . $md5sum);
 
 $siam->_driver->{'objects'}{'SRVC0001.02.u01.d01'}{'torrus.nodeid'} = 'xx';
+delete $siam->_driver->{'computable_cache'}{'siam.contract.content_md5hash'};
 ok($user2_contracts->[0]->computable('siam.contract.content_md5hash') ne
    $expected_md5) or
     diag('Computable siam.contract.content_md5hash did not ' .

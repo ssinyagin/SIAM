@@ -63,10 +63,13 @@ our $VERSION = '0.10';
 
   my $all_contracts = $siam->get_all_contracts();
   foreach my $contract (@{$all_contracts}) {
+    next unless $contract->is_complete();
     my $services = $contract->get_services();
     foreach my $service (@{$services}) {
+      next unless $service->is_complete();
       my $units = $service->get_service_units();
       foreach my $unit (@{$units}) {
+        next unless $unit->is_complete();
         # some useful attributes for the physical unit
         my $host = $unit->attr('access.node.name');
         my $port = $unit->attr('access.port.name');
@@ -74,6 +77,7 @@ our $VERSION = '0.10';
         # statistics associated with the service unit
         my $dataelements = $unit->get_data_elements();
         foreach my $element (@{$dataelements}) {
+          next unless $element->is_complete();
           # do something with the element attributes
         }
       }

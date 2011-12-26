@@ -257,6 +257,21 @@ sub attributes
 }
 
 
+=head2 is_complete
+
+Returns the value of C<siam.object.complete>.
+
+=cut
+
+sub is_complete
+{
+    my $self = shift;
+    my $key = shift;
+    return $self->{'_attr'}{'siam.object.complete'};
+}
+
+    
+
 =head2 computable
 
  $val = $contract->computable('siam.contract.content_md5hash');

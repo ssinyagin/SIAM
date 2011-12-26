@@ -1,5 +1,8 @@
 Revision history for SIAM
 
+0.10    2011-12-26
+        * new method: is_complete() in SIAM::Object
+
 0.09    2011-06-26
         * memory cleanup on disconnect()
 

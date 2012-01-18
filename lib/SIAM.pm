@@ -15,13 +15,9 @@ use SIAM::Attribute;
 
 SIAM - Service Inventory Abstraction Model
 
-=head1 VERSION
-
-Version 0.10
-
 =cut
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 
 =head1 SYNOPSIS

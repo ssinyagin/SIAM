@@ -45,6 +45,9 @@ which points to an array of contained objects. For example, an
 C<SIAM::Contract> object is expected to contain one or more
 C<SIAM::Service> objects.
 
+If a key starts with C<_compute_>, it represents a computable for a
+given object.
+
 All other keys in the object entry define the object attributes. The
 values are expected to be strings and numbers. The data file should
 define all the attributes, including C<siam.object.id> and
@@ -259,7 +262,10 @@ sub fetch_attributes
 
     while( my($key, $val) = each %{$self->{'objects'}{$id}} )
     {
-        $obj->{$key} = $val;
+        if( $key !~ /^_compute_/o )
+        {
+            $obj->{$key} = $val;
+        }
     }
     
     return 1;
@@ -307,6 +313,14 @@ sub fetch_computable
             my $ret = $md5->hexdigest();
             $self->{'computable_cache'}{$key} = $ret;
             return $ret;
+        }
+    }
+    else
+    {
+        my $val = $self->{'objects'}{$id}{'_compute_' . $key};
+        if( defined($val) )
+        {
+            return $val;
         }
     }
     

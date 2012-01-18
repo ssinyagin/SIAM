@@ -14,6 +14,7 @@ my $builder = Module::Build->new(
     },
     requires => {
         'Log::Handler' => 0,
+        'JSON' => 0,
     },
     recommends => {
         'YAML' => 0.71,

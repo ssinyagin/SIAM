@@ -1,6 +1,6 @@
-#!perl -T
+####!perl -T
 
-use Test::More tests => 37;
+use Test::More tests => 41;
 
 use strict;
 use warnings;
@@ -210,7 +210,7 @@ ok(defined($md5sum) and $md5sum ne '') or
     diag('Computable siam.contract.content_md5hash ' .
          'returned undef or empty string');
 
-my $expected_md5 = '611ab82c3054fc9ccda157abe28536f2';
+my $expected_md5 = '7c1f3969e6b3d095d78390218422590f';
 ok($md5sum eq $expected_md5) or
     diag('Computable siam.contract.content_md5hash ' .
          'returned unexpected value: ' . $md5sum);
@@ -222,6 +222,18 @@ ok($user2_contracts->[0]->computable('siam.contract.content_md5hash') ne
     diag('Computable siam.contract.content_md5hash did not ' .
          'change as expected');
 
+
+### Reports
+ok($user2_contracts->[0]->attr('siam.object.has_reports')) or
+    diag('CTRT0001 does not have any reports');
+
+my $reports = $user2_contracts->[0]->get_reports();
+ok(scalar(@{$reports}) == 1) or diag('Cannot retrieve reports for CTRT0001');
+
+my $report_data = $reports->[0]->get_items();
+ok(scalar(@{$report_data}) == 2) or diag('expected 2 report items');
+
+ok($report_data->[1]->{'siam.report.item'}->id() eq 'SRVC0001.02.u01');
 
 ### clone_data
 note('testing SIAM::Driver::Simple->clone_data');
@@ -260,7 +272,7 @@ ok( $len == 22 ) or
 note('testing $siam->manifest_attributes()');
 my $manifest = $siam->manifest_attributes();
 my $manifest_size = scalar(@{$manifest});
-my $manifest_size_expected = 50;
+my $manifest_size_expected = 51;
 ok($manifest_size == $manifest_size_expected) or
     diag('$siam->manifest_attributes() returned ' . $manifest_size .
          ', expected: ' . $manifest_size_expected);

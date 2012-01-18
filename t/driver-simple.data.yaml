@@ -14,7 +14,8 @@
   siam.object.class:              SIAM::Contract
   siam.contract.inventory_id:     INVC0001
   siam.contract.customer_name:    Perpetualair Lavishbison, Inc.
-  xyz.billing_ok:            1
+  siam.object.has_reports:        1
+  xyz.billing_ok:                 1
   _contains_:
     -
       siam.object.id:            SRVC0001.01
@@ -110,7 +111,18 @@
               torrus.url-prefix:         /torrus/
               torrus.tree:               t01
               torrus.nodeid:             xyz-if://BRS.8979.23//inout
-      
+    -
+      siam.object.id:            RPT0001.01
+      siam.object.class:         SIAM::Report
+      siam.report.name:          Top traffic usage
+      siam.report.description: >
+        Top traffic usage on service ports of Perpetualair Lavishbison, Inc.
+      siam.report.object_class:  SIAM::ServiceUnit
+      siam.report.type:          torrus.traffic.top
+      siam.report.last_updated:  1997-07-16T19:20:30+01:00
+      _compute_siam.report.content: >
+        [{"siam.report.item_id": "SRVC0001.01.u01"},
+        {"siam.report.item_id": "SRVC0001.02.u01"}]
 
 -
   siam.object.id:                 CTRT0002

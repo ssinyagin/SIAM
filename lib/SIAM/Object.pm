@@ -4,6 +4,7 @@ use warnings;
 use strict;
 
 use Log::Handler;
+use SIAM::Report;
 
 # default log manager
 our $logmgr = Log::Handler->new(
@@ -64,6 +65,12 @@ sub new
             $self->{'_attr'}{'siam.object.complete'} = 1;
         }
 
+        # set siam.object.has_reports to false if undefined
+        if( not defined($self->{'_attr'}{'siam.object.has_reports'}) )
+        {
+            $self->{'_attr'}{'siam.object.has_reports'} = 0;
+        }
+        
         # check if mandatory attributes are defined by the driver
         if( $self->can('_mandatory_attributes') )
         {
@@ -348,6 +355,28 @@ sub contained_in
                                      $attr->{'siam.object.id'});
 }
     
+
+
+=head2 get_reports
+
+Returns arrayref with contained SIAM::Report objects
+
+=cut
+
+sub get_reports
+{
+    my $self = shift;
+
+    if( $self->attr('siam.object.has_reports') )
+    {
+        return $self->get_contained_objects('SIAM::Report');
+    }
+    else
+    {
+        return [];
+    }
+}
+
 
 
 =head1 CLASS METHODS

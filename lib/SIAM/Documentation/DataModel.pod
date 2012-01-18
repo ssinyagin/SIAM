@@ -80,10 +80,16 @@ classes without breaking the logics.
 The attribute should return true value when it's completely ready to
 use. For example, a Service Data Element object may not be ready to
 deliver the data because the underlying system has not yet prepared
-it. In this case, this attribute would return false value.
+it. In this case, this attribute would return false value. If the driver
+does not deliver a value for this attribute, SIAM::Object sets it to
+true.
 
-If the driver does not deliver a value for this attribute, SIAM::Object
-sets it to true.
+=item * siam.object.has_reports
+
+This attribute returns a true value if one or more reports is associated
+with it. Reports are usually performed on the underlying contained
+objects. If the driver does not deliver a value for this attribute,
+SIAM::Object sets it to false.
 
 =back
 
@@ -519,6 +525,81 @@ Name of the attribute.
 =back
 
 
+
+
+=head2 SIAM::Report
+
+A Report object can be contained in any of other valid objects, except
+for another SIAM::Report. The correspondinig container should return
+true value for the C<siam.object.has_reports> attribute.
+
+A Report object does not contain any objects. The contents of the report
+are retrieved via the C<siam.report.content> computable.
+
+The SIAM driver acts as a storage for report contents, and also it
+defines the list of reports for particular inventory objects. An
+external report generation program, such as Torrus SIAM plugin,
+generates the reports and pushes them back tot he driver by setting the
+corresponding conditions.
+
+Mandatory attributes:
+
+=over 4
+
+=item * siam.report.name
+
+The report name as displayed to the user.
+
+=item * siam.report.description
+
+A couple of sentences which describe the details of the report.
+
+=item * siam.report.object_class
+
+Class of objects that are returned by this report. Usually this is
+"SIAM::ServiceUnit".
+
+=item * siam.report.type
+
+A string from a limited dictionary of predefined report types. The
+report type defines behavior of the report generating program. Examples:
+"torrus.traffic.top", "torrus.bwusage.top".
+
+=item * siam.report.last_updated
+
+Returns the timestamp of the latest report generation in ISO format.
+
+=back
+
+Additional attributes depend on the report type, and are specific to
+that type. The report generation program should document all relevant
+attributes.
+
+The following conditions are defined for the reports. They are used by
+the report generation program to store the results in the driver:
+
+=over 4
+
+=item * siam.report.reset
+
+This condition indicates that the driver should emptyany previous
+contents of the report. This condition would be usually followed by one
+or more C<siam.report.add_item> conditions. The value of this condition
+is ignored.
+
+=item * siam.report.add_item
+
+This condition is set to tell the driver to add one more object to the
+report. The value of the condition is a JSON-encoded hash. The hash must
+have a mandatory item with the key C<siam.report.item_id> and an object
+ID in the value. The rest of the JSON data is defined by the report type
+and should be documented in the reporting program.
+
+=back
+
+The computable C<siam.report.content> returns a JSON array that is
+comprised of the report items as specified in C<siam.report.add_item>
+condition.
 
 
 

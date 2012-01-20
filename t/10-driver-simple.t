@@ -1,6 +1,6 @@
 ####!perl -T
 
-use Test::More tests => 41;
+use Test::More tests => 42;
 
 use strict;
 use warnings;
@@ -235,6 +235,14 @@ ok(scalar(@{$report_data}) == 2) or diag('expected 2 report items');
 
 ok($report_data->[1]->{'siam.report.item'}->id() eq 'SRVC0001.02.u01');
 
+
+### Deep walk
+my $walk_res =
+    $user2_contracts->[0]->deep_walk_contained_objects('SIAM::ServiceUnit');
+my $walk_count = scalar(@{$walk_res});
+ok($walk_count == 3) or diag('deep_walk_contained_objects returned ' . 
+                             $walk_count . ' objects, expected 3');
+
 ### clone_data
 note('testing SIAM::Driver::Simple->clone_data');
 
@@ -266,7 +274,7 @@ my $len = scalar(@{$data});
 ok( $len == 22 ) or
     diag('clone_data is expected to produce array of size 22, got: ' . $len);
 
-# unlink $filename;
+unlink $filename;
 
 ### manifest_attributes
 note('testing $siam->manifest_attributes()');

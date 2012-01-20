@@ -210,6 +210,60 @@ sub get_objects_by_attribute
     
 
 
+=head2 deep_walk_contained_objects
+
+ my $list = $object->deep_walk_contained_objects($classname);
+
+The method walks down the tree of contained objects and retrieves a list
+of all found objects. It returns an array reference with all found objects;
+
+=cut
+
+
+sub deep_walk_contained_objects
+{
+    my $self = shift;
+    my $classname = shift;
+
+    # id => objref
+    # the hash is needed to avoid object duplications
+    my $results = {};
+    $self->_walk_recursive($classname, $results);
+
+    return [values %{$results}];
+}
+
+
+sub _walk_recursive
+{
+    my $self = shift;
+    my $classname = shift;
+    my $results = shift;
+
+    my $driver = $self->_driver;
+    my $contained_classes = $driver->fetch_contained_classes($self->id());
+
+    foreach my $obect_class (@{$contained_classes})
+    {
+        my $list = $self->get_contained_objects($obect_class);
+
+        if( $obect_class eq $classname )
+        {
+            foreach my $item (@{$list})
+            {
+                $results->{$item->id()} = $item;
+            }
+        }
+            
+        foreach my $item (@{$list})
+        {
+            $item->_walk_recursive($classname, $results);
+        }
+    }
+    return;
+}
+
+
 
 =head2 id
 

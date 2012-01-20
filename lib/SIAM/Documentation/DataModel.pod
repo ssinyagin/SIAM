@@ -580,25 +580,19 @@ the report generation program to store the results in the driver:
 
 =over 4
 
-=item * siam.report.reset
+=item * siam.report.set_items
 
-This condition indicates that the driver should emptyany previous
-contents of the report. This condition would be usually followed by one
-or more C<siam.report.add_item> conditions. The value of this condition
-is ignored.
-
-=item * siam.report.add_item
-
-This condition is set to tell the driver to add one more object to the
-report. The value of the condition is a JSON-encoded hash. The hash must
-have a mandatory item with the key C<siam.report.item_id> and an object
-ID in the value. The rest of the JSON data is defined by the report type
-and should be documented in the reporting program.
+This condition is set to tell the driver to reset the contents and add
+new items to the report. The value of the condition is a JSON-encoded
+array consisted of hashes. Each hash must have a mandatory item with the
+key C<siam.report.item_id> and an object ID in the value. The rest of
+the keys and values is defined by the report type and should be
+documented in the reporting program.
 
 =back
 
 The computable C<siam.report.content> returns a JSON array that is
-comprised of the report items as specified in C<siam.report.add_item>
+comprised of the report items as specified in C<siam.report.set_items>
 condition.
 
 

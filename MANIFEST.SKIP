@@ -50,3 +50,4 @@
 \bpod2htm.+\.tmp$
 
 ^MYMETA.yml$
+^MYMETA\.json$

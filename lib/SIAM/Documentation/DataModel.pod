@@ -286,66 +286,6 @@ Identifier of an associated SIAM::Device object or NIL.
 =back
 
 
-=head2 SIAM::ServiceDataElement
-
-Service Units define the logical entities, whereas Data Elements refer
-to associated data, such as statistics.
-
-Each instance of a Service Unit is usually associated with several data
-elements. For example, a WAN location is associated with TrafficStats,
-ErrorStats, MonthlyUsage.
-
-Each Data Element represents a connection to some back-end system that
-actually delivers the data. SIAM provides all attributes necessary for
-accessing the data. It is up to the client application to retrieve the
-data from the back-end system.
-
-Mandatory attributes:
-
-=over 4
-
-=item * siam.svcdata.name
-
-Data Element name as displayed to the user. SIAM clients should only use
-it for displaying, and should not build any logic on its value.
-
-=item * siam.svcdata.type
-
-A string from a limited dictionary. SIAM clients may build the data
-representation based on the value of this attribute. Example:
-"PortTraffic".
-
-=item * siam.svcdata.driver
-
-Name of the data back-end driver. The front-end system is supposed to
-know how to retrieve the data based on the driver name and the relevant
-attributes of a data element. Examples: I<Torrus.TimeSeries>,
-I<Torrus.MonthlyUsage>
-
-=back
-
-
-Attribute examples:
-
-=over 4
-
-=item * torrus.server, torrus.url-prefix, torrus.tree, torrus.nodeid
-
-Example of a reference to a Torrus data element.
-
-=item * monthly_usage.dsn, monthly_usage.username, monthly_usage.password,
-monthly_usage.svcid
-
-Example of a reference to Torrus monthly traffic statistics, such as
-95th Percentile bandwidth utilization.
-
-
-=item * vmstats.dsn, vmstats.username, vmstats.password, vmstats.vm_server,
-vmstats.vm_entity, ...
-
-Example of a reference to VmWare server statistics in an SQL database.
-
-=back
 
 
 =head2 SIAM::Device

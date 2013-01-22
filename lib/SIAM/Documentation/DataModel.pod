@@ -173,6 +173,11 @@ These define the internal logic which is specific to particular SIAM use.
 A Service is a billing unit within the enterprise. It consists of Service
 Units.
 
+For example, a WAN connectivity service would consist of one Service
+object, consisting of a Service Unit object per location, and one or two
+Service Component objects per Unit for single and redundant physical
+links.
+
 
 Mandatory attributes:
 
@@ -208,21 +213,19 @@ Location information for a service.
 
 =head2 SIAM::ServiceUnit
 
-Service Unit is an elementary physical or logical entity comprising a
-service. For example, a WAN connection may consist of several physical
-links, and each link would be identified as a Unit.
+Service Unit is an elementary logical entity that builds up a
+service. For example, for a redundant WAN connection, a Service Unit
+would correspond to one WAN location, and it would consist of two
+Service Components for each link.
 
-In many SP environments each Service would only consist of one
-Unit. This assignment depends on the internal SP service definitions.
+A ServiceUnit consists of service options, such as access speed, hosting
+disk size, etc. The corresponding Service Component has implementation
+attributes, such as link identifier, access port, rack number, etc.
 
-A ServiceUnit consists of Service Options, such as access speed, hosting
-disk size, etc, and Implementation Attributes, such as link identifier,
-access port, rack number, etc.
-
-Service Options are usually visible to the customer and are defined in
+Service options are usually visible to the customer and are defined in
 their contract.
 
-Implementation Attributes are internal Service Provider's properties
+Implementation attributes are internal Service Provider's properties
 that document the technical details of the installation.
 
 Mandatory attributes:
@@ -241,41 +244,55 @@ required for each unit type.
 
 =item * siam.svcunit.inventory_id
 
-Service Unit ID in external inventory. If it's a strict one-to-one relation
-between Services and their Units, this attribute is equal to
-C<siam.svc.inventory_id>.
+Service Unit ID in external inventory.
 
-=item * siam.svcunit.device_id
+=back
+
+
+
+
+=head2 SIAM::ServiceComponent
+
+A Service Unit consists of one or more physical or logical components,
+and each component is typically associated with a physical device. For
+example, a WAN connection may consist of several physical links, and
+each link would be identified as a Service Component.
+
+Each Service Component object represents a single management entity,
+such as network port on a device.
+
+Mandatory attributes:
+
+=over 4
+
+=item * siam.svcc.name
+
+Service Component name as displayed to the user.
+
+=item * siam.svcc.type
+
+A string from a limited dictionary of predefined service component types. It
+refers to a service template which identifies the attributes which are
+required for each component type.
+
+=item * siam.svcc.inventory_id
+
+Service Component ID in external inventory.
+
+=item * siam.svcc.device_id
 
 Identifier of an associated SIAM::Device object or NIL.
 
 =back
 
 
-Attribute examples:
-
-=over 4
-
-=item * access.speed.downstream, vm.ram.size
-
-Examples of Service Options.
-
-=item * access.port.name, rack.number
-
-Examples of Implementation Attributes.
-
-=back
-
-
-
-
 =head2 SIAM::ServiceDataElement
 
-Service Units define the physical entities, whereas Data Elements refer
+Service Units define the logical entities, whereas Data Elements refer
 to associated data, such as statistics.
 
 Each instance of a Service Unit is usually associated with several data
-elements. For example, a physical link is associated with TrafficStats,
+elements. For example, a WAN location is associated with TrafficStats,
 ErrorStats, MonthlyUsage.
 
 Each Data Element represents a connection to some back-end system that
@@ -301,7 +318,7 @@ representation based on the value of this attribute. Example:
 =item * siam.svcdata.driver
 
 Name of the data back-end driver. The front-end system is supposed to
-know hoe to retrieve the data based on the driver name and the relevant
+know how to retrieve the data based on the driver name and the relevant
 attributes of a data element. Examples: I<Torrus.TimeSeries>,
 I<Torrus.MonthlyUsage>
 

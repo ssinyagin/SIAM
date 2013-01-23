@@ -33,9 +33,9 @@ ok($siam->connect(), 'connect');
 ok($siam->get_client_config('Test')->{'x'} == 5) or
     diag('Failed to retrieve client configuration');
 
-my $dataelement = $siam->instantiate_object('SIAM::ServiceDataElement',
-                                            'SRVC0001.02.u01.d01');
-ok(defined($dataelement), '$siam->instantiate_object');
+my $component = $siam->instantiate_object('SIAM::ServiceComponent',
+                                          'SRVC0002.01.u02.c01');
+ok(defined($component), '$siam->instantiate_object');
 
 ### user: root
 note('testing the root user');
@@ -155,20 +155,20 @@ foreach my $obj (@{$units})
 }
 ok(defined($u)) or diag('Expected to find Service Unit SRVC0001.01.u01');
 
-my $dataelements = $u->get_data_elements();
-ok(scalar(@{$dataelements}) == 1, 'get_data_elements') or
-    diag('Expected 1 data element for SRVC0001.01.u01, got ' .
-         scalar(@{$dataelements}));
+my $components = $u->get_components();
+ok(scalar(@{$components}) == 1, 'get_components') or
+    diag('Expected 1 component for SRVC0001.01.u01, got ' .
+         scalar(@{$components}));
 
 ### User privileges to see attributes
 note('testing user privileges to see attributes');
 my $filtered = $siam->filter_visible_attributes($user2, $u->attributes());
 
-ok((not defined($filtered->{'access.bgp.peer.addr'}))) or
-    diag('User perpetualair is not supposed to see access.bgp.peer.addr');
+ok((not defined($filtered->{'xyz.serviceclass'}))) or
+    diag('User perpetualair is not supposed to see xyz.serviceclass');
 
-ok( defined($filtered->{'access.speed.downstream'})) or
-    diag('User perpetualair is supposed to see access.speed.downstream');
+ok( defined($filtered->{'xyz.access.redundant'})) or
+    diag('User perpetualair is supposed to see xyz.access.redundant');
 
 
 ### $object->contained_in()
@@ -177,13 +177,13 @@ my $x1 = $user2_contracts->[0]->contained_in();
 ok(not defined($x1)) or
     diag('contained_in() did not return undef as expected');
 
-my $x2 = $dataelement->contained_in();
+my $x2 = $component->contained_in();
 ok(defined($x2)) or diag('contained_in() returned undef');
 
 ok($x2->objclass eq 'SIAM::ServiceUnit') or
     diag('contained_in() returned siam.object.class: ' . $x2->objclass);
 
-ok($x2->id eq 'SRVC0001.02.u01') or
+ok($x2->id eq 'SRVC0002.01.u01') or
     diag('contained_in() returned siam.object.id: ' . $x2->id);
 
 
@@ -192,10 +192,10 @@ note('testing Device and ServiceUnit relationship');
 my $dev = $siam->get_device('ZUR8050AN33');
 ok(defined($dev)) or diag('$siam->get_device(\'ZUR8050AN33\') returned undef');
 
-$units = $dev->get_all_service_units();
-ok(scalar(@{$units}) == 1) or
-    diag('$dev->get_all_service_units() is expected to return 1 unit, got: ' .
-         scalar(@{$units}));
+$components = $dev->get_all_service_components();
+ok(scalar(@{$components}) == 1) or
+    diag('$dev->get_all_service_components() is expected ' .
+         'to return 1 unit, got: ' . scalar(@{$units}));
 
 my $unit_id = $units->[0]->id();
 ok($unit_id eq 'SRVC0001.01.u01') or
@@ -210,12 +210,12 @@ ok(defined($md5sum) and $md5sum ne '') or
     diag('Computable siam.contract.content_md5hash ' .
          'returned undef or empty string');
 
-my $expected_md5 = '7c1f3969e6b3d095d78390218422590f';
+my $expected_md5 = '5706de2b5b31514b1b0cd454fbaae566';
 ok($md5sum eq $expected_md5) or
     diag('Computable siam.contract.content_md5hash ' .
          'returned unexpected value: ' . $md5sum);
 
-$siam->_driver->{'objects'}{'SRVC0001.02.u01.d01'}{'torrus.nodeid'} = 'xx';
+$siam->_driver->{'objects'}{'SRVC0001.02.u01.c01'}{'torrus.port.nodeid'} = 'xx';
 delete $siam->_driver->{'computable_cache'}{'siam.contract.content_md5hash'};
 ok($user2_contracts->[0]->computable('siam.contract.content_md5hash') ne
    $expected_md5) or
@@ -233,7 +233,7 @@ ok(scalar(@{$reports}) == 1) or diag('Cannot retrieve reports for CTRT0001');
 my $report_data = $reports->[0]->get_items();
 ok(scalar(@{$report_data}) == 2) or diag('expected 2 report items');
 
-ok($report_data->[1]->{'siam.report.item'}->id() eq 'SRVC0001.02.u01');
+ok($report_data->[1]->{'siam.report.item'}->id() eq 'SRVC0001.02.u01.c01');
 
 
 ### Deep walk
@@ -271,8 +271,8 @@ $fh->close;
 
 my $data = YAML::LoadFile($filename);
 my $len = scalar(@{$data});
-ok( $len == 22 ) or
-    diag('clone_data is expected to produce array of size 22, got: ' . $len);
+ok( $len == 20 ) or
+    diag('clone_data is expected to produce array of size 20, got: ' . $len);
 
 unlink $filename;
 
@@ -280,7 +280,7 @@ unlink $filename;
 note('testing $siam->manifest_attributes()');
 my $manifest = $siam->manifest_attributes();
 my $manifest_size = scalar(@{$manifest});
-my $manifest_size_expected = 51;
+my $manifest_size_expected = 46;
 ok($manifest_size == $manifest_size_expected) or
     diag('$siam->manifest_attributes() returned ' . $manifest_size .
          ', expected: ' . $manifest_size_expected);

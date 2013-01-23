@@ -5,8 +5,7 @@ use strict;
 
 use base 'SIAM::Object';
 
-use SIAM::ServiceDataElement;
-use SIAM::Device;
+use SIAM::ServiceComponent;
 
 =head1 NAME
 
@@ -14,39 +13,23 @@ SIAM::ServiceUnit - Service Unit object class
 
 =head1 SYNOPSIS
 
-   my $dataelements = $service->get_data_elements();
+   my $components = $svcunit->get_components();
 
 =head1 METHODS
 
-=head2 get_data_elements
+=head2 get_components
 
-Returns arrayref with SIAM::ServiceDataElement objects
-
-=cut
-
-sub get_data_elements
-{
-    my $self = shift;
-    return $self->get_contained_objects('SIAM::ServiceDataElement');
-}
-
-
-=head2 get_device
-
-    $device = $unit->get_device();
-
-The method returns a SIAM::Device object instantiated from
-C<siam.svcunit.device_id> parameter.
+Returns arrayref with SIAM::ServiceComponent objects
 
 =cut
 
-sub get_device
+sub get_components
 {
     my $self = shift;
-    
-    return $self->instantiate_object
-        ('SIAM::Device', $self->attr('siam.svcunit.device_id'));
+    return $self->get_contained_objects('SIAM::ServiceComponent');
 }
+
+
             
     
 # mandatory attributes
@@ -54,8 +37,7 @@ sub get_device
 my $mandatory_attributes =
     [ 'siam.svcunit.name',
       'siam.svcunit.type',
-      'siam.svcunit.inventory_id',
-      'siam.svcunit.device_id' ];
+      'siam.svcunit.inventory_id', ];
 
 sub _mandatory_attributes
 {
@@ -67,7 +49,7 @@ sub _manifest_attributes
 {
     my $ret = [];
     push(@{$ret}, @{$mandatory_attributes},
-         @{ SIAM::ServiceDataElement->_manifest_attributes() });
+         @{ SIAM::ServiceComponent->_manifest_attributes() });
 
     return $ret;
 

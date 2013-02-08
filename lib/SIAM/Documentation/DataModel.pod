@@ -17,7 +17,10 @@ systems as network monitoring, CRM, Customer self-service portals, etc.
 =head2 Conventions
 
 Each object is defined by a set of attributes. Some attributes are mandatory
-for a particular object class. 
+for a particular object class.
+
+Each pair of objects may or may not be in contained/container
+relationship. Any single object may only be contained in one container.
 
 Visibility of attributes and their values is defined by Access Scope
 associated with a particular client user.
@@ -83,6 +86,10 @@ deliver the data because the underlying system has not yet prepared
 it. In this case, this attribute would return false value. If the driver
 does not deliver a value for this attribute, SIAM::Object sets it to
 true.
+
+=item * siam.object.container
+
+The attribute refers to the containing object's ID or is set to NIL.
 
 =item * siam.object.has_reports
 

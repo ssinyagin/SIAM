@@ -149,6 +149,10 @@ contract number as seen in the enterprise billing system.
 
 String identifying the contract holder name
 
+=item * siam.contract.customer_id
+
+Contract holder ID in the external inventory
+
 =back
 
 Computables:

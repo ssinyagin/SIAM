@@ -133,12 +133,6 @@
               siam.svcc.type:            HOST
               siam.svcc.inventory_id:    SRVC0002.01.u02.c01
               siam.svcc.devc_id:         DEV_DUB8600VH05_h
-              vm.name:                   VPH.8788.99.01
-              vm.ram.limit:              1024
-              vm.ram.guaranteed:         512
-              vm.disk.size:              40
-              torrus.vm.nodeid:          xyz-vm://VPH.8788.99//01
-          
 
 # Devices
 -
@@ -155,12 +149,14 @@
       siam.devc.inventory_id:    ZUR8050AN33_p01
       siam.devc.type:            IFMIB.Port
       siam.devc.name:            GigabitEthernet0/1     
+      torrus.nodeid:             xyz-if://ZUR8050AN33_p01
     -
       siam.object.id:            DEV_ZUR8050AN33_p02
       siam.object.class:         SIAM::DeviceComponent
       siam.devc.inventory_id:    ZUR8050AN33_p02
       siam.devc.type:            IFMIB.Port
       siam.devc.name:            GigabitEthernet0/2
+      torrus.nodeid:             xyz-if://ZUR8050AN33_p02
   
 -
   siam.object.id:            DEV_OLT4600AN03
@@ -176,12 +172,14 @@
       siam.devc.inventory_id:    OLT4600AN03_p01
       siam.devc.type:            IFMIB.Port
       siam.devc.name:            GigabitEthernet0/1     
+      torrus.nodeid:             xyz-if://OLT4600AN03_p01
     -
       siam.object.id:            DEV_OLT4600AN03_p02
       siam.object.class:         SIAM::DeviceComponent
       siam.devc.inventory_id:    OLT4600AN03_p02
       siam.devc.type:            IFMIB.Port
       siam.devc.name:            GigabitEthernet0/2
+      torrus.nodeid:             xyz-if://OLT4600AN03_p02
   
 -
   siam.object.id:            DEV_DUB8600AN04
@@ -197,12 +195,14 @@
       siam.devc.inventory_id:    DUB8600AN04_p01
       siam.devc.type:            IFMIB.Port
       siam.devc.name:            GigabitEthernet0/1     
+      torrus.nodeid:             xyz-if://DUB8600AN04_p01
     -
       siam.object.id:            DEV_DUB8600AN04_p02
       siam.object.class:         SIAM::DeviceComponent
       siam.devc.inventory_id:    DUB8600AN04_p02
       siam.devc.type:            IFMIB.Port
       siam.devc.name:            GigabitEthernet0/2
+      torrus.nodeid:             xyz-if://DUB8600AN04_p02
 
 -
   siam.object.id:            DEV_DUB8600VH05
@@ -218,6 +218,11 @@
       siam.devc.inventory_id:    DUB8600VH05_h
       siam.devc.type:            HOST
       siam.devc.name:            DUB8600VH05
+      vm.name:                   VPH.8788.99.01
+      vm.ram.limit:              1024
+      vm.ram.guaranteed:         512
+      vm.disk.size:              40
+      torrus.nodeid:             xyz-vm://DUB8600VH05
 
 # Users and access control
 

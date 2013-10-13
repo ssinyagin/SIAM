@@ -5,6 +5,7 @@ use strict;
 
 use base 'SIAM::Object';
 
+use SIAM::DeviceComponent;
 
 =head1 NAME
 
@@ -15,19 +16,16 @@ SIAM::Device - device object class
 
 =head1 METHODS
 
-=head2 get_all_service_components
+=head2 get_components
 
-returns arrayref with all C<SIAM::ServiceComponent> objects associated with
-this device.
+Returns arrayref with SIAM::DeviceComponent objects
 
 =cut
 
-sub get_all_service_components
+sub get_components
 {
     my $self = shift;
-    
-    return $self->get_objects_by_attribute
-        ('SIAM::ServiceComponent', 'siam.svcc.device_id', $self->id);
+    return $self->get_contained_objects('SIAM::DeviceComponent');
 }
 
 
@@ -44,7 +42,10 @@ sub _mandatory_attributes
 
 sub _manifest_attributes
 {
-    return $mandatory_attributes;
+    my $ret = [];
+    push(@{$ret}, @{$mandatory_attributes},
+         @{ SIAM::DeviceComponent->_manifest_attributes() });
+    return $ret;
 }
 
 1;

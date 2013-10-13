@@ -1,6 +1,6 @@
 ####!perl -T
 
-use Test::More tests => 42;
+use Test::More tests => 41;
 
 use strict;
 use warnings;
@@ -119,11 +119,11 @@ ok((not $user3->has_privilege('ViewContract', $user2_contracts->[0])),
 
 
 
-### Service units and data elements
+### Service units
 note('testing the service units and data elements');
 
 my $services = $user2_contracts->[0]->get_services();
-ok(scalar(@{$services}) == 2, 'get_services') or
+ok((scalar(@{$services}) == 2), 'get_services') or
     diag('Expected 2 services for CTRT0001, got ' . scalar(@{$services}));
 
 # find SRVC0001.01 for further testing
@@ -139,7 +139,7 @@ foreach my $obj (@{$services})
 ok(defined($s)) or diag('Expected to find Service SRVC0001.01');
 
 my $units = $s->get_service_units();
-ok(scalar(@{$units}) == 2, 'get_service_units') or
+ok((scalar(@{$units}) == 2), 'get_service_units') or
     diag('Expected 2 service units for SRVC0001.01, got ' .
          scalar(@{$units}));
 
@@ -159,6 +159,16 @@ my $components = $u->get_components();
 ok(scalar(@{$components}) == 1, 'get_components') or
     diag('Expected 1 component for SRVC0001.01.u01, got ' .
          scalar(@{$components}));
+
+### Devices and components
+
+my $dev = $siam->get_device('ZUR8050AN33');
+ok(defined($dev)) or diag('$siam->get_device(\'ZUR8050AN33\') returned undef');
+
+my $dc = $dev->get_components();
+ok((scalar(@{$dc}) == 2), '$dev->get_components()'), or
+    diag('Expected 2 device components for ZUR8050AN33, got ' .
+         scalar(@{$dc}));
 
 ### User privileges to see attributes
 note('testing user privileges to see attributes');
@@ -187,21 +197,6 @@ ok($x2->id eq 'SRVC0002.01.u01') or
     diag('contained_in() returned siam.object.id: ' . $x2->id);
 
 
-### Devices and Service Units
-note('testing Device and ServiceUnit relationship');
-my $dev = $siam->get_device('ZUR8050AN33');
-ok(defined($dev)) or diag('$siam->get_device(\'ZUR8050AN33\') returned undef');
-
-$components = $dev->get_all_service_components();
-ok(scalar(@{$components}) == 1) or
-    diag('$dev->get_all_service_components() is expected ' .
-         'to return 1 unit, got: ' . scalar(@{$units}));
-
-my $unit_id = $units->[0]->id();
-ok($unit_id eq 'SRVC0001.01.u01') or
-    diag('$dev->get_all_service_units() returned "' . $unit_id .
-         '", but expected "SRVC0001.01.u01"');
-
 ### siam.contract.content_md5hash
 note('testing computable: siam.contract.content_md5hash');
 my $md5sum =
@@ -210,7 +205,7 @@ ok(defined($md5sum) and $md5sum ne '') or
     diag('Computable siam.contract.content_md5hash ' .
          'returned undef or empty string');
 
-my $expected_md5 = '6a0e426edd3d8e46c4e00eaf35c0f470';
+my $expected_md5 = '2929c2392b8008ef6fd4666553c355b1';
 ok($md5sum eq $expected_md5) or
     diag('Computable siam.contract.content_md5hash ' .
          'returned unexpected value: ' . $md5sum);

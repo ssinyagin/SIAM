@@ -43,10 +43,7 @@
               siam.svcc.name:            Access Port
               siam.svcc.type:            IFMIB.Port
               siam.svcc.inventory_id:    SRVC0001.01.u01.c01
-              siam.svcc.device_id:       DEV_ZUR8050AN33
-              torrus.port.name:          GigabitEthernet3/0/5
-              torrus.port.nodeid:        xyz-if://BIS.64876.45//01
-              torrus.port.bandwidth:     10000000
+              siam.svcc.devc_id:         DEV_ZUR8050AN33_p01
 
         -
           siam.object.id:            SRVC0001.01.u02
@@ -62,11 +59,7 @@
               siam.svcc.name:            Access Port
               siam.svcc.type:            IFMIB.Port
               siam.svcc.inventory_id:    SRVC0001.01.u02.c01
-              siam.svcc.device_id:       DEV_OLT4600AN03
-              torrus.port.name:          GigabitEthernet1/0/7
-              torrus.port.nodeid:        xyz-if://BIS.89999.56//01
-              torrus.port.bandwidth:     30000000
-
+              siam.svcc.devc_id:         DEV_OLT4600AN03_p01
           
     -
       siam.object.id:            SRVC0001.02
@@ -94,10 +87,7 @@
               siam.svcc.name:            Access Port
               siam.svcc.type:            IFMIB.Port
               siam.svcc.inventory_id:    SRVC0001.02.u02.c01
-              siam.svcc.device_id:       DEV_DUB8600AN04
-              torrus.port.name:          GigabitEthernet1/2/27
-              torrus.port.nodeid:        xyz-if://BRS.8979.23//01
-              torrus.port.bandwidth:     10000000
+              siam.svcc.devc_id:         DEV_DUB8600AN04_p02
 
     -
       siam.object.id:            RPT0001.01
@@ -140,9 +130,9 @@
               siam.object.id:            SRVC0002.01.u02.c01
               siam.object.class:         SIAM::ServiceComponent
               siam.svcc.name:            Virtual Machine
-              siam.svcc.type:            HOST.Virtual
+              siam.svcc.type:            HOST
               siam.svcc.inventory_id:    SRVC0002.01.u02.c01
-              siam.svcc.device_id:       DEV_DUB8600VH05
+              siam.svcc.devc_id:         DEV_DUB8600VH05_h
               vm.name:                   VPH.8788.99.01
               vm.ram.limit:              1024
               vm.ram.guaranteed:         512
@@ -158,6 +148,19 @@
   siam.device.name:          ZUR8050AN33
   snmp.managed:              1
   snmp.host:                 ZUR8050AN33.domain.net
+  _contains_:
+    -
+      siam.object.id:            DEV_ZUR8050AN33_p01
+      siam.object.class:         SIAM::DeviceComponent
+      siam.devc.inventory_id:    ZUR8050AN33_p01
+      siam.devc.type:            IFMIB.Port
+      siam.devc.name:            GigabitEthernet0/1     
+    -
+      siam.object.id:            DEV_ZUR8050AN33_p02
+      siam.object.class:         SIAM::DeviceComponent
+      siam.devc.inventory_id:    ZUR8050AN33_p02
+      siam.devc.type:            IFMIB.Port
+      siam.devc.name:            GigabitEthernet0/2
   
 -
   siam.object.id:            DEV_OLT4600AN03
@@ -166,6 +169,19 @@
   siam.device.name:          OLT4600AN03
   snmp.managed:              1
   snmp.host:                 OLT4600AN03.domain.net
+  _contains_:
+    -
+      siam.object.id:            DEV_OLT4600AN03_p01
+      siam.object.class:         SIAM::DeviceComponent
+      siam.devc.inventory_id:    OLT4600AN03_p01
+      siam.devc.type:            IFMIB.Port
+      siam.devc.name:            GigabitEthernet0/1     
+    -
+      siam.object.id:            DEV_OLT4600AN03_p02
+      siam.object.class:         SIAM::DeviceComponent
+      siam.devc.inventory_id:    OLT4600AN03_p02
+      siam.devc.type:            IFMIB.Port
+      siam.devc.name:            GigabitEthernet0/2
   
 -
   siam.object.id:            DEV_DUB8600AN04
@@ -174,6 +190,19 @@
   siam.device.name:          DUB8600AN04
   snmp.managed:              1
   snmp.host:                 DUB8600AN04.domain.net
+  _contains_:
+    -
+      siam.object.id:            DEV_DUB8600AN04_p01
+      siam.object.class:         SIAM::DeviceComponent
+      siam.devc.inventory_id:    DUB8600AN04_p01
+      siam.devc.type:            IFMIB.Port
+      siam.devc.name:            GigabitEthernet0/1     
+    -
+      siam.object.id:            DEV_DUB8600AN04_p02
+      siam.object.class:         SIAM::DeviceComponent
+      siam.devc.inventory_id:    DUB8600AN04_p02
+      siam.devc.type:            IFMIB.Port
+      siam.devc.name:            GigabitEthernet0/2
 
 -
   siam.object.id:            DEV_DUB8600VH05
@@ -182,6 +211,13 @@
   siam.device.name:          DUB8600VH05
   snmp.managed:              1
   snmp.host:                 DUB8600VH05.domain.net
+  _contains_:
+    -
+      siam.object.id:            DEV_DUB8600VH05_h
+      siam.object.class:         SIAM::DeviceComponent
+      siam.devc.inventory_id:    DUB8600VH05_h
+      siam.devc.type:            HOST
+      siam.devc.name:            DUB8600VH05
 
 # Users and access control
 

@@ -5,8 +5,6 @@ use strict;
 
 use base 'SIAM::Object';
 
-use SIAM::Device;
-
 =head1 NAME
 
 SIAM::ServiceComponent - Service Component object class
@@ -15,21 +13,21 @@ SIAM::ServiceComponent - Service Component object class
 
 =head1 METHODS
 
-=head2 get_device
+=head2 get_device_component
 
-    $device = $unit->get_device();
+    $devc = $unit->get_device_component();
 
-The method returns a SIAM::Device object instantiated from
-C<siam.svcc.device_id> parameter.
+The method returns a SIAM::DeviceComponent object instantiated from
+C<siam.svcc.devc_id> parameter.
 
 =cut
 
-sub get_device
+sub get_device_component
 {
     my $self = shift;
     
     return $self->instantiate_object
-        ('SIAM::Device', $self->attr('siam.svcc.device_id'));
+        ('SIAM::DeviceComponent', $self->attr('siam.svcc.devc_id'));
 }
             
     
@@ -39,7 +37,7 @@ my $mandatory_attributes =
     [ 'siam.svcc.name',
       'siam.svcc.type',
       'siam.svcc.inventory_id',
-      'siam.svcc.device_id' ];
+      'siam.svcc.devc_id' ];
 
 sub _mandatory_attributes
 {

@@ -6,6 +6,7 @@ use strict;
 use base 'SIAM::Object';
 
 use SIAM::Contract;
+use SIAM::Device;
 use SIAM::User;
 use SIAM::Privilege;
 use SIAM::AccessScope;

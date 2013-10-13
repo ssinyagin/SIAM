@@ -265,9 +265,9 @@ Service Unit ID in external inventory.
 =head2 SIAM::ServiceComponent
 
 A Service Unit consists of one or more physical or logical components,
-and each component is typically associated with a physical device. For
-example, a WAN connection may consist of several physical links, and
-each link would be identified as a Service Component.
+and each component is typically associated with physical device
+component. For example, a WAN connection may consist of several physical
+links, and each link would be identified as a Service Component.
 
 Each Service Component object represents a single management entity,
 such as network port on a device.
@@ -290,9 +290,10 @@ required for each component type.
 
 Service Component ID in external inventory.
 
-=item * siam.svcc.device_id
+=item * siam.svcc.devc_id
 
-Identifier of an associated SIAM::Device object or NIL.
+Identifier of an associated SIAM::DeviceComponent object or NIL.
+
 
 =back
 
@@ -301,9 +302,9 @@ Identifier of an associated SIAM::Device object or NIL.
 
 =head2 SIAM::Device
 
-Device objects describe the physical or virtual devices which are
-associated with Service Units. One Unit can be associated with zero or
-one Device.
+Device objects describe physical or virtual devices. A device is usually
+a single point of management, such as IP address and SNMP access
+credentials.
 
 Device objects are contained in the root object.
 
@@ -322,17 +323,48 @@ Device name.
 
 =back
 
-Attribute examples:
+Conditions:
 
 =over 4
 
-=item * snmp.managed, snmp.host, snmp.version, snmp.community, ...
+=item * siam.device.set_components
 
-Attributes that define SNMP access to the device.
+The value of this condition is a JSON array of hashes, and each has
+represents a Device Component object and its attributes. The driver
+implementation should automatically delete all device components which
+are not defined in this array.
 
-=item * asset.owner
+=back
 
-Attribute that allows to distinguish between ISP's own and foreign devices.
+
+
+=head2 SIAM::DeviceComponent
+
+Device Component objects describe physical or virtual parts of a device
+which can be assigned to a Service Component. 
+
+Device Component objects are contained in Device objects.
+
+Certain types of devices allow only one servcie to be associated with a
+device. In this case, a Device object has only one Device Component.
+
+Mandatory attributes:
+
+=over 4
+
+=item * siam.devc.inventory_id
+
+Reference to an identifier in an external inventory system. This
+may or may not be the same as hostname.
+
+=item * siam.devc.type
+
+Type of the component. Known values are: C<IFMIB.Port>, C<Power.PDU>,
+C<HOST>, ...
+
+=item * siam.devc.name
+
+Name of the component, such as network port name.
 
 =back
 

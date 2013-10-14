@@ -366,6 +366,11 @@ C<HOST>, ...
 
 Name of the component, such as network port name.
 
+=item * siam.devc.description
+
+A string which represents the device component. It is supposed to be
+composed from the containing device's name and the component name.
+
 =back
 
 

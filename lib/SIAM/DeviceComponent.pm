@@ -22,7 +22,8 @@ SIAM::DeviceComponent - Device Component object class
 my $mandatory_attributes =
     [ 'siam.devc.inventory_id',
       'siam.devc.type',
-      'siam.devc.name' ];
+      'siam.devc.name',
+      'siam.devc.description' ];
 
 sub _mandatory_attributes
 {

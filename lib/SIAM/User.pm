@@ -106,10 +106,14 @@ sub get_objects_by_privilege
     }
 
     # Retrieve the matching objects
-    
-    return $objcontainer->get_contained_objects
-        ($objclass,
-         {'match_attribute' => ['siam.object.id', [keys %object_ids]]});
+
+    my $ret = [];
+    foreach my $id ( keys %object_ids )
+    {
+        push(@{$ret}, $self->instantiate_object($objclass, $id));
+    }
+
+    return $ret;
 }
     
 

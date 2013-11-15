@@ -275,7 +275,7 @@ unlink $filename;
 note('testing $siam->manifest_attributes()');
 my $manifest = $siam->manifest_attributes();
 my $manifest_size = scalar(@{$manifest});
-my $manifest_size_expected = 48;
+my $manifest_size_expected = 49;
 ok($manifest_size == $manifest_size_expected) or
     diag('$siam->manifest_attributes() returned ' . $manifest_size .
          ', expected: ' . $manifest_size_expected);

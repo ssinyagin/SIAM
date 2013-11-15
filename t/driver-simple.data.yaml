@@ -149,7 +149,8 @@
       siam.devc.inventory_id:    ZUR8050AN33_p01
       siam.devc.type:            IFMIB.Port
       siam.devc.name:            GigabitEthernet0/1
-      siam.devc.description:     ZUR8050AN33 GigabitEthernet0/1
+      siam.devc.full_name:       ZUR8050AN33 GigabitEthernet0/1
+      siam.devc.description:     SAP102233
       torrus.nodeid:             xyz-if://ZUR8050AN33_p01
     -
       siam.object.id:            DEV_ZUR8050AN33_p02
@@ -157,7 +158,8 @@
       siam.devc.inventory_id:    ZUR8050AN33_p02
       siam.devc.type:            IFMIB.Port
       siam.devc.name:            GigabitEthernet0/2
-      siam.devc.description:     ZUR8050AN33 GigabitEthernet0/2
+      siam.devc.full_name:       ZUR8050AN33 GigabitEthernet0/2
+      siam.devc.description:     SAP102234
       torrus.nodeid:             xyz-if://ZUR8050AN33_p02
   
 -
@@ -174,7 +176,8 @@
       siam.devc.inventory_id:    OLT4600AN03_p01
       siam.devc.type:            IFMIB.Port
       siam.devc.name:            GigabitEthernet0/1     
-      siam.devc.description:     OLT4600AN03 GigabitEthernet0/1
+      siam.devc.full_name:       OLT4600AN03 GigabitEthernet0/1
+      siam.devc.description:     SAP102235
       torrus.nodeid:             xyz-if://OLT4600AN03_p01
     -
       siam.object.id:            DEV_OLT4600AN03_p02
@@ -182,7 +185,8 @@
       siam.devc.inventory_id:    OLT4600AN03_p02
       siam.devc.type:            IFMIB.Port
       siam.devc.name:            GigabitEthernet0/2
-      siam.devc.description:     OLT4600AN03 GigabitEthernet0/2
+      siam.devc.full_name:       OLT4600AN03 GigabitEthernet0/2
+      siam.devc.description:     SAP102236
       torrus.nodeid:             xyz-if://OLT4600AN03_p02
   
 -
@@ -199,7 +203,8 @@
       siam.devc.inventory_id:    DUB8600AN04_p01
       siam.devc.type:            IFMIB.Port
       siam.devc.name:            GigabitEthernet0/1     
-      siam.devc.description:     DUB8600AN04 GigabitEthernet0/1
+      siam.devc.full_name:       DUB8600AN04 GigabitEthernet0/1
+      siam.devc.description:     SAP102237
       torrus.nodeid:             xyz-if://DUB8600AN04_p01
     -
       siam.object.id:            DEV_DUB8600AN04_p02
@@ -207,7 +212,8 @@
       siam.devc.inventory_id:    DUB8600AN04_p02
       siam.devc.type:            IFMIB.Port
       siam.devc.name:            GigabitEthernet0/2
-      siam.devc.description:     DUB8600AN04 GigabitEthernet0/2
+      siam.devc.full_name:       DUB8600AN04 GigabitEthernet0/2
+      siam.devc.description:     SAP102238
       torrus.nodeid:             xyz-if://DUB8600AN04_p02
 
 -
@@ -224,7 +230,8 @@
       siam.devc.inventory_id:    DUB8600VH05_h
       siam.devc.type:            HOST
       siam.devc.name:            DUB8600VH05
-      siam.devc.description:     DUB8600VH05 host
+      siam.devc.full_name:       DUB8600VH05 vhost
+      siam.devc.description:     SAP102239
       vm.name:                   VPH.8788.99.01
       vm.ram.limit:              1024
       vm.ram.guaranteed:         512

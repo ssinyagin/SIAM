@@ -23,6 +23,7 @@ my $mandatory_attributes =
     [ 'siam.devc.inventory_id',
       'siam.devc.type',
       'siam.devc.name',
+      'siam.devc.full_name',
       'siam.devc.description' ];
 
 sub _mandatory_attributes

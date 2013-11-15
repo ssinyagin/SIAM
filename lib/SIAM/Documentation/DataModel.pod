@@ -354,8 +354,7 @@ Mandatory attributes:
 
 =item * siam.devc.inventory_id
 
-Reference to an identifier in an external inventory system. This
-may or may not be the same as hostname.
+Reference to an identifier in an external inventory system.
 
 =item * siam.devc.type
 
@@ -366,12 +365,19 @@ C<HOST>, ...
 
 Name of the component, such as network port name.
 
-=item * siam.devc.description
+=item * siam.devc.full_name
 
 A string which represents the device component. It is supposed to be
 composed from the containing device's name and the component name.
 
+=item * siam.devc.description
+
+Component description, such as the port description configured by the
+network administrator.
+
 =back
+
+
 
 
 

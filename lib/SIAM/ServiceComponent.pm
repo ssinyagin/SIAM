@@ -26,6 +26,10 @@ sub get_device_component
 {
     my $self = shift;
     
+    if( $self->attr('siam.svcc.devc_id') eq 'NIL' ) {
+        return undef;
+    }
+    
     return $self->instantiate_object
         ('SIAM::DeviceComponent', $self->attr('siam.svcc.devc_id'));
 }

@@ -377,7 +377,25 @@ network administrator.
 
 =back
 
+Optional attributes:
 
+=over 4
+
+=item * siam.devc.is_attached
+
+If the attribute is not defined, false value is assumed. If the value is
+set to true, the attribute "siam.devc.attached_to" is mandatory, and it
+indicates that this device component is attached to another device
+component.
+
+=item * siam.devc.attached_to
+
+If "siam.devc.is_attached" returns true, this attrubute must contain the
+object ID of another device component within the same device. This
+defines the hierarchy of device components within a device (for example,
+a MEF EVC is attached to a physical port).
+
+=back
 
 
 

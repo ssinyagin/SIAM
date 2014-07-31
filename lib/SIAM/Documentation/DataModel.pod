@@ -568,7 +568,7 @@ are retrieved via the C<siam.report.content> computable.
 The SIAM driver acts as a storage for report contents, and also it
 defines the list of reports for particular inventory objects. An
 external report generation program, such as Torrus SIAM plugin,
-generates the reports and pushes them back tot he driver by setting the
+generates the reports and pushes them back to the driver by setting the
 corresponding conditions.
 
 Mandatory attributes:

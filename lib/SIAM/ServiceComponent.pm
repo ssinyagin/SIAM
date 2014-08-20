@@ -15,7 +15,7 @@ SIAM::ServiceComponent - Service Component object class
 
 =head2 get_device_component
 
-    $devc = $unit->get_device_component();
+    $devc = $svcc->get_device_component();
 
 The method returns a SIAM::DeviceComponent object instantiated from
 C<siam.svcc.devc_id> parameter.

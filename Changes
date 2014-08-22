@@ -1,5 +1,9 @@
 Revision history for SIAM
 
+1.01    2014-08-22
+        * Object model has changed: removed ServiceDataElement, added
+          ServiceComponent and DeviceComponent
+
 0.10    2011-12-26
         * new method: is_complete() in SIAM::Object
 

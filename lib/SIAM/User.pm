@@ -90,6 +90,7 @@ sub get_objects_by_privilege
             {
                 push(@scopes,
                      new SIAM::AccessScope($self->_driver, $id));
+                $scopes_seen{$id} = 1;
             }
         }
     }

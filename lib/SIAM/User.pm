@@ -88,9 +88,12 @@ sub get_objects_by_privilege
             my $id = $privilege->scope_id;
             if( not $scopes_seen{$id} )
             {
-                push(@scopes,
-                     new SIAM::AccessScope($self->_driver, $id));
                 $scopes_seen{$id} = 1;
+                my $s = new SIAM::AccessScope($self->_driver, $id);
+                if( $s->attr('siam.scope.applies_to') eq $objclass )
+                {
+                    push(@scopes, $s);
+                }
             }
         }
     }
